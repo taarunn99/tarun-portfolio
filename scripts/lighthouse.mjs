@@ -62,8 +62,13 @@ function run(args, { quiet = false } = {}) {
   });
 }
 
-/** Lighthouse lab runs occasionally die on a protocol timeout; one retry keeps the gate honest without being flaky. */
-async function runWithRetry(args, options, attempts = 2) {
+/**
+ * Lighthouse lab runs occasionally die before producing a score — on CI runners
+ * typically "NO_NAVSTART" (headless Chrome's trace missed navigationStart under
+ * load). Retrying keeps the gate honest without being flaky; a real regression
+ * fails every attempt.
+ */
+async function runWithRetry(args, options, attempts = 3) {
   let lastError;
   for (let i = 1; i <= attempts; i++) {
     try {
