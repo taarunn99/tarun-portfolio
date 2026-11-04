@@ -33,6 +33,38 @@ export const waypoints: Waypoint[] = [
   },
 ];
 
+/**
+ * Scene art per station (used by the route paintings and the "enter the scene" diorama).
+ * `image` / `layer` are manifest ids (src/lib/images/manifest.json); when a file has not
+ * been generated yet the components fall back to procedural skies and silhouettes.
+ */
+export type JourneyScene = {
+  /** Backdrop painting manifest id */
+  image: string;
+  /** Transparent silhouette layer manifest id (PNG/WebP with alpha) */
+  layer: string;
+  /** Alt text for the painting (describes our own art, not a photograph) */
+  alt: string;
+};
+
+export const journeyScenes: Record<Waypoint["id"], JourneyScene> = {
+  bhopal: {
+    image: "scene-bhopal",
+    layer: "layer-bhopal",
+    alt: "Painted view of Bhopal: the lake and low hills at dusk",
+  },
+  singapore: {
+    image: "scene-singapore",
+    layer: "layer-singapore",
+    alt: "Painted view of Singapore: three towers under a skypark in the blue hour",
+  },
+  dubai: {
+    image: "scene-dubai",
+    layer: "layer-dubai",
+    alt: "Painted view of Dubai: a needle spire, a sail and a wheel over golden sand",
+  },
+};
+
 export const milestones: Milestone[] = [
   {
     id: "vit",

@@ -1,0 +1,73 @@
+/* ------------------------------------------------------------------
+   Scene palettes + procedural art. The only place the three skies are
+   defined; the diorama reads them from the element's computed style so
+   the painting, the fullscreen frame and the WebGL backdrop agree.
+------------------------------------------------------------------- */
+
+.scene[data-scene="bhopal"] {
+  --sky-0: oklch(34% 0.07 300);
+  --sky-1: oklch(66% 0.17 50);
+  --sky-2: oklch(86% 0.13 85);
+  --sun: oklch(94% 0.14 95);
+  --sun-x: 68%;
+  --sun-y: 60%;
+}
+
+.scene[data-scene="singapore"] {
+  --sky-0: oklch(20% 0.06 262);
+  --sky-1: oklch(44% 0.11 222);
+  --sky-2: oklch(72% 0.1 200);
+  --sun: oklch(90% 0.08 190);
+  --sun-x: 30%;
+  --sun-y: 78%;
+}
+
+.scene[data-scene="dubai"] {
+  --sky-0: oklch(52% 0.07 235);
+  --sky-1: oklch(78% 0.12 72);
+  --sky-2: oklch(90% 0.1 88);
+  --sun: oklch(97% 0.1 95);
+  --sun-x: 50%;
+  --sun-y: 70%;
+}
+
+.art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at var(--sun-x) var(--sun-y), var(--sun) 0, transparent 22%),
+    linear-gradient(180deg, var(--sky-0) 0%, var(--sky-1) 58%, var(--sky-2) 100%);
+}
+
+.silhouette {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ink {
+  fill: var(--bg);
+  opacity: 0.9;
+}
+
+.ink2 {
+  fill: var(--bg);
+  opacity: 0.55;
+}
+
+.inkRing {
+  fill: none;
+  stroke: var(--bg);
+  opacity: 0.9;
+}
+
+.image {
+  object-fit: cover;
+}

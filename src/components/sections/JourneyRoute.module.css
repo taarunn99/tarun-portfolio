@@ -1,0 +1,515 @@
+/* ------------------------------------------------------------------
+   Journey route. Default = static, finished state (SSR / no-JS /
+   reduced motion). `[data-motion="true"]` (set by the client once the
+   motion runtime is ready) turns the section into a tall scroll track
+   with a sticky 100svh stage.
+------------------------------------------------------------------- */
+
+.section {
+  --vb: 390 / 820;
+  --zoom-dwell: 1.1;
+  position: relative;
+  border-top: var(--hairline);
+}
+
+@media (min-width: 64rem) {
+  .section {
+    --vb: 1200 / 480;
+    --zoom-dwell: 1.35;
+  }
+}
+
+.section[data-motion="true"] {
+  height: calc(var(--steps, 8) * 45svh + 100svh);
+  padding-block: 0;
+}
+
+.stage {
+  display: block;
+}
+
+.section[data-motion="true"] .stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.inner {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.section[data-motion="true"] .inner {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%;
+  padding-block: clamp(4.5rem, 10vh, 6rem) clamp(1.25rem, 4vh, 2.5rem);
+  gap: var(--space-4);
+}
+
+/* ---- head ---- */
+
+.head {
+  display: grid;
+  gap: var(--space-4);
+  align-items: end;
+}
+
+@media (min-width: 64rem) {
+  .head {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+.headText {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.title {
+  font-size: var(--fs-h2);
+  letter-spacing: var(--ls-h2);
+  line-height: var(--lh-heading);
+  text-wrap: balance;
+}
+
+.headMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+@media (min-width: 64rem) {
+  .headMeta {
+    justify-content: flex-end;
+  }
+}
+
+.counter {
+  display: none;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-small);
+  color: var(--muted);
+  letter-spacing: var(--ls-caption);
+}
+
+.section[data-motion="true"] .counter {
+  display: inline-flex;
+  gap: 0.4em;
+}
+
+.counterSep {
+  color: var(--line-strong);
+}
+
+.counter > span:first-child {
+  color: var(--fg);
+}
+
+.more {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--muted);
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-color: transparent;
+  transition:
+    color var(--dur-fast) var(--ease-out-ui),
+    text-decoration-color var(--dur-fast) var(--ease-out-ui);
+}
+
+.more:hover {
+  color: var(--fg);
+  text-decoration-color: var(--accent);
+}
+
+/* ---- viewport + world ---- */
+
+.viewport {
+  position: relative;
+  width: 100%;
+}
+
+.section[data-motion="true"] .viewport {
+  overflow: hidden;
+  min-height: 0;
+  contain: layout paint;
+}
+
+.world {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--vb);
+}
+
+.section[data-motion="true"] .world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.svgH {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .svgH {
+    display: block;
+  }
+
+  .svgV {
+    display: none;
+  }
+}
+
+.grid line {
+  stroke: var(--line);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 2 6;
+}
+
+.routeBase {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 3 5;
+}
+
+.routeProgress {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+}
+
+.routeMotion {
+  fill: none;
+  stroke: none;
+}
+
+.station {
+  transition: opacity var(--dur-base) var(--ease-out-ui);
+}
+
+.stationHalo {
+  fill: var(--accent);
+  opacity: 0.12;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform var(--dur-slow) var(--ease-out-ui), opacity var(--dur-slow) var(--ease-out-ui);
+}
+
+.stationDot {
+  fill: var(--accent);
+}
+
+.section[data-motion="true"] .station:not([data-active="true"]) .stationHalo {
+  transform: scale(0.5);
+  opacity: 0.08;
+}
+
+.section[data-motion="true"] .station:not([data-active="true"]) .stationDot {
+  fill: var(--line-strong);
+}
+
+.coords {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  fill: var(--muted);
+}
+
+.marker {
+  pointer-events: none;
+}
+
+.markerRing {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+  opacity: 0.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.markerDot {
+  fill: var(--accent);
+}
+
+.wanderer {
+  fill: var(--fg);
+}
+
+/* ---- paintings ---- */
+
+.painting {
+  position: absolute;
+  left: var(--l-v);
+  top: var(--t-v);
+  width: var(--w-v);
+  height: var(--h-v);
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  outline: 1px solid var(--line);
+  outline-offset: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  color: var(--fg);
+  text-align: left;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: border-color var(--dur-base) var(--ease-out-ui), outline-color var(--dur-base) var(--ease-out-ui);
+}
+
+@media (min-width: 64rem) {
+  .painting {
+    left: var(--l-h);
+    top: var(--t-h);
+    width: var(--w-h);
+    height: var(--h-h);
+  }
+}
+
+.painting:hover,
+.painting[data-active="true"] {
+  border-color: var(--muted);
+  outline-color: var(--line-strong);
+}
+
+.painting:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+
+/* Skies + silhouettes live in scene/journey/scenes.module.css (shared with the dialog). */
+
+.plate {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: 0.45rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--fg);
+  background: linear-gradient(180deg, transparent, color-mix(in oklab, var(--bg) 70%, transparent));
+}
+
+.plateYears {
+  color: var(--muted);
+}
+
+/* ---- ledger (station names + milestone cards) ---- */
+
+.ledger {
+  display: grid;
+  gap: var(--space-7);
+  position: relative;
+}
+
+@media (min-width: 64rem) {
+  .ledger {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+}
+
+.group {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+.stationName {
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--fs-h3);
+  letter-spacing: var(--ls-h3);
+  line-height: var(--lh-heading);
+}
+
+.stationCity {
+  font-weight: 500;
+}
+
+.stationCountry {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.stationLabel {
+  font-size: var(--fs-small);
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+
+.stationYears {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  letter-spacing: var(--ls-caption);
+  color: var(--muted);
+}
+
+.cards {
+  display: grid;
+  gap: var(--space-4);
+  padding-left: 1.25rem;
+  border-left: var(--hairline);
+}
+
+.card {
+  display: grid;
+  gap: var(--space-1);
+  align-content: start;
+}
+
+.date {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cardTitle {
+  font-weight: 500;
+}
+
+.cardSub,
+.cardSummary {
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+.cardLink {
+  justify-self: start;
+  margin-top: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  min-height: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-color: var(--line-strong);
+  transition: text-decoration-color var(--dur-fast) var(--ease-out-ui);
+}
+
+.cardLink:hover {
+  text-decoration-color: var(--accent);
+}
+
+/* Motion mode: groups stack on top of each other; the active one is shown. */
+.section[data-motion="true"] .ledger {
+  display: block;
+  min-height: 14.5rem;
+}
+
+.section[data-motion="true"] .group {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: var(--space-3);
+  pointer-events: none;
+}
+
+.section[data-motion="true"] .group[data-active="true"] {
+  pointer-events: auto;
+}
+
+@media (min-width: 64rem) {
+  .section[data-motion="true"] .ledger {
+    min-height: 12rem;
+  }
+
+  .section[data-motion="true"] .group {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    grid-template-rows: none;
+    gap: var(--space-8);
+  }
+}
+
+.section[data-motion="true"] .stationName {
+  overflow: clip;
+}
+
+.section[data-motion="true"] .stationName > span {
+  display: block;
+  transform: translateY(110%);
+  opacity: 0;
+  transition:
+    transform var(--dur-reveal) var(--ease-out-expo),
+    opacity var(--dur-slow) var(--ease-out-ui);
+}
+
+.section[data-motion="true"] .stationName[data-active="true"] > span {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.section[data-motion="true"] .stationName[data-active="true"] > span:nth-child(2) {
+  transition-delay: 60ms;
+}
+
+.section[data-motion="true"] .stationName[data-active="true"] > span:nth-child(3) {
+  transition-delay: 120ms;
+}
+
+.section[data-motion="true"] .cards {
+  position: relative;
+  display: block;
+  padding-left: 1.25rem;
+  min-height: 100%;
+}
+
+.section[data-motion="true"] .card {
+  position: absolute;
+  inset: 0;
+  max-width: 44ch;
+}
+
+.section[data-motion="true"] .card .cardTitle {
+  font-size: var(--fs-lead);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+/* ---- reduced motion: the static layout is the whole experience ---- */
+@media (prefers-reduced-motion: reduce) {
+  .stationHalo,
+  .painting,
+  .more,
+  .cardLink {
+    transition: none;
+  }
+}

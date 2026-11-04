@@ -3,7 +3,7 @@ import Link from "next/link";
 import { site } from "@/content/site";
 import { resume } from "@/content/resume";
 import { Page } from "@/components/sections/Page";
-import { JourneyList } from "@/components/sections/JourneyList";
+import { JourneyRoute } from "@/components/sections/JourneyRoute";
 import { Capabilities } from "@/components/sections/Capabilities";
 import { ContactCta } from "@/components/sections/ContactCta";
 import { Heading } from "@/components/ui/Heading";
@@ -50,7 +50,7 @@ export default function AboutPage() {
           </Reveal>
         </div>
       </section>
-      <JourneyList variant="full" />
+      <JourneyRoute variant="full" />
       <Capabilities />
       <ContactCta />
     </Page>
