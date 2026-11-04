@@ -9,6 +9,7 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "lighthouse": "node scripts/lighthouse.mjs",
+    "lighthouse:psi": "node scripts/psi.mjs",
     "check": "npm run lint && npm run typecheck && npm run build",
     "shots": "node scripts/screenshots.mjs",
     "images": "node scripts/optimize-images.mjs"

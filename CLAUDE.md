@@ -10,6 +10,7 @@ Stack: Next.js 16.4 (App Router, Cache Components), React 19.3, TypeScript stric
 - `npm run check` — lint + typecheck + build (run before claiming anything works)
 - `npm run typecheck` — `tsc --noEmit`
 - `npm run lighthouse` — builds nothing; starts `next start` on :3100 and audits mobile + desktop; fails below 100. `LH_RUNS=3` for the median; `LH_URL=https://…` to audit a deployment.
+- `npm run lighthouse:psi` — audits the live site through PageSpeed Insights (`PSI_API_KEY` required; `LH_PATHS` as above). This is the production gate in `lighthouse.yml`.
 - `npm run images` — `scripts/optimize-images.mjs` (assets/src → public/images + manifest)
 - `npm run shots` — `scripts/screenshots.mjs` (Playwright captures of the live sites)
 
@@ -53,6 +54,7 @@ Stack: Next.js 16.4 (App Router, Cache Components), React 19.3, TypeScript stric
 - `middleware.ts` is `proxy.ts` in 16 — but this site has none and should stay that way.
 - One accepted console warning: "resource …/chunks/*.css was preloaded using link preload but not used" — it is the router's partial prefetch of linked routes (RSC + their CSS); no `<link rel=preload>` is in our HTML and the CSS is used on navigation. Any other warning is a bug.
 - Vercel's Git integration creates no GitHub Deployment objects for this repo, so `deployment_status` never fires; `lighthouse.yml` chains off `workflow_run: CI` and polls `/version.json` (build-time `VERCEL_GIT_COMMIT_SHA`) until production serves the commit.
+- The production gate is PageSpeed Insights (`scripts/psi.mjs`, needs the `PSI_API_KEY` repo secret). GitHub's shared runner evaluates the same bundle ~2.5× slower than a reference desktop at the same 4× throttling (React DOM eval + hydration alone give 100–150 ms TBT there), so it reads mobile 98–99 for a page that scores 100 everywhere else; its run is informational only. BenchmarkIndex does not predict that — it is a tight loop, and the runner's index (≈2400) is in the same bracket as a MacBook's.
 - Vercel Hobby: 5K image transformations/month; static imports are keyed by content hash so redeploys don't re-transform.
 - Higgsfield outputs are deleted after 7 days — download into `assets/src/` immediately.
 - `gh` and Vercel: repo `taarunn99/tarun-portfolio`, Vercel project `tarun-portfolio` in team `tarun-shuklas-projects`.

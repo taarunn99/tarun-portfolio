@@ -25,9 +25,13 @@ const PATHS = (process.env.LH_PATHS ?? "/").split(",").map((p) => p.trim()).filt
 const MIN = Number(process.env.LH_MIN ?? 100);
 const RUNS = Math.max(1, Number(process.env.LH_RUNS ?? 1));
 /**
- * CPU throttling. Lighthouse's default 4× assumes a fast desktop; on a slow CI
- * runner that inflates TBT. `LH_CPU=auto` calibrates the multiplier from the
- * machine's BenchmarkIndex (Lighthouse's own guidance), `LH_CPU=2.5` sets it.
+ * CPU throttling. Lighthouse's default 4× is the standard every report you will
+ * be compared against uses (PageSpeed Insights, DevTools), so leave it alone for
+ * gating. `LH_CPU=auto` applies the Lighthouse team's calculator formula
+ * (lighthouse-cpu-throttling-calculator.vercel.app) to the machine's
+ * BenchmarkIndex to emulate a Moto G4-class device instead; `LH_CPU=2.5` sets
+ * it directly. Caveat: BenchmarkIndex is a tight loop and overstates shared
+ * CI vCPUs, which evaluate real bundles far slower than their index suggests.
  */
 const CPU = process.env.LH_CPU ?? "";
 const OUT = path.join(root, "reports");
@@ -88,7 +92,15 @@ async function waitForServer(url, timeoutMs = 30_000) {
 
 let cpuMultiplier = null;
 
-/** Reads BenchmarkIndex from a minimal Lighthouse run and derives a multiplier (reference device ≈ 1500). */
+/** The Lighthouse team's calculator: multiplier that makes this machine emulate a mid-tier (Moto G4-class) phone. */
+function officialMultiplier(index) {
+  if (index >= 1300) return 3 + (index - 1300) / 233;
+  if (index >= 800) return 2 + (index - 800) / 500;
+  if (index >= 150) return 1 + (index - 150) / 650;
+  return 1;
+}
+
+/** Reads BenchmarkIndex from a minimal Lighthouse run and derives the multiplier. */
 async function calibrateCpu() {
   if (!CPU) return null;
   if (CPU !== "auto") return Number(CPU);
@@ -97,7 +109,7 @@ async function calibrateCpu() {
     "--chrome-flags=--headless=new --no-sandbox --disable-dev-shm-usage", "--quiet"], { quiet: true });
   const lhr = JSON.parse(await readFile(`${probe}.report.json`, "utf8"));
   const index = lhr.environment?.benchmarkIndex ?? 1500;
-  const multiplier = Math.min(4, Math.max(1, +(4 * (index / 1500)).toFixed(2)));
+  const multiplier = +officialMultiplier(index).toFixed(2);
   console.log(`CPU calibration: benchmarkIndex ${Math.round(index)} → cpuSlowdownMultiplier ${multiplier}`);
   return multiplier;
 }
