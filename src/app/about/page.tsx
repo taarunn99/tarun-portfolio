@@ -36,7 +36,7 @@ export default function AboutPage() {
               In seventeen months that has meant six production websites in Next.js and TypeScript, a Google Ads channel that returned 9.2× its spend in invoiced revenue, SEO that put the group&apos;s brands at position one and into Google&apos;s AI answers, and a Zoho ERP taken in-house and automated until the warehouse and the accounts agreed.
             </p>
             <p>
-              Before Dubai: a Computer Science degree at VIT Bhopal, certificates from NUS School of Computing in applied machine learning and deep learning, an AWS Solutions Architect certification and a full-stack internship. I build with AI tooling every day — the model proposes, the code decides.
+              Before that: a Computer Science degree at VIT Bhopal, certificates from NUS School of Computing in applied machine learning and deep learning, an AWS Solutions Architect certification and a full-stack internship. I build with AI tooling every day — the model proposes, the code decides.
             </p>
             <p className={styles.availability}>{site.availability}</p>
           </div>

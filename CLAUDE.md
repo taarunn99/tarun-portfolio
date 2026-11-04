@@ -51,6 +51,8 @@ Stack: Next.js 16.4 (App Router, Cache Components), React 19.3, TypeScript stric
 - Lighthouse's `requestIdleCallback` fires immediately in lab runs — defer by interaction/visibility or wall-clock, never by idle (`src/lib/after-interaction.ts` explains why).
 - `next/image` `priority` is deprecated in 16 → `preload`; `qualities` must be allow-listed.
 - `middleware.ts` is `proxy.ts` in 16 — but this site has none and should stay that way.
+- One accepted console warning: "resource …/chunks/*.css was preloaded using link preload but not used" — it is the router's partial prefetch of linked routes (RSC + their CSS); no `<link rel=preload>` is in our HTML and the CSS is used on navigation. Any other warning is a bug.
+- Vercel's Git integration creates no GitHub Deployment objects for this repo, so `deployment_status` never fires; `lighthouse.yml` chains off `workflow_run: CI` and polls `/version.json` (build-time `VERCEL_GIT_COMMIT_SHA`) until production serves the commit.
 - Vercel Hobby: 5K image transformations/month; static imports are keyed by content hash so redeploys don't re-transform.
 - Higgsfield outputs are deleted after 7 days — download into `assets/src/` immediately.
 - `gh` and Vercel: repo `taarunn99/tarun-portfolio`, Vercel project `tarun-portfolio` in team `tarun-shuklas-projects`.
