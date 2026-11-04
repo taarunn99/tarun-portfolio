@@ -1,0 +1,38 @@
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  translate: -50% -50%;
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cursor {
+    display: block;
+  }
+}
+
+.label {
+  display: inline-block;
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: translate(14px, 14px) scale(0.6);
+  opacity: 0;
+  transition:
+    transform var(--dur-fast) var(--ease-out-ui),
+    opacity var(--dur-fast) var(--ease-out-ui);
+}
+
+.cursor[data-active="true"] .label {
+  transform: translate(14px, 14px) scale(1);
+  opacity: 1;
+}

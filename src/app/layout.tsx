@@ -1,30 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Space_Grotesk } from "next/font/google";
 import "lenis/dist/lenis.css";
 import "./globals.css";
-import { SmoothScroll } from "@/components/SmoothScroll";
-import { site } from "@/lib/site";
-
-const archivo = Archivo({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-archivo",
-  preload: true,
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-space-grotesk",
-  preload: true,
-});
-
-const title = `${site.name} — ${site.role}`;
+import { fontClassNames } from "./fonts";
+import { MotionRoot } from "@/components/motion/MotionRoot";
+import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: title,
+    default: site.seoTitle,
     template: `%s — ${site.name}`,
   },
   description: site.description,
@@ -37,13 +21,13 @@ export const metadata: Metadata = {
     type: "website",
     url: site.url,
     siteName: site.name,
-    title,
+    title: site.seoTitle,
     description: site.description,
     locale: site.locale,
   },
   twitter: {
     card: "summary_large_image",
-    title,
+    title: site.seoTitle,
     description: site.description,
   },
   robots: {
@@ -68,12 +52,12 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${archivo.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={fontClassNames}>
       <body>
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <SmoothScroll />
+        <MotionRoot />
         {children}
       </body>
     </html>

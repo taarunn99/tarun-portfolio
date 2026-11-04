@@ -1,0 +1,53 @@
+.frame {
+  border: var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  overflow: clip;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0.6rem 0.9rem;
+  border-bottom: var(--hairline);
+}
+
+.dots {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line-strong);
+}
+
+.url {
+  flex: 1;
+  max-width: 24rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viewport {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--bg);
+}
+
+.viewport > * {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}

@@ -1,0 +1,42 @@
+.numeral {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+}
+
+.lg .value {
+  font-size: var(--fs-numeral);
+  letter-spacing: var(--ls-numeral);
+  line-height: 0.9;
+}
+
+.md .value {
+  font-size: var(--fs-h1);
+}
+
+.sm .value {
+  font-size: var(--fs-h3);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+  max-width: 22ch;
+}
+
+.note {
+  text-transform: none;
+  letter-spacing: 0;
+}

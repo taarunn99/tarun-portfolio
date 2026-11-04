@@ -1,0 +1,175 @@
+/* ==================================================================
+   Design tokens — the only source of colour / type / space / motion.
+   Spec: docs/DESIGN_CONCEPT.md §3. Dark is default; paper via [data-theme="paper"].
+   ================================================================== */
+
+:root {
+  /* ---- colour (hex fallbacks; OKLCH overrides below) ---- */
+  --bg: #0a0a0a;
+  --bg-elevated: #141414;
+  --fg: #f2f2f0;
+  --muted: #9a9a94;
+  --line: #262626;
+  --line-strong: #3a3a3a;
+  --accent: #c9f55a;
+  --accent-hover: #d9ff7a;
+  --accent-ink: #0a0a0a;
+  --success: #5ee6a8;
+  --danger: #ff6b6b;
+  --focus: var(--accent);
+  --selection-bg: var(--accent);
+  --selection-fg: var(--accent-ink);
+  --scrim: rgba(10, 10, 10, 0.72);
+
+  color-scheme: dark;
+
+  /* ---- type ---- */
+  --font-sans: var(--font-geist-sans), "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-serif: var(--font-instrument-serif), "Instrument Serif", Georgia, serif;
+
+  --fs-display: clamp(2.75rem, 1.5rem + 6vw, 7rem);
+  --fs-h1: clamp(2.25rem, 1.4rem + 4vw, 5rem);
+  --fs-h2: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);
+  --fs-h3: clamp(1.375rem, 1.1rem + 1.1vw, 2rem);
+  --fs-lead: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --fs-small: 0.875rem;
+  --fs-caption: 0.75rem;
+  --fs-numeral: clamp(4rem, 2rem + 10vw, 12rem);
+
+  --lh-display: 0.95;
+  --lh-heading: 1.05;
+  --lh-body: 1.6;
+
+  --ls-display: -0.04em;
+  --ls-h1: -0.03em;
+  --ls-h2: -0.02em;
+  --ls-h3: -0.01em;
+  --ls-caption: 0.08em;
+  --ls-numeral: -0.05em;
+
+  /* ---- space (4-pt) ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+  --space-11: 12rem;
+
+  --gutter: clamp(16px, 2vw, 32px);
+  --pad: clamp(1rem, 4vw, 4rem);
+  --container: 96rem;
+  --measure: 65ch;
+  --section-y: clamp(5rem, 12vw, 12rem);
+  --block-y: clamp(2rem, 5vw, 4rem);
+
+  /* ---- shape ---- */
+  --radius-0: 0;
+  --radius-sm: 4px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+  --hairline: 1px solid var(--line);
+
+  /* ---- motion ---- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-ui: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+
+  --dur-instant: 100ms;
+  --dur-fast: 200ms;
+  --dur-base: 300ms;
+  --dur-slow: 600ms;
+  --dur-reveal: 800ms;
+  --dur-page: 900ms;
+
+  --stagger-chars: 10ms;
+  --stagger-words: 60ms;
+  --stagger-lines: 80ms;
+  --stagger-items: 60ms;
+
+  /* ---- layers ---- */
+  --z-scene: 0;
+  --z-content: 1;
+  --z-nav: 50;
+  --z-cursor: 90;
+  --z-skip: 100;
+  --z-preloader: 110;
+}
+
+@supports (color: oklch(0% 0 0)) {
+  :root {
+    --bg: oklch(14.5% 0 0);
+    --bg-elevated: oklch(19.1% 0 0);
+    --fg: oklch(96.1% 0.003 106.4);
+    --muted: oklch(68.4% 0.009 106.6);
+    --line: oklch(26.9% 0 0);
+    --line-strong: oklch(34% 0 0);
+    --accent: oklch(91% 0.185 123.6);
+    --accent-hover: oklch(from var(--accent) calc(l + 0.03) c h);
+    --accent-ink: oklch(14.5% 0 0);
+    --success: oklch(83.4% 0.149 160.7);
+    --danger: oklch(71.2% 0.181 22.8);
+  }
+}
+
+/* ---- paper theme ---- */
+:root[data-theme="paper"] {
+  --bg: #f5f5f0;
+  --bg-elevated: #ffffff;
+  --fg: #0f0f0f;
+  --muted: #5f5f5a;
+  --line: #e0e0d8;
+  --line-strong: #cfcfc6;
+  --accent: #3f6e00;
+  --accent-hover: #335a00;
+  --accent-ink: #f5f5f0;
+  --success: #0f7a4a;
+  --danger: #c0262d;
+  --scrim: rgba(245, 245, 240, 0.78);
+  /* lime is allowed only as a fill/marker in paper */
+  --marker: #c9f55a;
+  --marker-ink: #0f0f0f;
+  color-scheme: light;
+}
+
+@supports (color: oklch(0% 0 0)) {
+  :root[data-theme="paper"] {
+    --bg: oklch(96.9% 0.007 106.5);
+    --bg-elevated: oklch(100% 0 0);
+    --fg: oklch(16.8% 0 0);
+    --muted: oklch(48.4% 0.008 106.7);
+    --line: oklch(90.4% 0.011 106.6);
+    --line-strong: oklch(84% 0.011 106.6);
+    --accent: oklch(48.5% 0.136 132.6);
+    --accent-hover: oklch(from var(--accent) calc(l - 0.05) c h);
+    --accent-ink: oklch(96.9% 0.007 106.5);
+    --success: oklch(51.2% 0.118 156.8);
+    --danger: oklch(52.7% 0.189 24.7);
+  }
+}
+
+/* ---- reduced motion zeroes every duration ---- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 0ms;
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+    --dur-reveal: 0ms;
+    --dur-page: 0ms;
+    --stagger-chars: 0ms;
+    --stagger-words: 0ms;
+    --stagger-lines: 0ms;
+    --stagger-items: 0ms;
+  }
+}

@@ -1,37 +1,4 @@
-/* ------------------------------------------------------------------
-   Design tokens
-------------------------------------------------------------------- */
-:root {
-  --bg: #0a0a0a;
-  --bg-elev: #121214;
-  --fg: #f5f5f4;
-  --muted: #a3a3ab;
-  --line: rgba(255, 255, 255, 0.1);
-  --line-strong: rgba(255, 255, 255, 0.18);
-
-  --accent: #c9f55a;
-  --accent-ink: #0a0a0a;
-
-  --font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
-  --font-body: var(--font-space-grotesk), "Space Grotesk", system-ui, sans-serif;
-
-  --container: 76rem;
-  --gutter: clamp(1rem, 4vw, 2.5rem);
-  --section-gap: clamp(5rem, 12vw, 10rem);
-
-  --radius-sm: 0.5rem;
-  --radius-md: 1rem;
-  --radius-pill: 999px;
-
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --dur-fast: 180ms;
-  --dur: 260ms;
-
-  --z-nav: 50;
-  --z-skip: 100;
-
-  color-scheme: dark;
-}
+@import "../styles/tokens.css";
 
 /* ------------------------------------------------------------------
    Reset
@@ -62,13 +29,14 @@ body {
 body {
   min-height: 100dvh;
   color: var(--fg);
-  font-family: var(--font-body);
-  font-size: 1.0625rem;
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--dur-base) var(--ease-out-ui), color var(--dur-base) var(--ease-out-ui);
 }
 
 img,
@@ -93,6 +61,13 @@ button {
   cursor: pointer;
 }
 
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
 ul,
 ol {
   list-style: none;
@@ -101,29 +76,52 @@ ol {
 
 h1,
 h2,
-h3 {
-  font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
+h3,
+h4 {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  line-height: var(--lh-heading);
   text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+  letter-spacing: var(--ls-h1);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  letter-spacing: var(--ls-h2);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+  letter-spacing: var(--ls-h3);
 }
 
 p {
   text-wrap: pretty;
-  max-width: 65ch;
+  max-width: var(--measure);
+}
+
+em.accent,
+.accent-word {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--selection-bg);
+  color: var(--selection-fg);
 }
 
 /* ------------------------------------------------------------------
    Focus & accessibility helpers
 ------------------------------------------------------------------- */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -152,7 +150,7 @@ p {
   font-weight: 600;
   border-radius: var(--radius-sm);
   transform: translateY(-200%);
-  transition: transform var(--dur-fast) var(--ease-out);
+  transition: transform var(--dur-fast) var(--ease-out-ui);
 }
 
 .skip-link:focus-visible {
@@ -161,25 +159,25 @@ p {
 }
 
 /* ------------------------------------------------------------------
-   Layout primitives
+   Layout primitives (also available as components)
 ------------------------------------------------------------------- */
 .container {
-  width: min(100% - 2 * var(--gutter), var(--container));
+  width: min(100% - 2 * var(--pad), var(--container));
   margin-inline: auto;
 }
 
 .section {
-  padding-block: var(--section-gap);
+  padding-block: var(--section-y);
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: var(--ls-caption);
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -189,6 +187,11 @@ p {
   width: 1.5rem;
   height: 1px;
   background: var(--accent);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ------------------------------------------------------------------
@@ -202,13 +205,13 @@ p {
   min-height: 3rem;
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-pill);
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1;
   cursor: pointer;
   transition:
-    background-color var(--dur-fast) var(--ease-out),
-    color var(--dur-fast) var(--ease-out),
-    border-color var(--dur-fast) var(--ease-out);
+    background-color var(--dur-fast) var(--ease-out-ui),
+    color var(--dur-fast) var(--ease-out-ui),
+    border-color var(--dur-fast) var(--ease-out-ui);
 }
 
 .btn-primary {
@@ -217,7 +220,7 @@ p {
 }
 
 .btn-primary:hover {
-  background: #dcff7a;
+  background: var(--accent-hover);
 }
 
 .btn-ghost {
@@ -227,6 +230,31 @@ p {
 
 .btn-ghost:hover {
   border-color: var(--fg);
+}
+
+/* ------------------------------------------------------------------
+   Reveal hooks (elements are visible by default; the lazily loaded
+   motion runtime animates only what is still below the fold)
+------------------------------------------------------------------- */
+[data-reveal] {
+  will-change: auto;
+}
+
+.lines-mask {
+  overflow: clip;
+}
+
+/* ------------------------------------------------------------------
+   View transitions
+------------------------------------------------------------------- */
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--dur-slow);
+  animation-timing-function: var(--ease-out-expo);
 }
 
 /* ------------------------------------------------------------------
@@ -244,5 +272,12 @@ p {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 }
