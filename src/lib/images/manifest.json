@@ -596,5 +596,427 @@
         }
       ]
     }
+  },
+  "layer-bhopal": {
+    "hash": "5e360246",
+    "width": 1534,
+    "height": 177,
+    "src": "/images/layers/layer-bhopal-1024.5e360246.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4WAoAAAAQAAAADwAAAQAAQUxQSCEAAAAQbsPgsE4AABkZMhkAABkZAP//////4MPg4ODgsMPg/7AAVlA4IBgAAAAwAQCdASoQAAIAA4BaJaQAA3AA/vNiAAA=",
+    "thumbhash": "xQeCAYBIumZweFrP3AoAAJp4gIhnh3c=",
+    "variants": {
+      "webp": [
+        {
+          "w": 1024,
+          "src": "/images/layers/layer-bhopal-1024.5e360246.webp"
+        }
+      ],
+      "png": [
+        {
+          "w": 1024,
+          "src": "/images/layers/layer-bhopal-1024.5e360246.png"
+        }
+      ]
+    }
+  },
+  "layer-dubai": {
+    "hash": "50f48d88",
+    "width": 1536,
+    "height": 749,
+    "src": "/images/layers/layer-dubai-1024.50f48d88.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4WAoAAAAQAAAADwAABwAAQUxQSEkAAAART6CgbSQUvwpmiIiAxsLXxgKbAADSIAWsADRw7nkBS7AG3mCsAaurGSL6PwHgL4Fv4gvdKFAWMwDarB3qRvJxOuK+1SGl6x5PAFZQOCAeAAAAMAEAnQEqEAAIAAOAWiWkAANwAP7zri0MpOHsDyQA",
+    "thumbhash": "xQeCAoA0AoS2rXeCtQ8AAGiHcIh7aIg=",
+    "variants": {
+      "webp": [
+        {
+          "w": 1024,
+          "src": "/images/layers/layer-dubai-1024.50f48d88.webp"
+        }
+      ],
+      "png": [
+        {
+          "w": 1024,
+          "src": "/images/layers/layer-dubai-1024.50f48d88.png"
+        }
+      ]
+    }
+  },
+  "layer-singapore": {
+    "hash": "2008b014",
+    "width": 1536,
+    "height": 330,
+    "src": "/images/layers/layer-singapore-1024.2008b014.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4WAoAAAAQAAAADwAAAgAAQUxQSDEAAAAQAABmyJ2unQAAABkAKxkZAEgASK6dnZ0AAEhmK2adZgCd367IyMjfroedna7I365IAFZQOCAcAAAAMAEAnQEqEAADAAOAWiWkAANwAP7zayDRQAAAAA==",
+    "thumbhash": "xQeCAYAmtxFpiFAFUgYAAHo0kGeKZ4g=",
+    "variants": {
+      "webp": [
+        {
+          "w": 1024,
+          "src": "/images/layers/layer-singapore-1024.2008b014.webp"
+        }
+      ],
+      "png": [
+        {
+          "w": 1024,
+          "src": "/images/layers/layer-singapore-1024.2008b014.png"
+        }
+      ]
+    }
+  },
+  "scene-bhopal": {
+    "hash": "2d8e7db7",
+    "width": 1536,
+    "height": 864,
+    "src": "/images/scenes/scene-bhopal-1440.2d8e7db7.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAADQAQCdASoQAAkAA4BaJbACdADwEz/7gAD9lOr6NoRg/zSM4MkAgP4jryZO91ftqtwR67KFFfNn+8ZpPljCERNigAA=",
+    "thumbhash": "FVkGFIRKdYiPiIedeHcdjs/y9w==",
+    "variants": {
+      "avif": [
+        {
+          "w": 960,
+          "src": "/images/scenes/scene-bhopal-960.2d8e7db7.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/scenes/scene-bhopal-1440.2d8e7db7.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 960,
+          "src": "/images/scenes/scene-bhopal-960.2d8e7db7.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/scenes/scene-bhopal-1440.2d8e7db7.webp"
+        }
+      ]
+    }
+  },
+  "scene-dubai": {
+    "hash": "5bff80f8",
+    "width": 1536,
+    "height": 864,
+    "src": "/images/scenes/scene-dubai-1440.5bff80f8.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAAAwAgCdASoQAAkAA4BaJagCdEf/gYzA3tcAAAD+zXa+aT9hXkxDoy0LcehKlQOa0assxrNWq1oq1qAA",
+    "thumbhash": "UjkOJISEh3hveHeFd4WCXxP3Jg==",
+    "variants": {
+      "avif": [
+        {
+          "w": 960,
+          "src": "/images/scenes/scene-dubai-960.5bff80f8.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/scenes/scene-dubai-1440.5bff80f8.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 960,
+          "src": "/images/scenes/scene-dubai-960.5bff80f8.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/scenes/scene-dubai-1440.5bff80f8.webp"
+        }
+      ]
+    }
+  },
+  "scene-singapore": {
+    "hash": "4f41c3eb",
+    "width": 1536,
+    "height": 864,
+    "src": "/images/scenes/scene-singapore-1440.4f41c3eb.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAACQAQCdASoQAAkAA4BaJYwCdADYAgAA/s3l2jExfy1PPmV05kqweG/xnZN+w+WiC6AAAA==",
+    "thumbhash": "UtcFDIJ3and+eIiAZ4V2hHAoCA==",
+    "variants": {
+      "avif": [
+        {
+          "w": 960,
+          "src": "/images/scenes/scene-singapore-960.4f41c3eb.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/scenes/scene-singapore-1440.4f41c3eb.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 960,
+          "src": "/images/scenes/scene-singapore-960.4f41c3eb.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/scenes/scene-singapore-1440.4f41c3eb.webp"
+        }
+      ]
+    }
+  },
+  "cover-erp": {
+    "hash": "50ed9570",
+    "width": 1536,
+    "height": 960,
+    "src": "/images/covers/cover-erp-1440.50ed9570.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAACwAQCdASoQAAoAA4BaJaQAAudle34AAP72oMGu7ipGZJq0ZQdyI9xgAAA=",
+    "thumbhash": "BfgFBICPWWZid4iXiokHgZPP1w==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-erp-640.50ed9570.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-erp-960.50ed9570.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-erp-1440.50ed9570.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-erp-640.50ed9570.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-erp-960.50ed9570.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-erp-1440.50ed9570.webp"
+        }
+      ]
+    }
+  },
+  "cover-estimator": {
+    "hash": "e96e5986",
+    "width": 1536,
+    "height": 960,
+    "src": "/images/covers/cover-estimator-1440.e96e5986.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAACwAQCdASoQAAoAA4BaJaQAAud7YVAAAP7yzWv6kRXzoN6RdAAAAA==",
+    "thumbhash": "BfgFBICviXiGeHeZiYi/Zia2+A==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-estimator-640.e96e5986.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-estimator-960.e96e5986.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-estimator-1440.e96e5986.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-estimator-640.e96e5986.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-estimator-960.e96e5986.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-estimator-1440.e96e5986.webp"
+        }
+      ]
+    }
+  },
+  "cover-extension": {
+    "hash": "db3ae37b",
+    "width": 1536,
+    "height": 960,
+    "src": "/images/covers/cover-extension-1440.db3ae37b.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAADQAQCdASoQAAoAA4BaJaQAAujb35L8AAD+97xaVbqkRtWI8d74yYAA",
+    "thumbhash": "BfgFBIAmZniZeHeQeoUJhfas9g==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-extension-640.db3ae37b.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-extension-960.db3ae37b.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-extension-1440.db3ae37b.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-extension-640.db3ae37b.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-extension-960.db3ae37b.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-extension-1440.db3ae37b.webp"
+        }
+      ]
+    }
+  },
+  "cover-pwa": {
+    "hash": "0ae6d5e4",
+    "width": 1536,
+    "height": 960,
+    "src": "/images/covers/cover-pwa-1440.0ae6d5e4.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAAAwAQCdASoQAAoAA4BaJaQAA3AA/vScLKQfyfmr89Jo+KHaDwAAAA==",
+    "thumbhash": "BAgGBIA/dYitiImCnJesj1Bt9w==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-pwa-640.0ae6d5e4.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-pwa-960.0ae6d5e4.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-pwa-1440.0ae6d5e4.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-pwa-640.0ae6d5e4.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-pwa-960.0ae6d5e4.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-pwa-1440.0ae6d5e4.webp"
+        }
+      ]
+    }
+  },
+  "cover-quiz": {
+    "hash": "c75412b8",
+    "width": 1536,
+    "height": 960,
+    "src": "/images/covers/cover-quiz-1440.c75412b8.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoQAAoAA4BaJaQAAxf8nrnPgAD+94r/aHpNlvW9XdumN/bZwb8wSbe8AAA=",
+    "thumbhash": "BPgFBIB/eoZwaIipeYoDlKW/tQ==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-quiz-640.c75412b8.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-quiz-960.c75412b8.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-quiz-1440.c75412b8.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-quiz-640.c75412b8.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-quiz-960.c75412b8.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-quiz-1440.c75412b8.webp"
+        }
+      ]
+    }
+  },
+  "cover-webweaver": {
+    "hash": "325eab8e",
+    "width": 1536,
+    "height": 960,
+    "src": "/images/covers/cover-webweaver-1440.325eab8e.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAAAwAQCdASoQAAoAA4BaJaQAA3AA/vTHtN5RKdsXV0+qXcsWbLAAAA==",
+    "thumbhash": "A/gFBIAHZ4iYaHeDiWgmp5CN9Q==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-webweaver-640.325eab8e.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-webweaver-960.325eab8e.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-webweaver-1440.325eab8e.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-webweaver-640.325eab8e.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-webweaver-960.325eab8e.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-webweaver-1440.325eab8e.webp"
+        }
+      ]
+    }
+  },
+  "cover-ads": {
+    "hash": "324c1c4b",
+    "width": 1536,
+    "height": 960,
+    "src": "/images/covers/cover-ads-1440.324c1c4b.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAADQAQCdASoQAAoAA4BaJaQAApMvUaO4AAD+9Fuc+sFddy5gy2x1Z2tOIHh1F4W5tlMuECR2K1U1JggA",
+    "thumbhash": "B/gFBIAbW5iAjHi4e5qgpPjutg==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-ads-640.324c1c4b.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-ads-960.324c1c4b.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-ads-1440.324c1c4b.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/covers/cover-ads-640.324c1c4b.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/covers/cover-ads-960.324c1c4b.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/covers/cover-ads-1440.324c1c4b.webp"
+        }
+      ]
+    }
   }
 }
