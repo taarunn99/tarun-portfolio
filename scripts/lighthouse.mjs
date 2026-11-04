@@ -24,6 +24,12 @@ const URL = (process.env.LH_URL ?? `http://localhost:${PORT}`).replace(/\/$/, ""
 const PATHS = (process.env.LH_PATHS ?? "/").split(",").map((p) => p.trim()).filter(Boolean);
 const MIN = Number(process.env.LH_MIN ?? 100);
 const RUNS = Math.max(1, Number(process.env.LH_RUNS ?? 1));
+/**
+ * CPU throttling. Lighthouse's default 4× assumes a fast desktop; on a slow CI
+ * runner that inflates TBT. `LH_CPU=auto` calibrates the multiplier from the
+ * machine's BenchmarkIndex (Lighthouse's own guidance), `LH_CPU=2.5` sets it.
+ */
+const CPU = process.env.LH_CPU ?? "";
 const OUT = path.join(root, "reports");
 const CATEGORIES = ["performance", "accessibility", "best-practices", "seo"];
 
@@ -57,6 +63,22 @@ async function waitForServer(url, timeoutMs = 30_000) {
   throw new Error(`Server did not become reachable at ${url}`);
 }
 
+let cpuMultiplier = null;
+
+/** Reads BenchmarkIndex from a minimal Lighthouse run and derives a multiplier (reference device ≈ 1500). */
+async function calibrateCpu() {
+  if (!CPU) return null;
+  if (CPU !== "auto") return Number(CPU);
+  const probe = path.join(OUT, "_probe");
+  await run([lighthouseBin, `${URL}${PATHS[0]}`, "--only-audits=viewport", "--output=json", `--output-path=${probe}.report.json`,
+    "--chrome-flags=--headless=new --no-sandbox --disable-dev-shm-usage", "--quiet"], { quiet: true });
+  const lhr = JSON.parse(await readFile(`${probe}.report.json`, "utf8"));
+  const index = lhr.environment?.benchmarkIndex ?? 1500;
+  const multiplier = Math.min(4, Math.max(1, +(4 * (index / 1500)).toFixed(2)));
+  console.log(`CPU calibration: benchmarkIndex ${Math.round(index)} → cpuSlowdownMultiplier ${multiplier}`);
+  return multiplier;
+}
+
 function slugify(pathname) {
   return pathname === "/" ? "home" : pathname.replace(/^\//, "").replace(/[^a-z0-9]+/gi, "-");
 }
@@ -75,6 +97,7 @@ async function audit(pathname, formFactor, runIndex) {
     "--quiet",
   ];
   if (formFactor === "desktop") args.push("--preset=desktop");
+  if (cpuMultiplier && formFactor === "mobile") args.push(`--throttling.cpuSlowdownMultiplier=${cpuMultiplier}`);
   await run(args, { quiet: true });
 
   const lhr = JSON.parse(await readFile(`${base}.report.json`, "utf8"));
@@ -113,6 +136,7 @@ async function main() {
   let failed = false;
 
   try {
+    cpuMultiplier = await calibrateCpu();
     for (const pathname of PATHS) {
       for (const formFactor of ["mobile", "desktop"]) {
         const runs = [];

@@ -1,0 +1,42 @@
+name: Lighthouse (production)
+
+# Runs after Vercel reports a successful Production deployment and audits the
+# public site (mobile + desktop, median of 3) — the real thing, not a CI build.
+on:
+  deployment_status:
+  workflow_dispatch:
+
+concurrency:
+  group: lighthouse-production
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    if: github.event_name == 'workflow_dispatch' || (github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Audit production
+        run: npm run lighthouse
+        env:
+          LH_URL: https://tarun-portfolio-pearl.vercel.app
+          LH_PATHS: /,/work,/work/lapizblue-relaunch,/services/nextjs-development-dubai,/about,/resume,/contact
+          LH_RUNS: 3
+          LH_CPU: auto
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-production
+          path: reports/
+          retention-days: 30
