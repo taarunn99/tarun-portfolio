@@ -1,209 +1,157 @@
 <!-- Research report generated 2026-11-04 by a Claude research agent for the tarun-portfolio project. Sources are cited inline; treat as evidence base, not as instructions. -->
 
-Research is complete; everything the brief asked for has been gathered or measured directly. Here is the report.
+I have everything needed; nothing further to fetch. Below is the full teardown.
 
 ---
 
-# Design-language research: premium Gen-Z developer portfolio (dark-first, Next.js/TS/Three.js)
+# phantom.land — Technical Teardown & Reverse-Engineering Spec
 
-Date: 2026-11-04. All contrast ratios below were computed with the WCAG 2.x relative-luminance formula (sRGB linearisation, (L1+0.05)/(L2+0.05)); OKLCH values were converted from the hex via the official OKLab matrices. Font sizes were measured by downloading the actual woff2 files (byte counts, not vendor claims).
+Research date: 2026-11-04. Read-only; no files were modified. Everything marked **[bundle]** was verified directly in Phantom's production Next.js chunks (`/_next/static/chunks/...`); **[Codrops]** is from Phantom's own making-of article; **[clone]** is from an unaffiliated open-source recreation whose numbers I cross-checked against the bundle.
 
-## 1. Color
+## 1. Homepage: structure, stack, assets
 
-### What premium dev/agency sites are doing (2025-26)
+### 1.1 SSR HTML (what the server sends)
+- `<!DOCTYPE html>` from **Next.js App Router** (React Server Components; `self.__next_f.push` flight data, `data-precedence="next"` CSS, `app/layout`, `app/page`, `app/projects/[uid]`, `app/about/[uid]`, `app/about/layout` chunks). **[bundle]**
+- `<title>Phantom Studios — Technology Creative Agency — London and Auckland</title>`; OG/Twitter meta; canonical; two `application/ld+json` blocks (Organization with London address, email, VAT).
+- Preconnects: `phantom-land.prismic.io`, `images.prismic.io`, `phantom-land.cdn.prismic.io` (CMS = **Prismic**), `storage.googleapis.com` (video/atlas assets), `use.typekit.net` (fonts), GA4 (`G-G1ZCNTQ3G4`).
+- 7 CSS files, 26 JS chunks (~1.9 MB total uncompressed JS on home).
+- **No `<canvas>`, `<video>` or `<img>` in the SSR HTML.** The WebGL grid is client-only. What *is* server-rendered is an SEO/noscript-friendly **list view**: `styles_ListViewWrapper`, `styles_ProjectGroup` (grouped by year 2026→2016), `styles_ProjectListItemWrapper` → `styles_ProjectLink` (`/projects/<slug>`), `styles_ProjectTitle` (h3), `styles_FeaturesList` + `styles_Pill` (tags: Experience, ai, 3d, motion, website...), `styles_Client`, `styles_MetaInfo`, plus `Loader_Wrapper / Loader_ProgressBar / Loader_LoaderText`, and a `screen-reader-only` h1. 93 projects. **[bundle]**
+- Headings: h1 "Phantom is a technology-led creative agency crafting experiences for global brands."; h2 "PHANTOM STUDIOS®", "TECHNOLOGY CREATIVE", "All projects"; h3 "93 projects" + each project title.
+- Nav in markup is minimal (only `/privacy-policy`); real nav is client-rendered: Grid/List toggle (`GridListToggleContainer`), Filters overlay (`work-grid-filters-overlay`, URL-state `?zone=|?feature=|?service=|?client=`), About (`/about/agency`, `/about/approach`), Contact (`/contact`), a sound toggle (`SoundInteractionWrapper`).
 
-- **Off-black, not #000.** Every 2026 trend write-up and the sites themselves (Linear, Vercel, Dennis Snellenberg, Jesper Landberg) sit on #0a0a0a–#141414. Pure black causes halation against bright text and kills shadow-based elevation; a 2-step lift (bg → bg-elevated, roughly +4–5 OKLCH L points) is how depth is shown instead of drop shadows. [line25](https://line25.com/articles/web-design-trends-2026/), [Hostinger](https://www.hostinger.com/uk/tutorials/web-design-trends/)
-- **Warm-tinted neutrals** are replacing cool grey. A hint of yellow hue (OKLCH h≈85–105, C≈0.005–0.02) on both the dark bg and the "paper" light bg reads as expensive rather than "default Tailwind zinc".
-- **One acid accent, used sparingly.** Lime (#c9f55a-ish), electric orange, or chartreuse on near-black is the dominant Gen-Z-adjacent look; the discipline is that the accent is for one CTA, hover states, selection, and the odd oversized number, never for body copy. Dennis Snellenberg's palette is literally catalogued on Awwwards as "dark gray and yellow". [uiuxshowcase](https://uiuxshowcase.com/portfolio/dennis-snellenberg)
-- **"Paper" light mode**: light mode is not white; it's #f4–f7 warm off-white with pure white reserved for elevated cards (so cards lift *up* to white the same way dark cards lift up to grey).
-- **OKLCH as the token format.** Perceptually uniform L means the same contrast step works across hues, relative-color syntax (`oklch(from var(--accent) calc(l - 0.1) c h)`) gives hover states for free, and P3 is expressible. Supported in all evergreen browsers; wrap P3-only chroma in `@media (color-gamut: p3)`. [Evil Martians](https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl)
-
-### Palette A — "Acid" (keeps your current foundation)
-
-| Token | Dark hex | Dark oklch | Light ("paper") hex | Light oklch |
-|---|---|---|---|---|
-| bg | #0a0a0a | oklch(14.5% 0 0) | #f5f5f0 | oklch(96.9% 0.007 106.5) |
-| bg-elevated | #141414 | oklch(19.1% 0 0) | #ffffff | oklch(100% 0 0) |
-| fg | #f2f2f0 | oklch(96.1% 0.003 106.4) | #0f0f0f | oklch(16.8% 0 0) |
-| muted | #9a9a94 | oklch(68.4% 0.009 106.6) | #5f5f5a | oklch(48.4% 0.008 106.7) |
-| line | #262626 | oklch(26.9% 0 0) | #e0e0d8 | oklch(90.4% 0.011 106.6) |
-| accent | **#c9f55a** | oklch(91.0% 0.185 123.6) | #3f6e00 | oklch(48.5% 0.136 132.6) |
-| accent-ink | #0a0a0a | oklch(14.5% 0 0) | #f5f5f0 | oklch(96.9% 0.007 106.5) |
-| success | #5ee6a8 | oklch(83.4% 0.149 160.7) | #0f7a4a | oklch(51.2% 0.118 156.8) |
-| danger | #ff6b6b | oklch(71.2% 0.181 22.8) | #c0262d | oklch(52.7% 0.189 24.7) |
-
-| Pair | Dark | Light |
+### 1.2 Libraries detected **[bundle]**
+| Library | Evidence | Role |
 |---|---|---|
-| fg / bg | **17.66** | **17.53** |
-| muted / bg | **7.00** | **5.87** |
-| accent / bg | **15.74** | **5.58** |
-| accent-ink / accent | **15.74** | **5.58** |
-| success / bg | 12.60 | 4.92 |
-| danger / bg | 7.13 | 5.40 |
-| fg / bg-elevated | 16.44 | 19.17 |
-| muted / bg-elevated | 6.51 | 6.42 |
+| Next.js (App Router) + React 19 | `/_next/static/chunks/app/*`, `main-app` | Framework, RSC, routing |
+| three.js (r16x, `OutputPass`/AgX tonemapping present) | two three chunks, `ShaderMaterial`, `RawShaderMaterial`, `VideoTexture`, `InstancedMesh`, `EffectComposer`, `RenderPass`, `ShaderPass`, `OutputPass`, `GLTFLoader`, `DRACOLoader` | WebGL |
+| @react-three/fiber (+ drei `PerformanceMonitor`, `easing.damp`) | `react-three`, `onDecline → setGraphicsTier(LOW)` | Bridges DOM ↔ WebGL |
+| GSAP + ScrollTrigger + CustomEase (+ SplitText per Codrops; they also use a custom split hook) | chunks 5911, c15bf2b0, 4451 | Tweens for WebGL uniforms, camera, audio gain; scroll on inner pages |
+| Lenis | chunk 5792 | Smooth scroll on inner pages only |
+| Motion (Framer Motion) | chunk 3478 (`prefers-reduced-motion`, layout-animation defaults) | DOM page transitions, parallax, reveal variants |
+| Zustand | `(0,s.v)()` store with `transitionIntent`, `graphicsTier`, `workgridState`, `theme`, `caseStudyView` | Global UI state |
+| Prismic (`@prismicio/*`, slices) | `slice_type`, `prismic.js` | CMS |
+| Web Audio API | `AudioContext`, gain tweens | UI sounds |
+| `@phantomstudios/css-components` + SASS (CSS Modules naming `styles_X__hash`) | class names | Styling |
+| Not used | barba.js, Lottie, OGL (the "ogl" string match was `google`) | — |
 
-**Verdict on #c9f55a on #0a0a0a: passes comfortably at 15.74:1** (AAA even for small text), and black ink on a lime button is also 15.74:1. The catch is light mode: lime on paper is ~1.26:1, so it cannot be text or an outline there. Two correct options: (a) swap the accent token to the deep olive #3f6e00 (5.58:1, shown above) and keep lime only as a *fill* with #0f0f0f ink on top (15.2:1); or (b) keep lime as a highlighter/underline/marker block in light mode and never as a glyph color. Option (a) is what the table encodes.
+### 1.3 Fonts / tokens / breakpoints **[bundle]**
+- **Ballinger Mono** via Adobe Typekit (`gtx3zug.css`; weights 300/400/500/700) — the mono "detail" type (`typography_MonoDetail`).
+- **Helvetica Now** self-hosted via `next/font` (`--font-helvetica-bold`) — display/body.
+- Tokens: `--color-primary:#000`, `--color-secondary:#fff`, `--margin:24px`, `--radius:48px`, `--overlap-margin` (-55/-80/-140px by breakpoint). Awwwards palette lists `#202020`.
+- Breakpoints: 599, **1024**, **1440**, **1920**.
+- Easings in CSS: `cubic-bezier(.16,1,.3,1)`, `(.93,-.24,.4,1.17)` (overshoot, used for `translate .7s` on toggles), `(1,.01,.22,1)`, `(0,.462,.362,1)`, `(.81,-.01,0,1)`.
+- Canvas CSS: `canvas{position:fixed; inset:0; width:100vw; height:100dvh; background:#000}` with variants `pointer-events:none; touch-action:none`.
 
-### Palette B — "Warm graphite + ember" (warm neutrals, orange accent)
+## 2. Awards & write-ups
 
-| Token | Dark hex | Dark oklch | Light hex | Light oklch |
-|---|---|---|---|---|
-| bg | #0c0b09 | oklch(15.0% 0.005 84.9) | #f6f2ea | oklch(96.2% 0.011 84.6) |
-| bg-elevated | #171511 | oklch(19.7% 0.008 84.6) | #fffdf8 | oklch(99.4% 0.007 88.6) |
-| fg | #f3efe6 | oklch(95.3% 0.013 86.8) | #15130f | oklch(18.8% 0.009 84.6) |
-| muted | #a39d90 | oklch(69.7% 0.020 86.2) | #625c52 | oklch(47.7% 0.017 80.6) |
-| line | #2a2721 | oklch(27.4% 0.012 84.6) | #e4ddd0 | oklch(90.0% 0.019 83.1) |
-| accent | #ff7a1a | oklch(72.4% 0.187 48.9) | #b03e00 | oklch(51.9% 0.160 41.0) |
-| accent-ink | #120a02 | oklch(15.3% 0.025 74.3) | #fff6ee | oklch(97.8% 0.014 64.3) |
-| success | #7fd99a | oklch(81.2% 0.125 152.4) | #176b3c | oklch(46.7% 0.108 153.5) |
-| danger | #ff6f6f | oklch(71.8% 0.176 22.6) | #b4232a | oklch(50.2% 0.180 24.6) |
+- **Awwwards SOTD 2 June 2025** (7.61) + **Developer Award** (7.64; Animations 8.2, WPO 8.2, Responsive 7.8, Accessibility 6.8). Tags: Infinite Scroll, 3D, Gestures/Interaction. Highlighted elements: Loading Sequence, Work Grid, About, Team, Footer. https://www.awwwards.com/sites/phantom-land · "Work Grid" element tagged *grid, infinite canvas, WebGL, distortion*: https://www.awwwards.com/inspiration/work-grid-phantom-land-1
+- **GSAP Site of the Week** (June 2025): "That grid is smooooooth… CustomEase, Three.js, WebGL, React." https://x.com/greensock/status/1930290513665466455
+- **Primary source — Phantom's Codrops making-of (30 June 2025)**: "Invisible Forces: The Making of Phantom.land's Interactive Grid and 3D Face Particle System." https://tympanus.net/codrops/2025/06/30/invisible-forces-the-making-of-phantom-lands-interactive-grid-and-3d-face-particle-system/ (Codrops is Cloudflare-gated to fetchers; I read it via a text proxy.) Companion performance piece: "Welcome back to Phantomland" on LinkedIn (linked from the article; I could not fetch LinkedIn).
+- Secondary: Refs.Gallery (claims LCP ≈1.3 s desktop, Draco meshes, hero shaders boot after main-thread idle — unverified; rate-limited me) https://www.refs.gallery/projects/phantomland · UI/UX Showcase https://uiuxshowcase.com/agency/phantom-land/
+- Community recreations documenting behaviour precisely: **FF Grid / "PhantomClone"** (three.js + GSAP + Vite, with `docs/ARCHITECTURE.md` listing every tuned constant) https://github.com/Aphrosidiac/PhantomClone · **Inspira UI "Infinite Grid"** (OGL port with distortion/vignette post-shader, hover blur, inertia) https://inspira-ui.com/docs/en/components/visualization/infinite-grid, source https://github.com/unovue/inspira-ui/tree/main/app/components/inspira/ui/infinite-grid
+- Earlier (2018/2019) site: Awwwards SOTD Dec 2018, Creative Review, The Drum "Haunting London" — different site, not relevant to current interactions.
 
-Ratios — dark: fg/bg 17.14, muted/bg 7.29, accent/bg 7.54, accent-ink/accent 7.52, success 11.52, danger 7.27. Light: fg/bg 16.62, muted/bg 5.93, accent/bg 5.32, accent-ink/accent 5.56, success 5.87, danger 5.85. All ≥4.5.
+## 3. Signature interactions — observed behaviour
 
-### Palette C — "Mono ink" (no chromatic accent; type and motion carry it)
+### 3.1 Preloader → intro
+- Full-screen black loader with mono text + progress bar (`Loader_ProgressBar`, keyframes `move-up / stretch / move-down / move-out-left`). `loaderDelay: 1500` ms minimum. **[bundle]**
+- Inside the WebGL scene a **"particle dude" sprite** plays during load: a frame sequence of 25 WebP frames per set, 55 random sets on desktop / 3 on mobile (`.../controlnet-images/webp/setN/i.webp` — AI/ControlNet-generated frames), drawn on a `<sprite>` with a custom shader that **crossfades texture1→texture2 (`morphFactor`, eased cubic) while pixelating** (`pixelSize` stepping through `[80,70,60,50,40,30,20,10,1]`). Then at `elapsed > 4s` the "load" and "whoosh" sounds fire and the intro begins. **[bundle]**
+- Intro: grid `opacity 0→1`, camera `z` eases to 3.43, lens distortion tweens **flat (0) → curved (−0.07)** over 1 s `power2.out`; group position offsets (`1.45` WORK vs `−2.75`) over 0.4 s after a 2.5 s delay. **[bundle]**
 
-| Token | Dark hex | Dark oklch | Light hex | Light oklch |
-|---|---|---|---|---|
-| bg | #101012 | oklch(17.4% 0.004 286.0) | #fafafa | oklch(98.5% 0 0) |
-| bg-elevated | #18181b | oklch(21.0% 0.006 285.9) | #ffffff | oklch(100% 0 0) |
-| fg | #ededed | oklch(94.6% 0 0) | #111113 | oklch(17.9% 0.004 286.0) |
-| muted | #9b9ba3 | oklch(69.2% 0.012 286.1) | #626269 | oklch(49.9% 0.011 286.0) |
-| line | #27272a | oklch(27.4% 0.005 286.0) | #e4e4e7 | oklch(92.0% 0.004 286.3) |
-| accent | #ededed (= fg) | oklch(94.6% 0 0) | #111113 | oklch(17.9% 0.004 286.0) |
-| accent-ink | #101012 | oklch(17.4% 0.004 286.0) | #fafafa | oklch(98.5% 0 0) |
-| success | #8bd9b0 | oklch(82.3% 0.097 160.3) | #13703f | oklch(48.1% 0.114 154.1) |
-| danger | #ff7b7b | oklch(73.6% 0.161 21.8) | #b9232a | oklch(51.1% 0.185 24.8) |
+### 3.2 The Work Grid (hero = the whole homepage)
+Verified mechanics **[bundle]** unless noted:
+- **Geometry**: one `InstancedMesh` of **11×11 = 121** unit planes (`PlaneGeometry(0.998, 0.998)` — the 0.002 gap is the tile border), `frustumCulled=false`. Slot *i* shows `tiles[i % tiles.length]`; tiles have a `workGridPosition` laid out from a server-side **blueprint JSON** (`workgridAssets/production/blueprint.json` on GCS), sorted by `launch_date`.
+- **Infinite wrap**: every frame each instance is re-positioned relative to the grid's `position` offset with `Math.round(n / gridSize) * gridSize` subtraction — i.e. tiles that leave one side re-enter the other; you can never reach an edge.
+- **Textures = video atlases**: 3 atlas packs, each a **6×6 cell atlas** (`GRID_SIZE = 6.`) of looping project videos as `VideoTexture`s, with a **separate alpha-matte video** (`alphaMap`, `.r` channel) and a static **label atlas** (client/title text pre-rendered into a texture). Up to 108 tiles. Vertex shader computes per-instance `vUv`, `vMediaUv` (media occupies the centre **70%** of a tile, `MEDIA_ZOOM = 0.7`), `vBlurUv` (`BLUR_ZOOM = 20`), and `vCellBoundsUv` (with `BOUNDS_PADDING` to stop atlas bleed). Fragment composites `background → video (via alpha) → label`.
+- **Hover**: nearest tile to the pointer (projected distance in NDC, every frame) becomes `activeInstance` (uniform array of 4 so fades overlap). Intensity eases per frame `i += (target − i) * 5 * dt`. Hovered tile gets a **5×5 box-blurred, 20×-zoomed sample of its own video as a glowing background** at `0.7` opacity, and its label alpha rises `0.8 → 1`. Cursor `grab`/`grabbing`. Hover is **disabled on touch devices**.
+- **Ambient cursor parallax**: `pointerUv − 0.5` × **0.07** added to mesh position each frame (Codrops article quotes 0.2; shipped value is 0.07).
+- **Press / drag zoom**: on pointer-down camera animates `z: 3.43 → 3.83` (+0.4) over 0.4 s with a `CustomEase('.23,1,0.32,1')` ("cameraZoom"); on release (if it was a drag) back to 3.43. Visually the grid "pulls away" while you drag.
+- **Drag + inertia**: pixel delta → world units at depth `camera.z + 0.58`; `velocity.lerp(dragDelta, 1)` while dragging; each frame `positionOffset += isDrag ? dragDelta : velocity; velocity.lerp(0, clamp(4·dt, 0, 1))` → exponential decay (~250 ms half-life).
+- **Click**: `≤` drag threshold → `getSelectedTile()` → `router.push('/projects/<slug>')` and grid `fadeOut()` (opacity → 0.3, camera z +1 over 1 s, videos paused). Returning calls `fadeIn()` + `center()`.
+- **Keyboard**: Arrow keys pan; `Home`/`End`; focus index walks tiles with `moveTo` (0.3 s `power2.inOut`); Enter opens.
+- **Post-processing "lens"**: `EffectComposer` → `RenderPass` → **`DistortionShader` pass** → `OutputPass`. Fragment: `m = 2(uv−.5); uv' = ((0.88 + distortion·dot(m,m))·m)·.5+.5` with `distortion = factor × aspect` (factor **−0.07** curved / **0** flat), outside-bounds pixels black, plus **vignette** `smoothstep(0.8, 0.6·0.799, (0.6+0.6)·dist)`. Flat mode is forced during intro and when a project is clicked (`isForceFlat`).
+- **Graphics tiers**: drei `PerformanceMonitor` → on decline `graphicsTier = LOW`, which **bypasses the composer** (`gl.render(scene, camera)` directly, no lens). R3F Canvas: `frameloop: "demand"` with explicit `invalidate()` per frame while the grid is live; `camera: {fov: 85, near: 0.001, far: 1000}`, `gl: {antialias: true, alpha: true}`, `linear: true`.
+- **Sound**: Web Audio clips `click / grid(hover) / load / project / other / riser / swipe / whoosh`; gain tweened with GSAP `sine.out`; "interaction mode" switches between DRAG and SCROLL.
+- **List view / filters**: `<aside inert>` list toggles with grid; filters (Zone single-select, Feature/Service/Client multi) live in URL search params and drive both grid (`setProjects()` rebuilds instances) and list.
+- **Mobile**: touch listeners (`touchstart/move/end/cancel`) on the canvas, `touch-action:none`; hover highlight off; smaller sprite/intro scales (`isMinMedium` switch); 3 mobile atlas sets instead of 55; the clone caps atlases at 2048 px and DPR-budgets to ~8.3 M pixels on phones **[clone]**.
 
-Ratios — dark: fg/bg 16.23, muted/bg 6.89, accent/bg 16.23, accent-ink/accent 16.23, success 11.45, danger 7.58. Light: fg/bg 18.07, muted/bg 5.80, accent 18.07, accent-ink 18.07, success 5.89, danger 6.03. This is the Linear/Vercel/rauno.me register; it is the hardest to make not-boring and relies entirely on sections 3–4.
+### 3.3 Page transition (grid → project)
+- Zustand `transitionIntent` enum: `NONE | ADD_LAYER_ENTER | ADD_LAYER_EXIT | FADE_LAYER_ENTER | FADE_LAYER_EXIT | SNAP`. A `TransitionElementContainer` + `TransitionElementFill` + `Underlay` wraps each route. Motion variants: **new page layer slides up `translateY(100%) → 0` with opacity 0→1 over 0.5 s** ("add layer"); exit fades after a 0.5 s delay; "fade layer" cross-fades; SNAP instantly resets. The canvas is `position:fixed` **underneath**, so the grid keeps living (dimmed to 0.3, camera pulled back) behind the incoming page. **[bundle]**
+- Lenis is **created only on non-home, non-contact routes** (`duration 0.7, easing 1−(1−t)^4, smoothWheel, wheelMultiplier 1, touchMultiplier 1`) and destroyed on home (where the canvas owns the wheel/drag). **[bundle]**
 
-Notes that apply to all three: `line` tokens sit at ~1.2–1.3:1 against bg on purpose (hairlines are decorative, not WCAG text/UI-component targets); if a border *conveys state* (focus ring, input border) use `muted` (≥3:1). Recommended CSS: define tokens in oklch with hex fallbacks via `@supports (color: oklch(0% 0 0))`, and derive hover/pressed as `oklch(from var(--accent) calc(l - 0.06) c h)`.
+### 3.4 Project page (`/projects/<slug>`) — e.g. Casamigos World Cup 2026
+- Prismic slices. Order: mono header row (REGION & ZONE pills linking back to filtered home `/?service=amer`, `/?zone=experience`; "SEE IT LIVE ↗"), **h1 giant title**, hero `<video autoplay muted loop playsinline>` (webm, incl. "transparent video" alpha variant when supported), `LargeSubTitle` summary inside a **`ParalaxContainer`** (Motion `translateY` driven), ABOUT rich text, FEATURES pill list (`/?feature=ai` etc.), media gallery (full/left/right layout grid `layout_Grid`), **Related work** (3 cards with looping video + "view project") and "See all work" → `/`. **[bundle + fetch]**
+- **Text reveal**: custom split hook (`split-line / split-word / split-char` classes, `useSplitText(id, "lines,words,chars")`) + `useInView(once)`; lines animate `y: 40px·direction → 0`, 0.8 s; staggered per line; paragraphs fade in with 1 s delay. **[bundle]**
+- **Lazy video**: `IntersectionObserver` with `rootMargin: 500px` sets `src` only when near viewport; `poster` WebP generated from the video URL and `<link rel=preload as=image>`; `preload="metadata"`; `.play()` on `loadeddata`; a separate `useInView` pauses/plays. **[bundle]**
+- Reveal variants: `opacity 0→1, translateY 10px→0`, 0.5 s, `delay 0.2·index`. **[bundle]**
 
-## 2. Typography
+### 3.5 About (`/about/agency`, `/about/approach`)
+- Agency/Approach **toggle** (`AboutLayoutToggle`, `translate .7s cubic-bezier(.93,-.24,.4,1.17)`), body is client-rendered slices (`About_SlicesWrapper`): hero statement with char/word split reveal, sections tracked in a store (`aboutIntersectingSection`) to drive a side label, `#logo-grid` client logos with row-aware stagger, **Awards list table** with animated `scaleX` rules and SVG `pathLength` draws, and the **Team face-particle carousel** (lazy chunk). **[bundle]**
+- **Face particles** **[Codrops]**: each team member = a 256×256 WebP colour map + 256×256 WebP depth map (<15 KB each, from iPhone RealityScan → C4D position/colour pass → Photoshop depth). `<points>` with **280×280 = 78,400** vertices; `vIndex` attribute samples both textures; `pos.z = (1 − depth)·2−1 · zScale`; particle size `mix(pScaleMin, pScaleMax, luminance)` so bright features get bigger points; **curl noise** ambient drift (`pos += curlNoise(pos·curlFreq + time)·noiseScale·0.1`); pointer tilt via `easing.damp(rotation.y, mouse.x·0.12π, 0.25)`; **transition between people** = GSAP timeline tweening `transition 0→1.3`, `posZ`, `zScale` over 1.6 s while shader `mix()`es both texture pairs and injects extra noise peaking at mid-transition (`abs(sin(speed·π))`); **DOF** = `vDistance = |focus + viewZ|` → `gl_PointSize *= vDistance·blur` and fragment alpha `1.04 − clamp(vDistance·1.5)`; per-face hand-tuned `offset_z / z_depth_scale / face_size`.
 
-### Candidates (measured)
+## 4. Reverse-engineering spec for a Next.js 16 + vanilla three.js/GSAP/Lenis portfolio
 
-| Font | Source / license | Variable axes | Measured woff2 | next/font | Notes |
-|---|---|---|---|---|---|
-| **Geist Sans** | Vercel, OFL 1.1 | wght 100–900 | **28.6 KB** latin subset (Google) · **67.9 KB** full `Geist-Variable.woff2` (npm `geist`) | `next/font/google` or `import { GeistSans } from 'geist/font/sans'` | Google route lacks full glyph set/feature settings; npm route is self-hosted and complete. [vercel.com/font](https://vercel.com/font), [github](https://github.com/vercel/geist-font) |
-| **Geist Mono** | Vercel, OFL 1.1 | wght 100–900 | 22.6 KB latin · 69.6 KB full (npm) | same as above (`geist/font/mono`) | Tabular figures built in; best "numbers" mono for a Geist/Inter body. |
-| **Inter** (v4) | OFL 1.1 | wght 100–900, **opsz 14–32** | 71.3 KB latin | `next/font/google` (`axes: ['opsz']`) | Heaviest; opsz gives you true display cuts. Closest free match to Neue Montreal. [fontalternatives](https://fontalternatives.com/compare/inter-vs-neue-montreal/) |
-| **Inter Tight** | OFL 1.1 | wght 100–900 | 43.9 KB latin | `next/font/google` | Pre-tightened display cut; use when you want Inter body + tighter headlines without hand-tracking. |
-| **Satoshi** | Fontshare, **ITF FFL v2.0** | wght 300–900 (+ italic) | **41.6 KB** full variable (from official zip) | `next/font/local` only | The Gen-Z default; geometric with a warm "O". Designer Deni Anggara. |
-| **General Sans** | Fontshare, ITF FFL | wght 200–700 (+ italic) | not measured (CDN blocks direct fetch; download kit) | `next/font/local` | Neo-grotesque, more neutral than Satoshi; strong Neue Montreal stand-in. |
-| **Clash Display** | Fontshare, ITF FFL | wght 200–700 | not measured | `next/font/local` | Wide, punchy display-only; pairs with a quiet body. |
-| **Space Grotesk** | OFL | wght 300–700 | 21.8 KB latin | `next/font/google` | Quirky; reads "2021 crypto" to some eyes now. |
-| **Archivo** | OFL | wght 100–900, **wdth 62–125** | 88.0 KB latin | `next/font/google` (`axes: ['wdth']`) | Width axis lets one file do condensed numbers + wide headers. |
-| **Instrument Serif** | OFL | static 400 + italic (not variable) | 14.7 KB + 15.3 KB italic | `next/font/google` | The editorial-accent serif of the moment; use the *italic* for one word in a headline. |
-| **JetBrains Mono** | OFL | wght 100–800 | 39.5 KB latin | `next/font/google` | Fine, but Geist Mono matches Geist/Inter metrics better. |
-| **Manrope** / **DM Sans** | OFL | 200–800 / 100–1000 + opsz | 23.9 / 61.1 KB | google | Safe fallbacks if Satoshi licensing worries you. |
+Design goal: same *techniques*, original assets/design, Lighthouse 100.
 
-### Fontshare licence: what the primary text actually says
-
-I read the `FFL.txt` bundled in the official Satoshi download (ITF Free Font License **v2.0, 17 Aug 2026**):
-
-- Commercial use: granted, free, unlimited period, "any media, including ... Websites, Mobile or Desktop Applications".
-- Self-hosting: explicitly allowed — "You may self-host the Font Software on your own servers ... including through standard webfont technologies such as CSS @font-face. Self-hosting by end users is permitted and recommended ... Use of the Fontshare API is optional."
-- Attribution: optional.
-- **Restriction that matters for a Next.js build:** "You may not modify ... the Font Software ... This includes ... **subsetting, format conversion**, or altering font names". So: ship the woff2 exactly as downloaded via `next/font/local` (which does not rewrite the file), do **not** run glyphhanger/pyftsubset/`unicode-range` splitting on Satoshi/General Sans/Clash. Full-variable Satoshi is 41.6 KB, so you lose little.
-- No redistribution (don't commit a copy into a public template repo that others clone as a "font pack"; a private portfolio repo is your own permitted use).
-
-OFL fonts (Geist, Inter, Archivo, Instrument Serif) have no such restriction and can be subset freely.
-
-### Recommended trio
-
-**Display: Geist Sans (wght 500–600, tight) · Body: Geist Sans 400/450 · Editorial accent: Instrument Serif Italic (one word per hero/section title) · Numbers/eyebrows: Geist Mono.**
-Why: one family file (67.9 KB) carries display + body, Mono shares metrics, OFL means you can subset to ~29 KB latin, and Vercel's own ecosystem guarantees `next/font` zero-layout-shift support. Total font payload ≈ 28.6 + 22.6 + 15.3 ≈ **67 KB** with Google subsets, which keeps Lighthouse 100 trivially.
-
-Alternative with more personality: **Satoshi** (display + body, 41.6 KB, local) + **Instrument Serif Italic** + **Geist Mono**. Swap in when the Geist look feels too "Vercel template".
-
-### Fluid type scale (360 → 1440 px viewport, rem-based)
-
-| Token | clamp() | ≈ at 360 / 1440 | line-height | letter-spacing | weight |
-|---|---|---|---|---|---|
-| --fs-display | `clamp(2.75rem, 1.5rem + 6vw, 7rem)` | 46 / 110 px | 0.95 | -0.04em | 500–600 |
-| --fs-h1 | `clamp(2.25rem, 1.4rem + 4vw, 5rem)` | 38 / 80 px | 1.0 | -0.03em | 500 |
-| --fs-h2 | `clamp(1.75rem, 1.2rem + 2.2vw, 3rem)` | 29 / 48 px | 1.05 | -0.02em | 500 |
-| --fs-h3 | `clamp(1.375rem, 1.1rem + 1.1vw, 2rem)` | 22 / 32 px | 1.15 | -0.01em | 500 |
-| --fs-lead | `clamp(1.125rem, 1rem + 0.5vw, 1.375rem)` | 18 / 22 px | 1.45 | -0.005em | 400 |
-| --fs-body | `clamp(1rem, 0.95rem + 0.25vw, 1.125rem)` | 16 / 18 px | 1.6 | 0 | 400 |
-| --fs-small | `0.875rem` | 14 px | 1.5 | 0 | 400 |
-| --fs-caption / eyebrow (mono) | `0.75rem` | 12 px | 1.4 | **+0.08em**, uppercase | 500 |
-| --fs-numeral (oversized stats) | `clamp(4rem, 2rem + 10vw, 12rem)` | 64 / 192 px | 0.9 | -0.05em | 500, `font-variant-numeric: tabular-nums` |
-
-Rules: tracking tightens as size grows (negative on display, zero on body, positive on small caps/mono); `text-wrap: balance` on headings, `text-wrap: pretty` on paragraphs; measure capped at 65ch; `font-feature-settings: "ss01"` (Geist/Inter alternate glyphs) only on display. Inter users should set `axes: ['opsz']` so the browser picks the display optical size automatically. [Utopia](https://utopia.fyi/blog/clamp/), [alwaystwisted](https://alwaystwisted.com/articles/building-fluid-typographic-scales-with-clamp-and-heading)
-
-## 3. Motion language
-
-### What the top sites actually use
-
-- **Ease-out everything that enters; never ease-in on UI.** Emil Kowalski's (ex-Linear/Vercel) rule set: UI transitions ≤300 ms at `ease-out`; 200 ms is the default; 500 ms max for drawers/sheets. [emilkowal animations summary](https://agent-skills.md/skills/pproenca/dot-skills/emilkowal-animations)
-- **Hero/scroll reveals are slower and use expo/quint.** Osmo's canonical masked line reveal: `yPercent: 110 → 0`, `ease: 'expo.out'`, lines 0.8 s / stagger 0.08, words 0.6 s / 0.06, chars 0.4 s / 0.01, triggered at `clamp(top 80%)`, `once: true`; mask via SplitText `mask: 'lines'` (overflow-hidden wrapper), with `visibility: hidden` + `autoAlpha` to avoid FOUC. [Osmo](https://www.osmo.supply/resource/masked-text-reveal)
-- **GSAP ↔ CSS equivalences** (from easings.net source): `power4.out` = easeOutQuint = **cubic-bezier(0.22, 1, 0.36, 1)** — the curve you cited; `expo.out` = **cubic-bezier(0.16, 1, 0.3, 1)**; `power3.out` = easeOutQuart = cubic-bezier(0.25, 1, 0.5, 1); `power4.inOut` = cubic-bezier(0.83, 0, 0.17, 1); `expo.inOut` = cubic-bezier(0.87, 0, 0.13, 1); `circ.out` = cubic-bezier(0, 0.55, 0.45, 1). [easings.net](https://easings.net/)
-- **Clip-path curtain**: `clip-path: inset(0 0 100% 0) → inset(0 0 0 0)`, 0.9–1.2 s, power4.out; image reveals typically pair this with a `scale(1.15 → 1)` on the inner img.
-- **Page transitions**: the classic portfolio curtain is 1.2 s in / 1.0 s out on `expo.inOut` (too long by 2026 standards); current practice is 0.6–0.9 s total with overlap (`sync: true` in Barba, `pointer-events: none` on links mid-transition). In Next.js use the View Transitions API (`experimental.viewTransition`) at 400–600 ms with `::view-transition-old/new` on `--ease-out-expo`. [Codrops 2026](https://tympanus.net/codrops/2026/04/08/creating-custom-page-transitions-in-astro-with-barba-js-and-gsap/), [GSAP forums](https://greensock.com/forums/tags/barbajs/)
-- **Smooth scroll**: Lenis defaults (`lerp: 0.1`, `duration: 1.2`) are what most Awwwards portfolios ship; keep `lerp ≥ 0.1` so it doesn't feel syrupy, and disable on touch.
-- **Stagger caps**: total stagger ≤ ~0.6 s regardless of item count (`stagger: { each: 0.06, from: 'start' }` with `amount` instead of `each` for long lists).
-
-### Motion tokens
-
-```css
-:root {
-  /* easings */
-  --ease-out-expo:   cubic-bezier(0.16, 1, 0.3, 1);   /* GSAP expo.out — hero reveals */
-  --ease-out-quint:  cubic-bezier(0.22, 1, 0.36, 1);  /* GSAP power4.out — default reveal */
-  --ease-out-quart:  cubic-bezier(0.25, 1, 0.5, 1);   /* GSAP power3.out — cards, images */
-  --ease-out-ui:     cubic-bezier(0.23, 1, 0.32, 1);  /* hover/focus/menus */
-  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);/* page curtains, both directions */
-  --ease-in-out-expo:  cubic-bezier(0.87, 0, 0.13, 1);/* marquee pause/resume, sheets */
-  --ease-spring:     linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001) ; /* only for magnetic buttons / cursor */
-
-  /* durations */
-  --dur-instant: 100ms;   /* color/opacity on hover */
-  --dur-fast:    200ms;   /* UI state change, underline grow */
-  --dur-base:    300ms;   /* menu, tooltip, toggle (upper bound for UI) */
-  --dur-slow:    600ms;   /* card/image enter */
-  --dur-reveal:  800ms;   /* masked text lines */
-  --dur-page:    900ms;   /* route transition, total */
-
-  /* stagger */
-  --stagger-chars: 10ms; --stagger-words: 60ms; --stagger-lines: 80ms; --stagger-items: 60ms;
-}
-@media (prefers-reduced-motion: reduce) {
-  :root { --dur-instant: 0ms; --dur-fast: 0ms; --dur-base: 0ms; --dur-slow: 0ms; --dur-reveal: 0ms; --dur-page: 0ms; }
-}
+### 4.1 Architecture
 ```
+app/
+  layout.tsx            RSC shell; <WorkList/> SSR'd (SEO + noscript + reduced-motion fallback)
+  page.tsx              home: <WorkList/> + <WorkGridCanvas/> (client, dynamic import, ssr:false)
+  projects/[slug]/page.tsx   RSC; media via <LazyVideo/> client island
+  about/page.tsx
+components/webgl/
+  WorkGrid.ts           vanilla three class (InstancedMesh + atlases + input + wrap)
+  LensPass.ts           ShaderPass (barrel + vignette)
+  Navigation.ts         drag/velocity/keyboard; emits {offset, pressed, hoverIndex}
+lib/
+  lenis.ts              created only on inner routes; synced to gsap.ticker + ScrollTrigger.update
+  transition-store.ts   tiny zustand/useSyncExternalStore: intent enum
+```
+Skip R3F (user wants vanilla three); mount the three app imperatively in a `useEffect` inside a `dynamic(() => import(...), { ssr: false })` island so the RSC HTML stays pure and ships zero WebGL JS until hydration.
 
-Conventions: text reveals are `translateY(110%)` inside an `overflow: clip` line wrapper (not opacity fades); images use clip-path + inner scale; hover underlines grow from left via `background-size` or `scaleX` with `transform-origin` flipping on exit; nav/menu use `--ease-out-ui` at 300 ms; the 3D/Three.js layer should lerp camera/mouse with factor 0.05–0.08 per frame and never exceed the scroll's Lenis lerp.
+### 4.2 Work grid — implementation checklist
+1. **Data**: build a `blueprint.json` at build time (`scripts/build-atlas.ts`): per project `{slug, atlasIndex, cell:[cx,cy], gridPos:[x,y]}` plus the atlas media. Keep an SSR `<ul>` list of the same data.
+2. **Atlases**: pre-encode **one 6×6 (or 4×4) atlas per 36 projects**: either (a) a WebM/MP4 video atlas (Phantom's approach; `VideoTexture`, muted/loop/playsinline, 24 fps, ≤1080 px, `requestVideoFrameCallback` to flag `needsUpdate`) or (b) a KTX2/WebP still atlas for Lighthouse-friendly mobile. Use a separate greyscale alpha video only if you need non-rectangular media. Pre-render labels into a 2× label atlas (Canvas2D at build or runtime after `document.fonts.ready`).
+3. **Mesh**: `InstancedMesh(PlaneGeometry(0.998,0.998), ShaderMaterial, N*N)` with N=11 (odd so one tile is centred). Per-instance attributes: `uvOffset` (cell), `atlasIndex`, `instanceIndex`. Set `frustumCulled=false`.
+4. **Wrap**: each frame for instance *i*: `p = gridPos_i + offset; p -= round(p / N) * N; setMatrixAt(i)`; `instanceMatrix.needsUpdate = true`. (121 matrix writes per frame is trivial.)
+5. **Shader**: vertex computes `vUv`, `vMediaUv` (0.7 zoom), `vBlurUv` (20 zoom), cell bounds; fragment composites blurred-bg × hoverIntensity → media → label; `uniform float activeInstance[4], activeIntensity[4], opacity`. Use `flat varying` ints for indices (GLSL3 / WebGL2).
+6. **Input** (single `Navigation` class): Pointer Events (`pointerdown/move/up/cancel`, `setPointerCapture`) instead of separate mouse/touch; 3 px drag threshold; `getWorldOffset = pxDelta → NDC → unproject at depth camera.z+0.58`; `velocity.lerp(delta,1)` while dragging, `velocity.lerp(0, clamp(4·dt,0,1))` after; wheel/trackpad: add `deltaX/Y` scaled, eased ~0.1 s, do **not** feed inertia; arrow keys + Tab/Enter with a visible focus ring overlay (fixes Phantom's 6.8 accessibility score); `aria-label`ed canvas + off-screen list as the accessible alternative.
+7. **Camera**: `PerspectiveCamera(85, aspect, 0.01, 100)`, rest `z=3.43`; press `gsap.to(camera.position,{z:3.83, duration:.4, ease: CustomEase.create('zoom','.23,1,0.32,1')})`; release back. Or derive FOV from a target tile size (`unitPx = min(0.291·h, w/2.6)`) so phones show ~2.5 columns **[clone]**.
+8. **Hover**: project each instance centre to NDC, pick nearest within radius; ease intensity `i += (t−i)·5·dt`; disable when `matchMedia('(hover: none)')`.
+9. **Lens pass**: `EffectComposer → RenderPass → ShaderPass(lens) → OutputPass`; `distortion = factor·aspect`, factor tweened 0 ↔ −0.07 (`duration 1, power2.out`); vignette offset/darkness 0.6/0.6. Render scene target at ~1.3–1.5× DPR-budgeted size so the lens' 0.88 centre magnification doesn't blur **[clone]**; invert the lens mapping in hit-testing so click targets match what's seen.
+10. **Perf**: `renderer.setPixelRatio(Math.min(devicePixelRatio, 2))` then clamp total pixels (canvas + RT) to ~8 M; render **on demand** (dirty flag set by input/velocity > ε/video frame) rather than an always-on RAF; pause videos + loop when `document.hidden` or when the grid is behind a page; `PerformanceMonitor`-style FPS sampler to drop the post pass (LOW tier) under 45 fps; dispose textures on unmount.
+11. **Mobile**: smaller atlas (≤2048), stills instead of video atlas on `saveData`/low tier, `touch-action:none` only on the canvas, still provide the list view toggle.
 
-## 4. Layout language
+### 4.3 Transitions & scroll
+- **Route transition**: keep the canvas `position:fixed` in `layout.tsx` under a `<TransitionLayer>` that reads an intent (`ADD_LAYER_ENTER` = new page slides up `translateY(100%)→0`, 0.5 s, `cubic-bezier(.16,1,.3,1)`; `FADE_LAYER` cross-fade; `SNAP` for back/forward). In Next 16 use `template.tsx` (remounts per route) + the View Transitions API (`document.startViewTransition`) as progressive enhancement, falling back to GSAP timelines. On project click: `grid.fadeOut()` (opacity→0.3, camera +1 over 1 s, pause videos) in parallel with `router.push`.
+- **Lenis**: instantiate only on inner routes (`duration .7, easing 1−(1−t)^4, smoothWheel, syncTouch:false`), `gsap.ticker.add(t => lenis.raf(t*1000))`, `lenis.on('scroll', ScrollTrigger.update)`, destroy on route change; use `ScrollTrigger` with `scrub` for the parallax summary block and pinning sections; respect `prefers-reduced-motion` by not creating Lenis and setting `gsap.globalTimeline.timeScale(0)`-style instant reveals.
+- **Text reveal**: GSAP SplitText (now free in 3.13+) `lines,words,chars` with `autoSplit` + `onSplit` revert; reveal `y: 40·dir → 0, 0.8 s`, staggered; guard with `IntersectionObserver` once.
+- **Lazy video**: `IntersectionObserver({rootMargin:'500px'})` → set `src`; poster `<link rel=preload as=image>` only for the hero; `preload="metadata"`, `muted playsInline loop`; `.play()` on `loadeddata`; pause when out of view. Serve AV1/VP9 webm + H.264 fallback via `<source>` ordering.
 
-- **Grid:** 12-column fluid grid with `--gutter: clamp(16px, 2vw, 32px)` and page padding `--pad: clamp(1rem, 4vw, 4rem)`. Hero and marquees go full-bleed; text blocks snap to columns 2–11 or a 65ch measure. Bento sections use `grid-auto-rows` with `span` 1–2 on an 8-pt baseline.
-- **Max widths:** site shell 1440–1536 px (`max-width: 96rem`), reading column `65ch`, oversized headlines unconstrained (they are meant to touch the gutters). Many 2025–26 winners drop the container entirely and let 1 px hairlines define edges.
-- **Spacing scale (4-pt base):** 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128 · 192 → as tokens `--space-1…--space-11`. Section rhythm is fluid: `--section-y: clamp(5rem, 12vw, 12rem)`; intra-section `clamp(2rem, 5vw, 4rem)`.
-- **Hairlines and radius:** 1 px borders at `--line` (≈1.3:1 — intentionally faint) as section dividers and table rows; no box shadows in dark mode (elevation = `--bg-elevated` step + hairline). Radius: 0–4 px for editorial elements and images, 12–16 px for bento cards, 999 px for pills/tags; pick one of "sharp" or "soft" and don't mix beyond those two tiers.
-- **How Gen-Z-minimal avoids boring (what the 2025–26 Awwwards portfolio winners share):** (1) one *enormous* headline per screen (display token above) that doubles as the hero, often with one Instrument Serif italic word; (2) a slow marquee of stack/clients/awards (`animation: 40–60s linear infinite`, pause on hover); (3) sticky/pinned sections where the left column stays while the right scrolls (project case studies, "process" steps); (4) a bento grid for "about"/stats with one oversized tabular-mono number per cell (years, projects, ms saved, % growth — a growth engineer should flex metrics); (5) numbered index lists (`(01) · (08)`) instead of card grids for work; (6) a live local-time + "available from" footer line (Snellenberg, Fayemi, Mangham all do it); (7) a custom cursor only as a *label* ("View", "Drag", "Play") that disappears on touch; (8) micro-interactions: magnetic buttons, underline grow, image parallax ±5 %. Trend reports confirm bento, kinetic/oversized type, scroll-triggered reveals, and custom cursors as the 2026 set, with the caution that cursors must degrade on touch. [line25](https://line25.com/articles/web-design-trends-2026/), [studiomeyer](https://studiomeyer.io/en/blog/webdesign-trends-2026), [tinyfrog](https://tinyfrog.com/web-design-trends)
+### 4.4 Face/particle team module (optional)
+- `THREE.Points` + `ShaderMaterial`, 280×280 `vIndex` grid, two 256² WebP textures per person; uniforms `{colorMap1/2, depthMap1/2, transition, zScale, posZ, focus, blur, time, pScaleMin/Max}`; GSAP timeline for transitions (1.6 s); `curlNoise` GLSL; DOF via `vDistance`. Mount lazily (dynamic import on scroll-into-view), `transparent, depthWrite:false, NormalBlending`.
 
-## 5. Reference sites
+### 4.5 Lighthouse-100 guardrails
+- SSR the full project list (Phantom does) — it is your LCP/SEO surface; LCP element should be text, not the canvas.
+- `dynamic(..., {ssr:false})` + `requestIdleCallback`/`scheduler.yield` before creating the WebGL context; begin video/atlas fetch only after `load`.
+- `next/font` self-host both faces, `display: swap`, subset.
+- Preconnect only to hosts actually used before LCP; defer analytics.
+- `prefers-reduced-motion`: skip intro, inertia, lens tween, autoplay video (poster only), Lenis.
+- DPR cap 2, pixel budget, `powerPreference:'high-performance'`, `antialias:false` when using a supersampled RT, `alpha:false` if background is solid.
+- Keep total JS < ~350 KB gz on home (Phantom ships ~1.9 MB raw across three + R3F + Motion + GSAP; vanilla three + GSAP core + Lenis avoids R3F/Motion/drei).
+- Accessibility: focusable canvas with roving `aria-activedescendant` mapped to the hidden list items; visible focus ring; list toggle always available.
 
-| Site | Why it matters for this brief |
-|---|---|
-| https://dennissnellenberg.com | The archetype of the genre: off-black + single yellow accent, multilingual "Hello" preloader, magnetic buttons, project cards with discipline/year, local-time footer. Awwwards SOTD + Honorable Mention; so copied that Awwwards has a collection of its imitators — study it, don't clone it. |
-| https://jesperlandberg.com | Swedish design engineer, Awwwards Independent of the Year 2022 & 2024, SOTD Sep 2026. Proof that a text-first, list-based portfolio can win purely on motion craft and typography. |
-| https://www.bleibtgleich.com (and bleibtgleich.dev) | Kyiv design/dev, Awwwards SOTD Mar 2025: numbered nav, split-line reveals, % preloader, awards-by-year block — the Gen-Z minimal vocabulary in one place. |
-| https://rauno.me | Rauno Freiberg (Vercel). The "premium, not desperate" ceiling: hyper-restrained mono palette, every interaction considered, zero decoration. Use as the taste benchmark for Palette C. |
-| https://emilkowal.ski | Emil Kowalski (ex-Linear/Vercel, animations.dev). Plain list layout with flawless 200 ms ease-out micro-motion; the source of the UI-duration rules above. |
-| https://lusion.co | Bristol studio, Awwwards SOTY-tier, 3D storytelling. The reference for integrating Three.js *inside* a restrained layout (scroll-to-explore cues, reel toggle) without turning the site into a demo. |
-| https://fayemi.design | Isaac Fayemi / Studio Null (SOTD May 2025): typographic index portfolio, letter-spaced labels, expandable sections, AVIF via Sanity, live Zagreb clock. Shows how an editorial list can replace a card grid. |
-| https://bruno-simon.com | Awwwards SOTM Jan 2026. The Three.js-first counter-example — a benchmark for WebGL performance, and a reminder of what *not* to let the 3D layer become on a professional portfolio. |
+## 5. Sources
+- Phantom homepage / chunks: https://www.phantom.land/ , `/_next/static/chunks/app/page-011a848178cd2676.js`, `app/layout-3e0b59d4139e3f79.js`, `app/projects/[uid]/page-8f0b7a62a5b45f2c.js`, `app/about/[uid]/page-c2e93f2e1c5a73a5.js`, `5792-*.js` (Lenis), `c15bf2b0-*.js` (GSAP/ScrollTrigger), `4451-*.js` (CustomEase)
+- Sub-pages: https://www.phantom.land/projects/casamigos-world-cup-2026 , https://www.phantom.land/about/agency , https://www.phantom.land/about/approach
+- Codrops making-of: https://tympanus.net/codrops/2025/06/30/invisible-forces-the-making-of-phantom-lands-interactive-grid-and-3d-face-particle-system/
+- Awwwards: https://www.awwwards.com/sites/phantom-land , https://www.awwwards.com/inspiration/work-grid-phantom-land-1 , https://www.awwwards.com/PhantomStudios/
+- GSAP Site of the Week: https://x.com/greensock/status/1930290513665466455
+- FF Grid / PhantomClone (unaffiliated recreation, tuned constants): https://github.com/Aphrosidiac/PhantomClone (README + `docs/ARCHITECTURE.md`)
+- Inspira UI Infinite Grid (OGL port): https://inspira-ui.com/docs/en/components/visualization/infinite-grid , https://github.com/unovue/inspira-ui/tree/main/app/components/inspira/ui/infinite-grid
+- Refs.Gallery (unverified perf claims): https://www.refs.gallery/projects/phantomland
+- UI/UX Showcase: https://uiuxshowcase.com/agency/phantom-land/
+- Phantom CSS components lib (referenced in Codrops): https://github.com/phantomstudios/css-components
 
-Also worth a look for product-grade off-black + Geist: https://linear.app and https://vercel.com. Note on **lando.xyz**: the domain refused connections during this research (ECONNREFUSED; no redirect target) and no index entry exists for it; the "Lando Norris" site by OFF+BRAND that carries Awwwards' *Site of the Year 2025 / Developer Award* is a different URL — verify before citing it as a reference. [Awwwards portfolio winners](https://www.awwwards.com/websites/winner_category_portfolio/)
-
-## Sources
-
-- Trends: [line25 2026 guide](https://line25.com/articles/web-design-trends-2026/) · [Hostinger trends](https://www.hostinger.com/uk/tutorials/web-design-trends/) · [studiomeyer reality check](https://studiomeyer.io/en/blog/webdesign-trends-2026-reality-check) · [tinyfrog](https://tinyfrog.com/web-design-trends) · [Evil Martians on OKLCH](https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl)
-- Fonts: [vercel.com/font](https://vercel.com/font) · [vercel/geist-font](https://github.com/vercel/geist-font) · Fontshare API (`api.fontshare.com/v2/fonts`) and the `FFL.txt` inside the official Satoshi download zip · [Fontshare licence page](https://www.fontshare.com/licenses/itf-ffl) · [madegooddesigns Fontshare review](https://madegooddesigns.com/fontshare/) · [diversekit review](https://diversekit.com/blog/fontshare-review) · [Inter vs Neue Montreal](https://fontalternatives.com/compare/inter-vs-neue-montreal/) · Google Fonts CSS API (axis ranges, measured woff2 sizes) · [Utopia](https://utopia.fyi/blog/clamp/)
-- Motion: [Osmo masked text reveal](https://www.osmo.supply/resource/masked-text-reveal) · [easings.net source](https://raw.githubusercontent.com/ai/easings.net/master/src/easings.yml) · [Emil Kowalski animation rules (summary)](https://agent-skills.md/skills/pproenca/dot-skills/emilkowal-animations) · [Codrops Barba+GSAP 2026](https://tympanus.net/codrops/2026/04/08/creating-custom-page-transitions-in-astro-with-barba-js-and-gsap/) · [GSAP forum curtain thread](https://greensock.com/forums/tags/barbajs/)
-- References: [Awwwards portfolio category](https://www.awwwards.com/websites/winner_category_portfolio/) · [Minimal Gallery](https://minimal.gallery/) · [uiuxshowcase on Snellenberg](https://uiuxshowcase.com/portfolio/dennis-snellenberg) · [Awwwards Lusion](https://www.awwwards.com/sites/lusion) · direct reads of each listed site
-
-One caveat on completeness: General Sans and Clash Display file sizes were not measured because Fontshare's CDN returns a stub to direct requests and I did not spoof a Referer to get around it; download their kits from fontshare.com to check (expect ~40–50 KB per variable woff2, in line with Satoshi's 41.6 KB).
+**Caveats**: I could not fetch Phantom's LinkedIn performance article or Refs.Gallery (blocked/rate-limited), and the live grid was observed via bundle analysis, not a browser session; the exact `blueprint.json` layout and the pause/visibility behaviour on mobile were inferred from code paths rather than seen running. One scan of the Motion chunk was left running in the background and is not needed.

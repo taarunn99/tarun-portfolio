@@ -1,7 +1,39 @@
+/* ------------------------------------------------------------------
+   Hero: full-viewport stage for the WebGL work grid. The box is reserved
+   before the canvas loads (dot pattern), so nothing shifts when it appears.
+   Touch / reduced motion: no canvas, the section collapses to a plain header.
+------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: end;
+  min-height: 100svh;
+  overflow: clip;
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--line) 1px, transparent 1.5px);
+  background-size: 28px 28px;
+  background-position: center;
+}
+
+.overlay {
+  position: relative;
+  z-index: var(--z-content);
+  pointer-events: none;
+  padding-block: var(--space-9) var(--space-7);
+}
+
+.overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, var(--scrim), transparent);
+}
+
 .head {
   display: grid;
   gap: var(--space-4);
-  padding-block: 8rem var(--space-7);
 }
 
 .title {
@@ -14,9 +46,43 @@
 .lead {
   font-size: var(--fs-lead);
   color: var(--muted);
-  max-width: 52ch;
+  max-width: 46ch;
+}
+
+.hint {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: var(--space-2);
 }
 
 .index {
-  padding-bottom: var(--section-y);
+  padding-block: var(--section-y);
+}
+
+/* No grid on coarse pointers or under reduced motion: the plain header layout. */
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .hero {
+    min-height: auto;
+    background-image: none;
+  }
+
+  .overlay {
+    padding-block: 8rem var(--space-7);
+  }
+
+  .overlay::before {
+    display: none;
+  }
+
+  .hint {
+    display: none;
+  }
+
+  .index {
+    padding-top: 0;
+  }
 }
