@@ -1,22 +1,44 @@
 name: Lighthouse (production)
 
-# Runs after Vercel reports a successful Production deployment and audits the
-# public site (mobile + desktop, median of 3) — the real thing, not a CI build.
+# Runs after CI passes on main, waits until the production site serves that
+# commit (Vercel's Git integration does not create GitHub Deployment objects for
+# this repo, so deployment_status never fires), then audits the public site
+# (mobile + desktop, median of 3) — the real thing, not a CI build.
 on:
-  deployment_status:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
   group: lighthouse-production
   cancel-in-progress: true
 
+env:
+  SITE_URL: https://tarun-portfolio-pearl.vercel.app
+
 jobs:
   audit:
-    if: github.event_name == 'workflow_dispatch' || (github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production')
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+
+      - name: Wait for production to serve this commit
+        if: github.event_name == 'workflow_run'
+        env:
+          WANT: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          for i in $(seq 1 40); do
+            got=$(curl -sf "$SITE_URL/version.json?t=$i" | sed -n 's/.*"sha":"\([0-9a-f]*\)".*/\1/p')
+            echo "attempt $i: live=$got want=$WANT"
+            if [ "$got" = "$WANT" ]; then exit 0; fi
+            sleep 20
+          done
+          echo "production never served $WANT" >&2
+          exit 1
 
       - uses: actions/setup-node@v4
         with:
@@ -28,7 +50,7 @@ jobs:
       - name: Audit production
         run: npm run lighthouse
         env:
-          LH_URL: https://tarun-portfolio-pearl.vercel.app
+          LH_URL: ${{ env.SITE_URL }}
           LH_PATHS: /,/work,/work/lapizblue-relaunch,/services/nextjs-development-dubai,/about,/resume,/contact
           LH_RUNS: 3
           LH_CPU: auto
