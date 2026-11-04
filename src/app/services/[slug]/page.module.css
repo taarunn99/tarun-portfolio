@@ -139,6 +139,8 @@
 }
 
 .others a {
+  display: inline-block;
+  padding-block: var(--space-2);
   color: var(--fg);
   text-decoration: underline;
   text-underline-offset: 0.3em;

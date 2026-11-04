@@ -21,7 +21,7 @@ export const services: Service[] = [
     outcomes: [
       "lapizblue.com: ~1,200 pages consolidated to 62, Lighthouse 66 → 99, 1,342 clicks in the first three months",
       "60newton.com: 14 service pages plus 182 location pages, built in four days, position 3.2 within ten weeks",
-      "gcbuae.com: 250+ catalogue pages, #1 in Google AI Overviews for every brand it sells",
+      "gcbuae.com: 250+ catalogue pages, cited first in Google AI Overviews for every brand it sells",
     ],
     proof: ["lapizblue-relaunch", "60newton", "gcbuae-catalogue", "castedluxe"],
     faq: [

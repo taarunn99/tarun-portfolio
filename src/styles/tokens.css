@@ -123,7 +123,7 @@
 }
 
 /* ---- paper theme ---- */
-:root[data-theme="paper"] {
+[data-theme="paper"] {
   --bg: #f5f5f0;
   --bg-elevated: #ffffff;
   --fg: #0f0f0f;
@@ -143,7 +143,7 @@
 }
 
 @supports (color: oklch(0% 0 0)) {
-  :root[data-theme="paper"] {
+  [data-theme="paper"] {
     --bg: oklch(96.9% 0.007 106.5);
     --bg-elevated: oklch(100% 0 0);
     --fg: oklch(16.8% 0 0);

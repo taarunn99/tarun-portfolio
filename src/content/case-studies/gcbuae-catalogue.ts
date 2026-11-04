@@ -9,14 +9,14 @@ export const gcbuaeCatalogue: CaseStudy = {
   period: "2026",
   role: "Head of Technology — architecture, data extraction, SEO",
   summary:
-    "A 250+-page catalogue site for KalingaStone, Jaquar and FILA built from extracted supplier data, ranked #1 in ChatGPT and Google AI Overviews for every brand it sells.",
-  headlineMetric: { label: "AI Overviews & ChatGPT", value: "#1 for every brand", source: "deliverables-xlsx" },
+    "A 250+-page catalogue site for KalingaStone, Jaquar and FILA built from extracted supplier data, cited first in ChatGPT and Google AI Overviews for every brand it sells.",
+  headlineMetric: { label: "cited first in AI Overviews and ChatGPT", value: "every brand", source: "deliverables-xlsx" },
   metrics: [
     { label: "pages", value: "250+", source: "deliverables-xlsx" },
     { label: "Lighthouse", value: "100 / 98 / 100 / 100", source: "lighthouse" },
     { label: "KalingaStone shades extracted", value: "128", source: "deliverables-xlsx" },
     { label: "Jaquar product images", value: "1,387", source: "deliverables-xlsx" },
-    { label: "Google UAE", value: "#1 \"global classic building materials\"", source: "gsc", note: "31 Oct 2026" },
+    { label: "Google UAE, \"global classic building materials\"", value: "position 1", source: "gsc", note: "31 Oct 2026" },
   ],
   sections: {
     context:
@@ -26,7 +26,7 @@ export const gcbuaeCatalogue: CaseStudy = {
     approach:
       "I extracted the catalogues into structured data — 128 KalingaStone swatches, 1,387 Jaquar product images, 34 FILA products — and generated the site from it: shade, collection and colour pages for quartz, marble and terrazzo; Jaquar category and collection pages with SKU tables; FILA product pages; and 44 blog posts answering the questions buyers search. Each tier carries Product, Offer, Collection, FAQ and Breadcrumb JSON-LD. Routing, mobile and animation performance were tuned until every category hit Lighthouse 100/98/100/100. DNS (ten records including Zoho Mail), the contact form, Search Console and Bing Webmaster went live with it.",
     result:
-      "The site is #1 in ChatGPT and Google AI Overviews for every brand it sells, #1 in Google AI Mode for KalingaStone and FILA Surface Solutions, and #1 on Google UAE for \"global classic building materials\" and \"fila uae supplier\", with top-3 positions for KalingaStone quartz, marble, terrazzo and authorised-distributor searches.",
+      "The site is the first citation in ChatGPT and Google AI Overviews for every brand it sells, the first result in Google AI Mode for KalingaStone and FILA Surface Solutions, and position 1 on Google UAE for \"global classic building materials\" and \"fila uae supplier\", with positions 1–3 for KalingaStone quartz, marble, terrazzo and authorised-distributor searches.",
     stack: ["Next.js 16", "TypeScript", "Tailwind v4", "GSAP", "Lenis", "sharp", "Vercel", "Zoho Mail DNS"],
     retrospective:
       "The products index page carries a keyword-heavy h1 that reads like SEO rather than editorial copy. It ranks, but I would write it for a buyer now and let the structured data do the ranking.",

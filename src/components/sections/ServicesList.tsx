@@ -22,9 +22,6 @@ export function ServicesList() {
                   <span className={styles.itemTitle}>{s.title}</span>
                   <span className={styles.outcome}>{s.outcomes[0]}</span>
                 </span>
-                <span className={styles.arrow} aria-hidden="true">
-                  ↗
-                </span>
               </Link>
             </li>
           ))}

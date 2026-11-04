@@ -30,18 +30,26 @@ export function Reveal({ children, as, className, stagger = false, distance = 24
     const pending = targets.filter((t) => !isInViewport(t, -40));
     if (pending.length === 0) return;
 
+    // opacity only (never visibility:hidden) so keyboard focus can still reach the content;
+    // a focus inside the block completes the reveal immediately.
     const tween = gsap.from(pending, {
       y: distance,
-      autoAlpha: 0,
+      opacity: 0,
       duration: 0.8,
       ease: "power4.out",
       stagger: stagger ? 0.06 : 0,
       delay,
-      clearProps: "transform,opacity,visibility",
+      clearProps: "transform,opacity",
       scrollTrigger: { trigger: el, start: "top 85%", once: true },
     });
+    const onFocus = () => {
+      tween.scrollTrigger?.kill();
+      tween.progress(1);
+    };
+    el.addEventListener("focusin", onFocus, { once: true });
 
     return () => {
+      el.removeEventListener("focusin", onFocus);
       tween.scrollTrigger?.kill();
       tween.kill();
       ScrollTrigger.refresh();

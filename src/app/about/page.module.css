@@ -66,6 +66,8 @@
 }
 
 .facts a {
+  display: inline-block;
+  padding-block: var(--space-1);
   text-decoration: underline;
   text-underline-offset: 0.25em;
   text-decoration-color: var(--line-strong);

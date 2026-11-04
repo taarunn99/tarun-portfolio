@@ -60,12 +60,11 @@
 }
 
 .h2 {
-  font-family: var(--font-mono);
-  font-size: var(--fs-caption);
-  letter-spacing: var(--ls-caption);
-  text-transform: uppercase;
-  color: var(--muted);
+  font-size: var(--fs-h3);
+  letter-spacing: var(--ls-h3);
   font-weight: 500;
+  padding-bottom: var(--space-2);
+  border-bottom: var(--hairline);
 }
 
 .summary {

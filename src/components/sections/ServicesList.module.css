@@ -22,7 +22,7 @@
 
 .link {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   gap: var(--space-5);
   align-items: start;
   padding-block: var(--space-6);
@@ -44,10 +44,7 @@
 }
 
 .eyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--fs-caption);
-  letter-spacing: var(--ls-caption);
-  text-transform: uppercase;
+  font-size: var(--fs-small);
   color: var(--muted);
 }
 
@@ -68,13 +65,3 @@
   max-width: 60ch;
 }
 
-.arrow {
-  font-family: var(--font-mono);
-  color: var(--muted);
-  transition: transform var(--dur-fast) var(--ease-out-ui), color var(--dur-fast) var(--ease-out-ui);
-}
-
-.link:hover .arrow {
-  color: var(--accent);
-  transform: translate(2px, -2px);
-}

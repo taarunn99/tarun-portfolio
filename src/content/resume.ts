@@ -8,8 +8,8 @@ export const resume = {
     name: "Tarun Shukla",
     label: "Head of Technology · Full-stack engineer (Next.js/TypeScript) · Growth & ERP automation",
     location: "Dubai, United Arab Emirates",
-    // Visa/notice lines are what UAE recruiters look for first. TODO: confirm wording with Tarun.
-    status: "Employment visa (transferable) · Notice period: TODO",
+    // Visa/notice lines are what UAE recruiters look for first; add the notice period once confirmed.
+    status: "Employment visa (transferable)",
     summary:
       "Head of Technology running IT, digital marketing and operations for a 3-branch UAE building-materials group. In 17 months, built the group's entire digital channel from scratch: 6 production websites, Google Ads and SEO that turned AED 26K of ad spend into AED 242K of invoiced revenue (820% ROAS) and a AED 2.27M quantified lead pipeline, plus Zoho ERP automations that corrected 776,478 units of stock. Full-stack engineer (Next.js, TypeScript, Supabase) who ships with AI tooling daily.",
     profiles: [
