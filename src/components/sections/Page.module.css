@@ -1,0 +1,10 @@
+.page {
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.main {
+  position: relative;
+  outline: none;
+}

@@ -1,0 +1,148 @@
+.resume {
+  padding-block: 8rem var(--section-y);
+  max-width: 56rem;
+  display: grid;
+  gap: var(--space-7);
+}
+
+.head {
+  display: grid;
+  gap: var(--space-5);
+  padding-bottom: var(--space-6);
+  border-bottom: var(--hairline);
+}
+
+@media (min-width: 48rem) {
+  .head {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+  }
+}
+
+.name {
+  font-size: var(--fs-h1);
+  margin-block: var(--space-3) var(--space-2);
+}
+
+.label {
+  font-size: var(--fs-lead);
+  max-width: 40ch;
+}
+
+.meta {
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.alt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.section {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.h2 {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.summary {
+  font-size: var(--fs-lead);
+  max-width: 70ch;
+}
+
+.entry {
+  display: grid;
+  gap: var(--space-2);
+  padding-bottom: var(--space-5);
+  border-bottom: var(--hairline);
+}
+
+.entryHead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  align-items: baseline;
+}
+
+.h3 {
+  font-size: var(--fs-h3);
+}
+
+.h3 a {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-color: var(--line-strong);
+}
+
+.when {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.position {
+  color: var(--muted);
+  max-width: 70ch;
+}
+
+.bullets {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 78ch;
+}
+
+.bullets li {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: 0.5rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.skills {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.skills dt {
+  font-weight: 500;
+  margin-bottom: var(--space-1);
+}
+
+.skills dd {
+  color: var(--muted);
+  max-width: 78ch;
+}

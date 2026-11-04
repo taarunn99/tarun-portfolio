@@ -1,0 +1,61 @@
+.wrap {
+  display: grid;
+  gap: var(--space-8);
+  padding-block: 8rem var(--section-y);
+}
+
+@media (min-width: 64rem) {
+  .wrap {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    column-gap: var(--space-10);
+  }
+}
+
+.intro {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+}
+
+.title {
+  font-size: var(--fs-display);
+  letter-spacing: var(--ls-display);
+  line-height: var(--lh-display);
+  max-width: 10ch;
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  color: var(--muted);
+  max-width: 40ch;
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-4);
+  padding-top: var(--space-5);
+  border-top: var(--hairline);
+}
+
+.facts dt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--space-1);
+}
+
+.facts a {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-color: var(--line-strong);
+}
+
+.facts a:hover {
+  text-decoration-color: var(--accent);
+}
+
+.formWrap {
+  padding-top: var(--space-2);
+}

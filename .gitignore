@@ -43,3 +43,7 @@ next-env.d.ts
 # lighthouse reports
 reports/
 !.env.example
+
+# raw image sources (large)
+assets/src/**/*.png
+assets/src/**/*.jpg

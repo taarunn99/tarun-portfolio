@@ -1,0 +1,17 @@
+.section {
+  border-top: var(--hairline);
+}
+
+.title {
+  font-size: var(--fs-display);
+  letter-spacing: var(--ls-display);
+  line-height: var(--lh-display);
+  margin-block: var(--space-4) var(--space-5);
+  max-width: 14ch;
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  color: var(--muted);
+  margin-bottom: var(--space-6);
+}

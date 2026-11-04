@@ -49,11 +49,24 @@ const FRAGMENT = /* glsl */ `
   }
 `;
 
+/**
+ * Reads a CSS custom property and normalises it to a hex/rgb string three.js
+ * understands (tokens are OKLCH; three's Color parser is not). A 2D canvas
+ * resolves any CSS colour the browser supports.
+ */
 function readCssColor(name: string, fallback: string): string {
-  const value = getComputedStyle(document.documentElement)
-    .getPropertyValue(name)
-    .trim();
-  return value || fallback;
+  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  if (!value) return fallback;
+  try {
+    const ctx = document.createElement("canvas").getContext("2d");
+    if (!ctx) return fallback;
+    ctx.fillStyle = "#000";
+    ctx.fillStyle = value;
+    const resolved = ctx.fillStyle;
+    return /^(#|rgb)/.test(resolved) ? resolved : fallback;
+  } catch {
+    return fallback;
+  }
 }
 
 export default function HeroCanvas() {

@@ -1,0 +1,150 @@
+.head {
+  display: grid;
+  gap: var(--space-5);
+  padding-block: 8rem var(--space-8);
+}
+
+.switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0.3rem 0.9rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color var(--dur-fast) var(--ease-out-ui), border-color var(--dur-fast) var(--ease-out-ui);
+}
+
+.switch:hover {
+  color: var(--fg);
+  border-color: var(--fg);
+}
+
+.switch[aria-current="page"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.title {
+  font-size: var(--fs-h1);
+  max-width: 20ch;
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  color: var(--muted);
+  max-width: 56ch;
+}
+
+.twoCol {
+  display: grid;
+  gap: var(--space-7);
+  padding-block: var(--space-8);
+  border-top: var(--hairline);
+}
+
+@media (min-width: 64rem) {
+  .twoCol {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.h2 {
+  font-size: var(--fs-h3);
+  margin-bottom: var(--space-4);
+}
+
+.list {
+  display: grid;
+  gap: var(--space-3);
+  max-width: var(--measure);
+}
+
+.list li {
+  padding-left: 1.25rem;
+  position: relative;
+  color: var(--muted);
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: 0.5rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+.proof {
+  padding-block: var(--space-8);
+  border-top: var(--hairline);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  gap: var(--space-7) var(--space-5);
+  margin-top: var(--space-5);
+}
+
+.faq {
+  padding-block: var(--space-8);
+  border-top: var(--hairline);
+}
+
+.faqList {
+  display: grid;
+  gap: var(--space-5);
+  max-width: var(--measure);
+}
+
+.faqList dt {
+  font-weight: 500;
+  margin-bottom: var(--space-2);
+}
+
+.faqList dd {
+  color: var(--muted);
+}
+
+.cta {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: start;
+  padding-block: var(--space-9);
+  border-top: var(--hairline);
+}
+
+.ctaText {
+  font-size: var(--fs-h3);
+  max-width: 30ch;
+}
+
+.others {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+.others a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-decoration-color: var(--line-strong);
+}
+
+.others a:hover {
+  text-decoration-color: var(--accent);
+}

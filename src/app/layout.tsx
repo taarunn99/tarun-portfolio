@@ -43,6 +43,9 @@ export const metadata: Metadata = {
   },
 };
 
+/** Build fails if any route ever needs request-time rendering (docs/decisions/0004). */
+export const ensureStatic = "navigation";
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,

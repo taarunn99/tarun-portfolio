@@ -20,7 +20,8 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PORT = Number(process.env.LH_PORT ?? 3100);
-const URL = process.env.LH_URL ?? `http://localhost:${PORT}`;
+const URL = (process.env.LH_URL ?? `http://localhost:${PORT}`).replace(/\/$/, "");
+const PATHS = (process.env.LH_PATHS ?? "/").split(",").map((p) => p.trim()).filter(Boolean);
 const MIN = Number(process.env.LH_MIN ?? 100);
 const RUNS = Math.max(1, Number(process.env.LH_RUNS ?? 1));
 const OUT = path.join(root, "reports");
@@ -56,11 +57,16 @@ async function waitForServer(url, timeoutMs = 30_000) {
   throw new Error(`Server did not become reachable at ${url}`);
 }
 
-async function audit(formFactor, runIndex) {
-  const base = path.join(OUT, RUNS > 1 ? `${formFactor}-${runIndex}` : formFactor);
+function slugify(pathname) {
+  return pathname === "/" ? "home" : pathname.replace(/^\//, "").replace(/[^a-z0-9]+/gi, "-");
+}
+
+async function audit(pathname, formFactor, runIndex) {
+  const name = `${slugify(pathname)}-${formFactor}${RUNS > 1 ? `-${runIndex}` : ""}`;
+  const base = path.join(OUT, name);
   const args = [
     lighthouseBin,
-    URL,
+    `${URL}${pathname}`,
     "--output=html",
     "--output=json",
     `--output-path=${base}`,
@@ -82,7 +88,7 @@ async function audit(formFactor, runIndex) {
     CLS: lhr.audits["cumulative-layout-shift"]?.displayValue,
     SI: lhr.audits["speed-index"]?.displayValue,
   };
-  return { formFactor, scores, metrics, report: `${base}.report.html` };
+  return { pathname, formFactor, scores, metrics, report: `${base}.report.html` };
 }
 
 function median(results) {
@@ -107,10 +113,12 @@ async function main() {
   let failed = false;
 
   try {
-    for (const formFactor of ["mobile", "desktop"]) {
-      const runs = [];
-      for (let i = 1; i <= RUNS; i++) runs.push(await audit(formFactor, i));
-      results.push(median(runs));
+    for (const pathname of PATHS) {
+      for (const formFactor of ["mobile", "desktop"]) {
+        const runs = [];
+        for (let i = 1; i <= RUNS; i++) runs.push(await audit(pathname, formFactor, i));
+        results.push(median(runs));
+      }
     }
   } finally {
     if (server) {
@@ -124,11 +132,11 @@ async function main() {
   }
 
   console.log(`\nLighthouse — ${URL}\n`);
-  for (const { formFactor, scores, metrics, report } of results) {
-    const line = CATEGORIES.map((c) => `${c} ${scores[c]}`).join("  ·  ");
+  for (const { pathname, formFactor, scores, metrics, report } of results) {
+    const line = CATEGORIES.map((c) => `${c.slice(0, 4)} ${scores[c]}`).join("  ·  ");
     const ok = CATEGORIES.every((c) => scores[c] >= MIN);
     if (!ok) failed = true;
-    console.log(`${ok ? "PASS" : "FAIL"}  ${formFactor.padEnd(8)} ${line}`);
+    console.log(`${ok ? "PASS" : "FAIL"}  ${formFactor.padEnd(8)} ${pathname.padEnd(36)} ${line}`);
     console.log(
       `      ${Object.entries(metrics)
         .filter(([, v]) => v)

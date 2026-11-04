@@ -15,7 +15,7 @@ export const geistMono = Geist_Mono({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-geist-mono",
-  preload: false,
+  preload: true,
 });
 
 export const instrumentSerif = Instrument_Serif({
