@@ -76,7 +76,7 @@ jobs:
 
       - name: Upload runner reports
         if: always() && env.HAS_PSI_KEY != 'true'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: lighthouse-production
           path: reports/
