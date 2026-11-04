@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { cacheLife } from "next/cache";
 import { services } from "@/content/services";
 import { caseStudies } from "@/content/case-studies";
@@ -38,17 +37,8 @@ export async function generateMetadata({ params }: PageProps<"/services/[slug]">
   };
 }
 
-export default function ServicePage({ params }: PageProps<"/services/[slug]">) {
-  return (
-    <Page>
-      <Suspense fallback={<div style={{ minHeight: "100vh" }} />}>
-        <ServiceContent params={params} />
-      </Suspense>
-    </Page>
-  );
-}
-
-async function ServiceContent({ params }: Pick<PageProps<"/services/[slug]">, "params">) {
+/** No Suspense boundary: every slug is prerendered inline so the h1 is the LCP (see work/[slug]). */
+export default async function ServicePage({ params }: PageProps<"/services/[slug]">) {
   const { slug } = await params;
   const s = await loadService(slug);
   if (!s) notFound();
@@ -56,7 +46,7 @@ async function ServiceContent({ params }: Pick<PageProps<"/services/[slug]">, "p
   const others = services.filter((o) => o.slug !== s.slug);
 
   return (
-    <>
+    <Page>
       <JsonLd
         data={[
           serviceJsonLd(s),
@@ -141,6 +131,6 @@ async function ServiceContent({ params }: Pick<PageProps<"/services/[slug]">, "p
           ))}
         </p>
       </section>
-    </>
+    </Page>
   );
 }

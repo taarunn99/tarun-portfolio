@@ -9,7 +9,10 @@ type Props = {
   label?: string;
   index?: number;
   sizes?: string;
+  /** Preload + high priority — only for an image that is the LCP on every viewport */
   priority?: boolean;
+  /** Fetch immediately (no lazy-loading) without a preload hint — for above-the-fold images on wide screens */
+  eager?: boolean;
   className?: string;
 };
 
@@ -17,7 +20,7 @@ type Props = {
  * Renders an optimised image from the manifest, or — until imagery lands —
  * a deterministic placeholder tile (CSS only, no bitmap, no fake screenshot).
  */
-export function Cover({ image, label, index = 0, sizes = "(min-width: 64rem) 33vw, 100vw", priority, className }: Props) {
+export function Cover({ image, label, index = 0, sizes = "(min-width: 64rem) 33vw, 100vw", priority, eager, className }: Props) {
   const entry = getImage(image.id);
   if (entry) {
     return (
@@ -30,7 +33,8 @@ export function Cover({ image, label, index = 0, sizes = "(min-width: 64rem) 33v
         placeholder={entry.blurDataURL ? "blur" : "empty"}
         blurDataURL={entry.blurDataURL}
         preload={priority}
-        fetchPriority={priority ? "high" : undefined}
+        loading={priority || eager ? "eager" : undefined}
+        fetchPriority={priority || eager ? "high" : undefined}
         className={`${styles.img} ${className ?? ""}`}
       />
     );

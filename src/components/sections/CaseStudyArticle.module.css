@@ -8,6 +8,14 @@
   padding-bottom: var(--space-7);
 }
 
+/* Phones: the header owns the first screen so the LCP element is the title, not the screenshot. */
+@media (max-width: 48rem) {
+  .header {
+    min-height: calc(100svh - 7rem);
+    align-content: center;
+  }
+}
+
 .back {
   justify-self: start;
   font-family: var(--font-mono);

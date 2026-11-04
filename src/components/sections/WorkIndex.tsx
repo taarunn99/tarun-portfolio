@@ -88,7 +88,7 @@ export function WorkIndex({ items, tags }: Props) {
         <div className={styles.grid}>
           {items.map((cs, i) => (
             <div key={cs.slug} hidden={!visible.includes(cs)}>
-              <WorkCard cs={cs} index={i} priority={i === 0} />
+              <WorkCard cs={cs} index={i} />
             </div>
           ))}
         </div>

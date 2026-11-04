@@ -49,7 +49,7 @@ export function CaseStudyArticle({ cs }: { cs: CaseStudy }) {
       <div className={`container ${styles.hero}`}>
         <ViewTransition name={`cover-${cs.slug}`} share="morph" default="none">
           <BrowserFrame url={cs.links.live}>
-            <Cover image={cs.cover} label={cs.short} index={index} sizes="(min-width: 96rem) 96rem, 100vw" priority />
+            <Cover image={cs.cover} label={cs.short} index={index} sizes="(min-width: 96rem) 96rem, 100vw" eager />
           </BrowserFrame>
         </ViewTransition>
       </div>

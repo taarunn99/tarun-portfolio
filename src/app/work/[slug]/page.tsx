@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { cacheLife } from "next/cache";
 import { caseStudies, getCaseStudy } from "@/content/case-studies";
 import { site } from "@/content/site";
@@ -37,22 +36,17 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
   };
 }
 
-export default function CaseStudyPage({ params }: PageProps<"/work/[slug]">) {
-  return (
-    <Page theme="paper">
-      <Suspense fallback={<div style={{ minHeight: "100vh" }} />}>
-        <CaseStudyContent params={params} />
-      </Suspense>
-    </Page>
-  );
-}
-
-async function CaseStudyContent({ params }: Pick<PageProps<"/work/[slug]">, "params">) {
+/**
+ * No Suspense boundary on purpose: every slug is prerendered (generateStaticParams +
+ * ensureStatic = 'navigation'), so the article is inlined in the HTML and the title
+ * is the LCP element on every viewport. A boundary would stream it after a fallback.
+ */
+export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]">) {
   const { slug } = await params;
   const cs = await loadCaseStudy(slug);
   if (!cs) notFound();
   return (
-    <>
+    <Page theme="paper">
       <JsonLd
         data={[
           articleJsonLd(cs),
@@ -64,6 +58,6 @@ async function CaseStudyContent({ params }: Pick<PageProps<"/work/[slug]">, "par
         ]}
       />
       <CaseStudyArticle cs={cs} />
-    </>
+    </Page>
   );
 }

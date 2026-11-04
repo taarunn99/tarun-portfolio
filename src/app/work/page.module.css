@@ -63,15 +63,14 @@
   padding-block: var(--section-y);
 }
 
-/* No grid on coarse pointers or under reduced motion: the plain header layout. */
+/* No grid on coarse pointers or under reduced motion: a full first screen of text
+   (keeps the LCP element textual on phones — card images start below the fold). */
 @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
   .hero {
-    min-height: auto;
-    background-image: none;
-  }
-
-  .overlay {
-    padding-block: 8rem var(--space-7);
+    background-image:
+      radial-gradient(60% 50% at 70% 30%, color-mix(in oklab, var(--accent) 8%, transparent), transparent 70%),
+      radial-gradient(var(--line) 1px, transparent 1.5px);
+    background-size: 100% 100%, 28px 28px;
   }
 
   .overlay::before {
@@ -80,9 +79,5 @@
 
   .hint {
     display: none;
-  }
-
-  .index {
-    padding-top: 0;
   }
 }
