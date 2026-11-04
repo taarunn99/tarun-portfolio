@@ -117,7 +117,6 @@ async function audit(pathname, formFactor, runIndex) {
     `--output-path=${base}`,
     `--only-categories=${CATEGORIES.join(",")}`,
     "--chrome-flags=--headless=new --no-sandbox --disable-dev-shm-usage",
-    "--quiet",
   ];
   if (formFactor === "desktop") args.push("--preset=desktop");
   if (cpuMultiplier && formFactor === "mobile") args.push(`--throttling.cpuSlowdownMultiplier=${cpuMultiplier}`);
