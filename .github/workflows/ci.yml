@@ -26,6 +26,9 @@ jobs:
 
       - run: npm run lint
 
+      # Generates .next/types (PageProps, LayoutProps, route types) on a fresh checkout
+      - run: npx next typegen
+
       - run: npm run typecheck
 
       - run: npm run build
