@@ -35,7 +35,8 @@
   letter-spacing: var(--ls-caption);
   text-transform: uppercase;
   color: var(--muted);
-  max-width: 22ch;
+  max-width: 34ch;
+  text-wrap: balance;
 }
 
 .note {

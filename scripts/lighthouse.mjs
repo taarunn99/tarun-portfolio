@@ -36,17 +36,40 @@ const CATEGORIES = ["performance", "accessibility", "best-practices", "seo"];
 const nextBin = path.join(root, "node_modules", "next", "dist", "bin", "next");
 const lighthouseBin = path.join(root, "node_modules", "lighthouse", "cli", "index.js");
 
+/** Runs a node script; in quiet mode its output is buffered and surfaced only on failure. */
 function run(args, { quiet = false } = {}) {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, args, {
       cwd: root,
-      stdio: quiet ? "ignore" : "inherit",
+      stdio: quiet ? ["ignore", "pipe", "pipe"] : "inherit",
     });
+    let tail = "";
+    const collect = (chunk) => {
+      tail = (tail + chunk.toString()).slice(-4000);
+    };
+    child.stdout?.on("data", collect);
+    child.stderr?.on("data", collect);
     child.on("error", reject);
     child.on("exit", (code) =>
-      code === 0 ? resolve() : reject(new Error(`${args[0]} exited with ${code}`)),
+      code === 0
+        ? resolve()
+        : reject(new Error(`${path.basename(args[0])} exited with ${code}\n${tail.trim()}`)),
     );
   });
+}
+
+/** Lighthouse lab runs occasionally die on a protocol timeout; one retry keeps the gate honest without being flaky. */
+async function runWithRetry(args, options, attempts = 2) {
+  let lastError;
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      return await run(args, options);
+    } catch (error) {
+      lastError = error;
+      if (i < attempts) console.warn(`Lighthouse attempt ${i} failed, retrying…\n${error.message}`);
+    }
+  }
+  throw lastError;
 }
 
 async function waitForServer(url, timeoutMs = 30_000) {
@@ -98,7 +121,7 @@ async function audit(pathname, formFactor, runIndex) {
   ];
   if (formFactor === "desktop") args.push("--preset=desktop");
   if (cpuMultiplier && formFactor === "mobile") args.push(`--throttling.cpuSlowdownMultiplier=${cpuMultiplier}`);
-  await run(args, { quiet: true });
+  await runWithRetry(args, { quiet: true });
 
   const lhr = JSON.parse(await readFile(`${base}.report.json`, "utf8"));
   const scores = Object.fromEntries(

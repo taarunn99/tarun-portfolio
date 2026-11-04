@@ -9,14 +9,11 @@
   padding-bottom: var(--space-8);
 }
 
+/* Three equal columns from tablet up: six 1fr tracks size to their numerals
+   ("7" vs "AED 2.27M") and squeeze the labels into four-line stacks. */
 @media (min-width: 48rem) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 72rem) {
-  .grid {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-8) var(--space-6);
   }
 }
