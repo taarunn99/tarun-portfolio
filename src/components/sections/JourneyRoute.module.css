@@ -463,26 +463,30 @@
   overflow: clip;
 }
 
+/* Outgoing name leaves fast; the incoming one waits for it, so two stations never overlap. */
 .section[data-motion="true"] .stationName > span {
   display: block;
   transform: translateY(110%);
   opacity: 0;
   transition:
-    transform var(--dur-reveal) var(--ease-out-expo),
-    opacity var(--dur-slow) var(--ease-out-ui);
+    transform var(--dur-fast) var(--ease-out-ui),
+    opacity var(--dur-fast) var(--ease-out-ui);
 }
 
 .section[data-motion="true"] .stationName[data-active="true"] > span {
   transform: translateY(0);
   opacity: 1;
+  transition:
+    transform var(--dur-reveal) var(--ease-out-expo) 220ms,
+    opacity var(--dur-slow) var(--ease-out-ui) 220ms;
 }
 
 .section[data-motion="true"] .stationName[data-active="true"] > span:nth-child(2) {
-  transition-delay: 60ms;
+  transition-delay: 280ms;
 }
 
 .section[data-motion="true"] .stationName[data-active="true"] > span:nth-child(3) {
-  transition-delay: 120ms;
+  transition-delay: 340ms;
 }
 
 .section[data-motion="true"] .cards {
