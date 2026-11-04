@@ -1,1 +1,600 @@
-{}
+{
+  "60newton-disciplines": {
+    "hash": "30a28ad1",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/60newton-disciplines-2048.30a28ad1.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAADQAQCdASoQAAoAA4BaJaQAAugxoy0yAAD++FGksHO8f8q9joEAAA==",
+    "thumbhash": "AwgCBIAzVjtfptNHjkCQWwy61Q==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/60newton-disciplines-640.30a28ad1.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/60newton-disciplines-960.30a28ad1.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/60newton-disciplines-1440.30a28ad1.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/60newton-disciplines-2048.30a28ad1.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/60newton-disciplines-640.30a28ad1.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/60newton-disciplines-960.30a28ad1.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/60newton-disciplines-1440.30a28ad1.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/60newton-disciplines-2048.30a28ad1.webp"
+        }
+      ]
+    }
+  },
+  "60newton-home": {
+    "hash": "fa111f1e",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/60newton-home-2048.fa111f1e.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAADwAQCdASoQAAoAA4BaJZwAAugv75IE/yAA/vhLynXagK0ysJg9VJoiu+fAAA==",
+    "thumbhash": "BAgCBIAGh4l0m5VlemwEYkogtQ==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/60newton-home-640.fa111f1e.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/60newton-home-960.fa111f1e.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/60newton-home-1440.fa111f1e.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/60newton-home-2048.fa111f1e.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/60newton-home-640.fa111f1e.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/60newton-home-960.fa111f1e.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/60newton-home-1440.fa111f1e.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/60newton-home-2048.fa111f1e.webp"
+        }
+      ]
+    }
+  },
+  "60newton-location": {
+    "hash": "dd263549",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/60newton-location-2048.dd263549.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAADQAQCdASoQAAoAA4BaJZwAAugxLQHmAAD++EvKddrZSuvmnBNj8PujgGWhwAAA",
+    "thumbhash": "BAgCBIAaIGY0yddHjEknAn4i4A==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/60newton-location-640.dd263549.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/60newton-location-960.dd263549.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/60newton-location-1440.dd263549.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/60newton-location-2048.dd263549.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/60newton-location-640.dd263549.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/60newton-location-960.dd263549.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/60newton-location-1440.dd263549.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/60newton-location-2048.dd263549.webp"
+        }
+      ]
+    }
+  },
+  "castedluxe-gallery": {
+    "hash": "30320535",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/castedluxe-gallery-2048.30320535.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADwAQCdASoQAAoAA4BaJZQAAudHpFXavAAA/u5bOZyDFDGFLX/nugUMF/HnKagXLhnL6hAA",
+    "thumbhash": "MfgJDILIyKiHh4ePhYfHd3989w==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/castedluxe-gallery-640.30320535.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/castedluxe-gallery-960.30320535.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/castedluxe-gallery-1440.30320535.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/castedluxe-gallery-2048.30320535.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/castedluxe-gallery-640.30320535.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/castedluxe-gallery-960.30320535.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/castedluxe-gallery-1440.30320535.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/castedluxe-gallery-2048.30320535.webp"
+        }
+      ]
+    }
+  },
+  "castedluxe-home": {
+    "hash": "bd7f776f",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/castedluxe-home-2048.bd7f776f.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAADwAQCdASoQAAoAA4BaJZwAAugvHjIPgIAA/ucYcOwBoACqCfZ5j4dI/+uwJSAA",
+    "thumbhash": "MQgCBIBcZ4eElJigh3tDoFcEyQ==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/castedluxe-home-640.bd7f776f.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/castedluxe-home-960.bd7f776f.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/castedluxe-home-1440.bd7f776f.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/castedluxe-home-2048.bd7f776f.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/castedluxe-home-640.bd7f776f.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/castedluxe-home-960.bd7f776f.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/castedluxe-home-1440.bd7f776f.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/castedluxe-home-2048.bd7f776f.webp"
+        }
+      ]
+    }
+  },
+  "gcbuae-home": {
+    "hash": "e381820d",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/gcbuae-home-2048.e381820d.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAAAQAgCdASoQAAoAA4BaJYgCdAEfzTBdf2oAAP7bafvLjjLSuw7A0bTiyw0wVuCXBHCU3uY5rEXT0DrfaRqa3vDIAAA=",
+    "thumbhash": "khgCDIBvT0ohfKi3iVOPYPoHpg==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/gcbuae-home-640.e381820d.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/gcbuae-home-960.e381820d.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/gcbuae-home-1440.e381820d.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/gcbuae-home-2048.e381820d.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/gcbuae-home-640.e381820d.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/gcbuae-home-960.e381820d.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/gcbuae-home-1440.e381820d.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/gcbuae-home-2048.e381820d.webp"
+        }
+      ]
+    }
+  },
+  "gcbuae-quartz": {
+    "hash": "a60d9011",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/gcbuae-quartz-2048.a60d9011.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAACwAQCdASoQAAoAA4BaJZwAAuQK7D8AAP73BW+9+Q4JTJPRFXFOCRiUkr2/cY/loaIDhOSSIVagAAAA",
+    "thumbhash": "N/gFBIAfiqWah3g8a2rAWQLrFQ==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/gcbuae-quartz-640.a60d9011.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/gcbuae-quartz-960.a60d9011.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/gcbuae-quartz-1440.a60d9011.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/gcbuae-quartz-2048.a60d9011.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/gcbuae-quartz-640.a60d9011.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/gcbuae-quartz-960.a60d9011.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/gcbuae-quartz-1440.a60d9011.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/gcbuae-quartz-2048.a60d9011.webp"
+        }
+      ]
+    }
+  },
+  "gcbuae-sku": {
+    "hash": "6296a72a",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/gcbuae-sku-2048.6296a72a.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADQAQCdASoQAAoAA4BaJZwAAud+rvj8eAD+9h8xlM1PDdUXnzQaYhPD2n8KHoHxfRFYXw/qNAA=",
+    "thumbhash": "N/gJBII/p4ZpeYdOmZaQh/GU5g==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/gcbuae-sku-640.6296a72a.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/gcbuae-sku-960.6296a72a.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/gcbuae-sku-1440.6296a72a.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/gcbuae-sku-2048.6296a72a.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/gcbuae-sku-640.6296a72a.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/gcbuae-sku-960.6296a72a.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/gcbuae-sku-1440.6296a72a.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/gcbuae-sku-2048.6296a72a.webp"
+        }
+      ]
+    }
+  },
+  "halfyearly-report": {
+    "hash": "35daa324",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/halfyearly-report-2048.35daa324.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRi4AAABXRUJQVlA4ICIAAAAwAQCdASoQAAoAA4BaJaQAA3AA/vTqBFtp5P5cPsVvQAAA",
+    "thumbhash": "/vcBBIBAVmUgdmZDh3YQEQMRMQ==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/halfyearly-report-640.35daa324.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/halfyearly-report-960.35daa324.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/halfyearly-report-1440.35daa324.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/halfyearly-report-2048.35daa324.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/halfyearly-report-640.35daa324.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/halfyearly-report-960.35daa324.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/halfyearly-report-1440.35daa324.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/halfyearly-report-2048.35daa324.webp"
+        }
+      ]
+    }
+  },
+  "lapizblue-brands": {
+    "hash": "59e7ab9d",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/lapizblue-brands-2048.59e7ab9d.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAACwAQCdASoQAAoAA4BaJQAAW5t8mABgAP73FxWCwj6xsaBpyp3eCXhJapC/dqGOf+w4hDXGdkGWN5t9WYi8Llg6/QPMAXDQxKTjUoO7dpKWU7QIAAA=",
+    "thumbhash": "cwgOFIJfpGmYhnhqeGhwhghHmQ==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/lapizblue-brands-640.59e7ab9d.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/lapizblue-brands-960.59e7ab9d.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/lapizblue-brands-1440.59e7ab9d.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/lapizblue-brands-2048.59e7ab9d.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/lapizblue-brands-640.59e7ab9d.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/lapizblue-brands-960.59e7ab9d.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/lapizblue-brands-1440.59e7ab9d.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/lapizblue-brands-2048.59e7ab9d.webp"
+        }
+      ]
+    }
+  },
+  "lapizblue-category": {
+    "hash": "d7c1e43e",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/lapizblue-category-2048.d7c1e43e.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAADwAQCdASoQAAoAA4BaJaQAAxf8QwRt/2AA/vcq8Rs8JpcO9MQe/gAA",
+    "thumbhash": "/PcBBID0dmZ6dYhuYHb2iW2PyA==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/lapizblue-category-640.d7c1e43e.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/lapizblue-category-960.d7c1e43e.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/lapizblue-category-1440.d7c1e43e.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/lapizblue-category-2048.d7c1e43e.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/lapizblue-category-640.d7c1e43e.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/lapizblue-category-960.d7c1e43e.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/lapizblue-category-1440.d7c1e43e.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/lapizblue-category-2048.d7c1e43e.webp"
+        }
+      ]
+    }
+  },
+  "lapizblue-home": {
+    "hash": "004c0c7c",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/lapizblue-home-2048.004c0c7c.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADwAQCdASoQAAoAA4BaJZwAAubeW4I5CgAA/u3g5sp1c09Ud7v86vkgeDb0BmOlarBvjQ5KYon5ASVf1vxzzKLfUmSCrwHgAAA=",
+    "thumbhash": "5PcRDICbiId/d4d1d3l0jzf3eA==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/lapizblue-home-640.004c0c7c.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/lapizblue-home-960.004c0c7c.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/lapizblue-home-1440.004c0c7c.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/lapizblue-home-2048.004c0c7c.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/lapizblue-home-640.004c0c7c.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/lapizblue-home-960.004c0c7c.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/lapizblue-home-1440.004c0c7c.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/lapizblue-home-2048.004c0c7c.webp"
+        }
+      ]
+    }
+  },
+  "mapei-quiz": {
+    "hash": "5c5071ae",
+    "width": 2560,
+    "height": 1600,
+    "src": "/images/screens/mapei-quiz-2048.5c5071ae.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADQAQCdASoQAAoAA4BaJQBOgCHgSt+PAAD+93rT0ozs3MXOjKOo2B2LIPDZ5d53psoBi5mIAAA=",
+    "thumbhash": "BucBDIAI10iBmXeDjYdoj4f3eA==",
+    "variants": {
+      "avif": [
+        {
+          "w": 640,
+          "src": "/images/screens/mapei-quiz-640.5c5071ae.avif"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/mapei-quiz-960.5c5071ae.avif"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/mapei-quiz-1440.5c5071ae.avif"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/mapei-quiz-2048.5c5071ae.avif"
+        }
+      ],
+      "webp": [
+        {
+          "w": 640,
+          "src": "/images/screens/mapei-quiz-640.5c5071ae.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/screens/mapei-quiz-960.5c5071ae.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/screens/mapei-quiz-1440.5c5071ae.webp"
+        },
+        {
+          "w": 2048,
+          "src": "/images/screens/mapei-quiz-2048.5c5071ae.webp"
+        }
+      ]
+    }
+  }
+}
