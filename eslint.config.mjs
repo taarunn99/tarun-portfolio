@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // macOS / iCloud duplicate copies ("file 2.ext").
+    "**/* 2.*",
   ]),
 ]);
 

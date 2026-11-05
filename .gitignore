@@ -47,3 +47,6 @@ reports/
 # raw image sources (large)
 assets/src/**/*.png
 assets/src/**/*.jpg
+
+# macOS / iCloud duplicate copies ("file 2.ext")
+* 2.*
