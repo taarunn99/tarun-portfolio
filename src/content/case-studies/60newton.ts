@@ -7,7 +7,7 @@ export const sixtyNewton: CaseStudy = {
   client: "Sixty Newton Technical Services",
   year: "2026",
   period: "May 2026",
-  role: "Head of Technology — design, build, SEO",
+  role: "Head of Technology: design, build, SEO",
   summary:
     "A dark, scroll-animated brand site for a specialist contractor, with fourteen discipline pages and a programmatic discipline-by-location layer, live four days after the brief.",
   headlineMetric: { label: "built in", value: "4 days", source: "deliverables-xlsx" },
@@ -28,7 +28,7 @@ export const sixtyNewton: CaseStudy = {
       "Live on 20 May 2026 with Lighthouse 100/92/100/100 and 219 URLs in the sitemap. The homepage reached position 3.2 within ten weeks; the location pages are the long-tail that brings in the enquiries.",
     stack: ["Next.js 16", "TypeScript", "GSAP", "Lenis", "Vercel", "Search Console", "IndexNow"],
     retrospective:
-      "Building in four days meant the homepage shipped without an h1 and the title template doubled its suffix — both found later in an audit. A launch checklist run by someone other than the builder would have caught them on day four.",
+      "Building in four days meant the homepage shipped without an h1 and the title template doubled its suffix. Both were found later in an audit. A launch checklist run by someone other than the builder would have caught them on day four.",
   },
   cover: { id: "60newton-home", alt: "60newton.com home page: dark hero for a specialist contractor" },
   gallery: [

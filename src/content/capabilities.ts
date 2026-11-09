@@ -4,7 +4,7 @@ export const capabilities: Capability[] = [
   {
     id: "web",
     title: "Web products",
-    blurb: "Next.js and TypeScript sites and apps that score 95–100 in Lighthouse and rank.",
+    blurb: "Next.js and TypeScript sites and apps that score 95 to 100 in Lighthouse and rank.",
     items: ["Next.js 16", "TypeScript", "Supabase", "Vercel", "PWA", "Three.js / GSAP"],
     stat: { label: "production sites", value: "6", source: "resume" },
   },

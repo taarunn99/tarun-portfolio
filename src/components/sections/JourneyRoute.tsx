@@ -236,10 +236,10 @@ function formatDate(ym: string): string {
   return idx >= 0 && idx < 12 ? `${months[idx]} ${y}` : y;
 }
 
-/** "2021–2025", "2025–" (ongoing) or "2025" (a single year) */
+/** "2021 to 2025", "2025 to now" (ongoing) or "2025" (a single year) */
 function years(from: string, to?: string): string {
-  if (!to) return `${from}–`;
-  return from === to ? from : `${from}–${to}`;
+  if (!to) return `${from} to now`;
+  return from === to ? from : `${from} to ${to}`;
 }
 
 function pad(n: number): string {

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Résumé",
   description: `${resume.basics.label}. ${site.location.city}. Download the ATS-friendly PDF or read it here.`,
   alternates: { canonical: "/resume" },
-  openGraph: { title: `Résumé — ${site.name}`, url: `${site.url}/resume` },
+  openGraph: { title: `Résumé | ${site.name}`, url: `${site.url}/resume` },
 };
 
 function period(start: string, end: string | null) {
@@ -19,7 +19,7 @@ function period(start: string, end: string | null) {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     return m ? `${months[Number(m) - 1]} ${y}` : y;
   };
-  return `${f(start)} – ${end ? f(end) : "Present"}`;
+  return `${f(start)} to ${end ? f(end) : "Present"}`;
 }
 
 export default function ResumePage() {

@@ -7,7 +7,7 @@ export const offlineCataloguePwa: CaseStudy = {
   client: "Lapiz Blue General Trading LLC",
   year: "2026",
   period: "Apr 2026",
-  role: "Head of Technology — product, data model, build",
+  role: "Head of Technology: product, data model, build",
   summary:
     "A staff-only PWA with 183 construction-chemical products across nine brands that suggests exact, near and same-category alternatives and works with no signal in the warehouse.",
   headlineMetric: { label: "products, offline", value: "183", source: "resume" },

@@ -12,7 +12,7 @@ export function Capabilities() {
           <p className="eyebrow">What I run</p>
           <Heading as="h2" id="cap-title" className={styles.title} text="One person, six departments." accent="six" />
           <p className={styles.lead}>
-            At Lapiz Group I own the websites, the ad account, the ERP, the automations, the brand work and the IT — and I measure each one in money.
+            At Lapiz Group I own the websites, the ad account, the ERP, the automations, the brand work and the IT, and I measure each one in money.
           </p>
         </header>
         <Reveal as="ul" className={styles.bento} stagger>

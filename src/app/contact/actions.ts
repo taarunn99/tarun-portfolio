@@ -41,7 +41,7 @@ export async function sendEnquiry(_prev: EnquiryState, formData: FormData): Prom
   const raw = Object.fromEntries(formData.entries());
   const parsed = schema.safeParse(raw);
   if (!parsed.success) {
-    return { status: "error", message: "Please check the form — name, a valid email and a message of at least 20 characters are needed." };
+    return { status: "error", message: "Please check the form: name, a valid email and a message of at least 20 characters are needed." };
   }
   const data = parsed.data;
 
@@ -56,7 +56,7 @@ export async function sendEnquiry(_prev: EnquiryState, formData: FormData): Prom
   }
 
   if (!env.resendApiKey) {
-    return { status: "error", message: "The form is not connected yet — please use the email link below." };
+    return { status: "error", message: "The form is not connected yet. Please use the email link below." };
   }
 
   try {

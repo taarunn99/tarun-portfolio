@@ -15,7 +15,7 @@ export function Header() {
       <nav className={styles.nav} aria-label="Primary">
         <Link href="/" className={styles.brand}>
           <span aria-hidden="true">TS</span>
-          <span className="sr-only">{site.name} — home</span>
+          <span className="sr-only">{site.name}, home</span>
         </Link>
         <ul className={styles.links}>
           {links.map((link) => (

@@ -14,7 +14,7 @@ export function ContactCta() {
         </SplitLines>
         <p id="cta-title" className="sr-only">Let&apos;s build something fast.</p>
         <p className={styles.lead}>
-          Roles, consulting, or a second opinion on a stack — one message is enough.
+          Roles, consulting, or a second opinion on a stack. One message is enough.
         </p>
         <Magnetic>
           <Link href="/contact" className="btn btn-primary">

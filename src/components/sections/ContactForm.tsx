@@ -28,7 +28,7 @@ export function ContactForm({ email, turnstileSiteKey }: Props) {
     return (
       <div className={styles.done} role="status">
         <p className={styles.doneTitle}>Sent.</p>
-        <p>Thanks — I read everything and reply within two working days.</p>
+        <p>Thanks. I read everything and reply within two working days.</p>
       </div>
     );
   }

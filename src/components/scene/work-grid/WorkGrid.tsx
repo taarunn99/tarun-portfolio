@@ -76,7 +76,7 @@ export default function WorkGrid({ tiles }: Props) {
       className={styles.stage}
       tabIndex={0}
       role="application"
-      aria-label="Interactive grid of projects — use arrow keys to pan, Enter to open"
+      aria-label="Interactive grid of projects. Use arrow keys to pan, Enter to open"
       data-cursor="Drag"
       data-pressed="false"
       data-ready="false"

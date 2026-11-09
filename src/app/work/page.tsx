@@ -13,9 +13,9 @@ import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Work",
-  description: `${caseStudies.length} products and programmes shipped as Head of Technology in Dubai — websites, Google Ads, Zoho ERP automation, AI tools — each with the number that mattered.`,
+  description: `${caseStudies.length} products and programmes shipped as Head of Technology in Dubai: websites, Google Ads, Zoho ERP automation and AI tools, each with the number that mattered.`,
   alternates: { canonical: "/work" },
-  openGraph: { title: `Work — ${site.name}`, url: `${site.url}/work` },
+  openGraph: { title: `Work | ${site.name}`, url: `${site.url}/work` },
 };
 
 /** Covers for the WebGL grid: the ~960 px webp variant, or null for a procedural tile. */
@@ -47,7 +47,7 @@ export default function WorkPage() {
             <p className="eyebrow">Work</p>
             <Heading as="h1" className={styles.title} text="Every product, with its number." accent="number." />
             <p className={styles.lead}>
-              {caseStudies.length} case studies from seventeen months as a one-person technology, growth and operations team — and one from before.
+              {caseStudies.length} case studies from my work since May 2025 as a one-person technology, growth and operations team, plus one from before.
             </p>
             <p className={styles.hint} aria-hidden="true">
               Drag · Scroll · Click

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description:
     "Tarun Shukla is Head of Technology at a three-branch building-materials group in Dubai, running websites, Google Ads, SEO, Zoho ERP automation, AI workflows and IT as a one-person team. B.Tech CS, NUS certificates, AWS Solutions Architect.",
   alternates: { canonical: "/about" },
-  openGraph: { title: `About — ${site.name}`, url: `${site.url}/about` },
+  openGraph: { title: `About | ${site.name}`, url: `${site.url}/about` },
 };
 
 export default function AboutPage() {
@@ -30,19 +30,19 @@ export default function AboutPage() {
         <div className={styles.cols}>
           <div className={styles.prose}>
             <p className={styles.lead}>
-              I run technology, growth and operations for Lapiz Group — three building-materials companies in Dubai, Sharjah and Abu Dhabi — as a team of one with two mentored interns.
+              I run technology, growth and operations for Lapiz Group, three building-materials companies in Dubai, Sharjah and Abu Dhabi, as a team of one with two mentored interns.
             </p>
             <p>
-              In seventeen months that has meant six production websites in Next.js and TypeScript, a Google Ads channel that returned 9.2× its spend in invoiced revenue, SEO that put the group&apos;s brands at position one and into Google&apos;s AI answers, and a Zoho ERP taken in-house and automated until the warehouse and the accounts agreed.
+              Since May 2025 that has meant six production websites in Next.js and TypeScript, a Google Ads channel that returned 9.2× its spend in invoiced revenue, SEO that put the group&apos;s brands at position one and into Google&apos;s AI answers, and a Zoho ERP taken in-house and automated until the warehouse and the accounts agreed.
             </p>
             <p>
-              Before that: a Computer Science degree at VIT Bhopal, certificates from NUS School of Computing in applied machine learning and deep learning, an AWS Solutions Architect certification and a full-stack internship. I build with AI tooling every day — the model proposes, the code decides.
+              Before that: a Computer Science degree at VIT Bhopal, certificates from NUS School of Computing in applied machine learning and deep learning, an AWS Solutions Architect certification and a full-stack internship. I build with AI tooling every day: the model proposes, the code decides.
             </p>
             <p className={styles.availability}>{site.availability}</p>
           </div>
           <Reveal as="dl" className={styles.facts} stagger>
             <div><dt>Based</dt><dd>{site.location.city}, {site.location.country}</dd></div>
-            <div><dt>Now</dt><dd>{resume.work[0].position.split(" — ")[0]}, Lapiz Group</dd></div>
+            <div><dt>Now</dt><dd>{resume.work[0].position.split(": ")[0]}, Lapiz Group</dd></div>
             <div><dt>Education</dt><dd>{resume.education.map((e) => e.institution.split(",")[0]).join(" · ")}</dd></div>
             <div><dt>Certified</dt><dd>AWS Solutions Architect Associate · AWS Cloud Practitioner</dd></div>
             <div><dt>Languages</dt><dd>English, Hindi</dd></div>

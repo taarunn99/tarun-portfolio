@@ -43,7 +43,7 @@ export function JourneyList({ variant = "full" }: Props) {
                 </h3>
                 <span className={styles.years}>
                   {waypoint.from}
-                  {waypoint.to ? `–${waypoint.to}` : "–"}
+                  {waypoint.to ? ` to ${waypoint.to}` : " to now"}
                 </span>
               </div>
               <ol className={styles.milestones}>

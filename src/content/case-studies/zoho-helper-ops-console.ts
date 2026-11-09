@@ -7,9 +7,9 @@ export const zohoHelperOpsConsole: CaseStudy = {
   client: "Lapiz Group",
   year: "2026",
   period: "2026",
-  role: "Head of Technology — Chrome extension, admin console, rollout",
+  role: "Head of Technology: Chrome extension, admin console, rollout",
   summary:
-    "A Chrome add-on that shows FIFO margin on every quote, order and invoice line, warns before low-margin sales, and hides cost prices — controlled per department from an admin console without reinstalling anything.",
+    "A Chrome add-on that shows FIFO margin on every quote, order and invoice line, warns before low-margin sales, and hides cost prices, controlled per department from an admin console without reinstalling anything.",
   headlineMetric: { label: "workstations controlled", value: "25", source: "deliverables-xlsx" },
   metrics: [
     { label: "end-to-end tests passed", value: "8", source: "deliverables-xlsx" },
@@ -23,7 +23,7 @@ export const zohoHelperOpsConsole: CaseStudy = {
     constraint:
       "Zoho's UI can't be changed, the general manager and the salesmen need different views, and anything deployed to 25 PCs across three branches had to be updated without touching each machine.",
     approach:
-      "I built the Lapiz Zoho Helper as a Chrome extension: it reads each quote, sales-order and invoice line, computes live FIFO margin and colours it red, amber or green, warns before saving a low-margin sale, shows Al Quoz, bulk and Sharjah stock inside Zoho search, and hides cost price from sales screens. A separate GM build adds Abu Dhabi stock. The Lapiz Ops Console is an admin app with its own login that switches each feature on or off per department or per Zoho user, pushes changes to every install, shows version and last-seen per machine, and revokes access in one click. Four daily reports — low margin, edited documents, delivery notes, stock check — go out automatically, each salesperson receiving only their own customers.",
+      "I built the Lapiz Zoho Helper as a Chrome extension: it reads each quote, sales-order and invoice line, computes live FIFO margin and colours it red, amber or green, warns before saving a low-margin sale, shows Al Quoz, bulk and Sharjah stock inside Zoho search, and hides cost price from sales screens. A separate GM build adds Abu Dhabi stock. The Lapiz Ops Console is an admin app with its own login that switches each feature on or off per department or per Zoho user, pushes changes to every install, shows version and last-seen per machine, and revokes access in one click. Four daily reports (low margin, edited documents, delivery notes, stock check) go out automatically, each salesperson receiving only their own customers.",
     result:
       "Published on the Chrome Web Store and rolled out to staff; the console passed eight end-to-end tests and now controls 25 workstations. Low-margin sales are flagged before they are saved instead of after they are invoiced.",
     stack: ["Chrome Extensions (MV3)", "TypeScript", "Zoho Books API", "Zoho Deluge", "Next.js", "Supabase"],

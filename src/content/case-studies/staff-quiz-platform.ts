@@ -7,7 +7,7 @@ export const staffQuizPlatform: CaseStudy = {
   client: "Lapiz Blue General Trading LLC",
   year: "2026",
   period: "Mar 2026",
-  role: "Head of Technology — build, content, rollout",
+  role: "Head of Technology: build, content, rollout",
   summary:
     "A staff quiz platform with logins, leaderboards, admin re-uploads, practice mode and automatic emails, used to test product knowledge across the sales team.",
   headlineMetric: { label: "staff tested in round one", value: "12", source: "deliverables-xlsx" },
@@ -20,7 +20,7 @@ export const staffQuizPlatform: CaseStudy = {
     context:
       "Selling construction chemicals means knowing which Mapei grout goes where. Product training happened in meetings and faded by the following week.",
     constraint:
-      "It had to work on phones, let management re-upload a quiz without a developer, and show who actually knows the products — without turning into a leaderboard nobody trusts.",
+      "It had to work on phones, let management re-upload a quiz without a developer, and show who actually knows the products, without turning into a leaderboard nobody trusts.",
     approach:
       "I built a quiz site with user IDs and logins, admin controls to upload and re-run quizzes, a practice mode, leaderboards and automatic emails for sign-up, login and score alerts, backed by a database rather than a form tool so results are kept across rounds.",
     result:

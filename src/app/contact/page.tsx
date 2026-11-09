@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description:
     "Get in touch with Tarun Shukla about Head of Digital / Technology roles in the UAE, or a Next.js, SEO, Zoho or AI automation project. Replies within two working days.",
   alternates: { canonical: "/contact" },
-  openGraph: { title: `Contact — ${site.name}`, url: `${site.url}/contact` },
+  openGraph: { title: `Contact | ${site.name}`, url: `${site.url}/contact` },
 };
 
 export default function ContactPage() {

@@ -6,15 +6,15 @@ export const googleAdsAttribution: CaseStudy = {
   short: "Google Ads & attribution",
   client: "Lapiz Blue General Trading LLC",
   year: "2026",
-  period: "Feb – Jul 2026 (channel live since Nov 2025)",
-  role: "Head of Technology — campaigns, tracking, attribution",
+  period: "Feb to Jul 2026 (channel live since Nov 2025)",
+  role: "Head of Technology: campaigns, tracking, attribution",
   summary:
     "Built the group's paid-search channel from zero, fixed conversion tracking, and matched leads to invoices in Zoho Books to prove 9.2× return on ad spend.",
   headlineMetric: { label: "return on ad spend", value: "9.2×", source: "halfyearly-report", note: "AED 242,642 invoiced from AED 26,358 spend" },
   metrics: [
     { label: "cost per conversion", value: "AED 66 → 35", source: "resume", note: "−47%" },
-    { label: "conversions", value: "448", source: "resume", note: "Feb–Jul 2026" },
-    { label: "impressions", value: "72.5K", source: "resume", note: "Feb–Jul 2026" },
+    { label: "conversions", value: "448", source: "resume", note: "Feb to Jul 2026" },
+    { label: "impressions", value: "72.5K", source: "resume", note: "Feb to Jul 2026" },
     { label: "lead companies attributed", value: "25", source: "resume" },
     { label: "negative keywords", value: "507", source: "deliverables-xlsx" },
   ],
@@ -26,7 +26,7 @@ export const googleAdsAttribution: CaseStudy = {
     approach:
       "I started with Mapei and Profilpas search campaigns, then grew to five (Mapei, Dulux, Kalinga Stone, Kerakoll, Weber) at AED 5,000 a month, writing the ad copy packs after competitor research and adding 507 negative keywords across four campaigns. I rebuilt GTM conversion tracking for calls, forms and WhatsApp with a Google expert. For attribution I designed a lead ledger: every website, WhatsApp and email lead is checked against Zoho Books, priced at trader rates, assigned to a salesman by emirate, and later matched to invoices by company.",
     result:
-      "Thirty-eight conversions in the first fifteen days; CTR up from 4.18% to 5.47%. Over the half-year review the account recorded 448 conversions and 72.5K impressions with cost per conversion down 47% to AED 35. Ledger matching attributed AED 242,642 of confirmed invoiced revenue to 25 lead companies against AED 26,358 of spend — 9.2× — and the wider ledger priced 209 qualified leads into a AED 2.27M pipeline. The channel has been cash-positive since April 2026.",
+      "Thirty-eight conversions in the first fifteen days; CTR up from 4.18% to 5.47%. Over the half-year review the account recorded 448 conversions and 72.5K impressions with cost per conversion down 47% to AED 35. Ledger matching attributed AED 242,642 of confirmed invoiced revenue to 25 lead companies against AED 26,358 of spend (9.2×), and the wider ledger priced 209 qualified leads into a AED 2.27M pipeline. The channel has been cash-positive since April 2026.",
     stack: ["Google Ads", "Google Tag Manager", "GA4", "Zoho Books", "Zoho CRM", "Excel", "WhatsApp Business"],
     retrospective:
       "Attribution by ledger matching is manual and conservative; it undercounts revenue from companies that first found us on Ads and later bought through a salesman. A CRM-native attribution field from day one would have made the number larger and the argument shorter.",

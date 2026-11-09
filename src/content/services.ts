@@ -4,9 +4,9 @@ export const services: Service[] = [
   {
     slug: "nextjs-development-dubai",
     title: "Next.js websites that rank and load in under a second",
-    seoTitle: "Next.js development in Dubai — Tarun Shukla",
+    seoTitle: "Next.js development in Dubai | Tarun Shukla",
     description:
-      "Next.js and TypeScript websites for UAE businesses: migrations off WordPress, catalogue sites with hundreds of pages, Lighthouse 95–100, and the SEO foundation built in. Six production sites shipped.",
+      "Next.js and TypeScript websites for UAE businesses: migrations off WordPress, catalogue sites with hundreds of pages, Lighthouse 95 to 100, and the SEO foundation built in. Six production sites shipped.",
     eyebrow: "Web",
     intro:
       "Most business sites in the UAE are slow WordPress themes with a thousand pages nobody asked for. I rebuild them in Next.js and TypeScript, keep the rankings, and hand over something a team can maintain.",
@@ -15,7 +15,7 @@ export const services: Service[] = [
       "Brand, product, category and catalogue pages generated from structured data",
       "Forms with email delivery and WhatsApp enquiry paths",
       "Structured data, sitemap, robots, llms.txt and Search Console set-up",
-      "Lighthouse 95–100 on mobile as the acceptance test",
+      "Lighthouse 95 to 100 on mobile as the acceptance test",
       "DNS, email records and Vercel hosting handled end to end",
     ],
     outcomes: [
@@ -43,7 +43,7 @@ export const services: Service[] = [
   {
     slug: "zoho-automation-uae",
     title: "Zoho Books, Inventory and CRM that match the warehouse",
-    seoTitle: "Zoho Books & CRM automation for UAE businesses — Tarun Shukla",
+    seoTitle: "Zoho Books & CRM automation for UAE businesses | Tarun Shukla",
     description:
       "Zoho Books, Inventory and CRM automation for UAE trading and contracting companies: stock reconciliation, invoice-to-shipment automation, Deluge functions, Chrome add-ons with live margins, daily reports, e-invoicing readiness.",
     eyebrow: "ERP",
@@ -78,7 +78,7 @@ export const services: Service[] = [
   {
     slug: "ai-automation",
     title: "AI workflows that assist people, not replace judgment",
-    seoTitle: "AI & workflow automation for SMEs in Dubai — Tarun Shukla",
+    seoTitle: "AI & workflow automation for SMEs in Dubai | Tarun Shukla",
     description:
       "Claude API, MCP and n8n automations for UAE SMEs: quoting assistants with tool calls, lead staging into CRM, delivery-note OCR, photo-to-purchase-order, executive assistants in Zoho Cliq.",
     eyebrow: "AI",

@@ -81,7 +81,7 @@ export const milestones: Milestone[] = [
     at: "bhopal",
     date: "2024-10",
     title: "Full-stack intern, Webbers Technologies",
-    subtitle: "Oct – Dec 2024",
+    subtitle: "Oct to Dec 2024",
     summary: "React interfaces and backend integrations for a company site revamp, shipped in agile sprints.",
   },
   {

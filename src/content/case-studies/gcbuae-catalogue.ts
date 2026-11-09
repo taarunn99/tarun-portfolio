@@ -7,7 +7,7 @@ export const gcbuaeCatalogue: CaseStudy = {
   client: "Global Classic Building Materials Trading LLC",
   year: "2026",
   period: "2026",
-  role: "Head of Technology — architecture, data extraction, SEO",
+  role: "Head of Technology: architecture, data extraction, SEO",
   summary:
     "A 250+-page catalogue site for KalingaStone, Jaquar and FILA built from extracted supplier data, cited first in ChatGPT and Google AI Overviews for every brand it sells.",
   headlineMetric: { label: "cited first in AI Overviews and ChatGPT", value: "every brand", source: "deliverables-xlsx" },
@@ -24,9 +24,9 @@ export const gcbuaeCatalogue: CaseStudy = {
     constraint:
       "The product data lived in supplier catalogues, not in a database. Every shade, SKU and product needed its own page with correct dimensions and schema, and the site had to rank for brand-plus-UAE queries that the suppliers' own pages dominate.",
     approach:
-      "I extracted the catalogues into structured data — 128 KalingaStone swatches, 1,387 Jaquar product images, 34 FILA products — and generated the site from it: shade, collection and colour pages for quartz, marble and terrazzo; Jaquar category and collection pages with SKU tables; FILA product pages; and 44 blog posts answering the questions buyers search. Each tier carries Product, Offer, Collection, FAQ and Breadcrumb JSON-LD. Routing, mobile and animation performance were tuned until every category hit Lighthouse 100/98/100/100. DNS (ten records including Zoho Mail), the contact form, Search Console and Bing Webmaster went live with it.",
+      "I extracted the catalogues into structured data (128 KalingaStone swatches, 1,387 Jaquar product images, 34 FILA products) and generated the site from it: shade, collection and colour pages for quartz, marble and terrazzo; Jaquar category and collection pages with SKU tables; FILA product pages; and 44 blog posts answering the questions buyers search. Each tier carries Product, Offer, Collection, FAQ and Breadcrumb JSON-LD. Routing, mobile and animation performance were tuned until every category hit Lighthouse 100/98/100/100. DNS (ten records including Zoho Mail), the contact form, Search Console and Bing Webmaster went live with it.",
     result:
-      "The site is the first citation in ChatGPT and Google AI Overviews for every brand it sells, the first result in Google AI Mode for KalingaStone and FILA Surface Solutions, and position 1 on Google UAE for \"global classic building materials\" and \"fila uae supplier\", with positions 1–3 for KalingaStone quartz, marble, terrazzo and authorised-distributor searches.",
+      "The site is the first citation in ChatGPT and Google AI Overviews for every brand it sells, the first result in Google AI Mode for KalingaStone and FILA Surface Solutions, and position 1 on Google UAE for \"global classic building materials\" and \"fila uae supplier\", with positions 1 to 3 for KalingaStone quartz, marble, terrazzo and authorised-distributor searches.",
     stack: ["Next.js 16", "TypeScript", "Tailwind v4", "GSAP", "Lenis", "sharp", "Vercel", "Zoho Mail DNS"],
     retrospective:
       "The products index page carries a keyword-heavy h1 that reads like SEO rather than editorial copy. It ranks, but I would write it for a buyer now and let the structured data do the ranking.",
