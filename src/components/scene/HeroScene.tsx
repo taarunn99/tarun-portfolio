@@ -16,8 +16,9 @@ import styles from "./HeroScene.module.css";
  * LCP element and is server-rendered.
  */
 const HeroCanvas = dynamic(() => import("./HeroCanvas"), { ssr: false });
+const LaptopCanvas = dynamic(() => import("./laptop/LaptopCanvas"), { ssr: false });
 
-export function HeroScene() {
+export function HeroScene({ laptop = false }: { laptop?: boolean }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -32,6 +33,7 @@ export function HeroScene() {
   return (
     <div className={styles.scene} aria-hidden="true">
       {ready ? <HeroCanvas /> : null}
+      {ready && laptop ? <LaptopCanvas /> : null}
     </div>
   );
 }

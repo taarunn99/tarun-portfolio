@@ -1,29 +1,39 @@
+/*
+ * Pinned scroll story. `--p` (0 to 1, set by motion/StoryScroll) drives
+ * everything in CSS; the laptop scene reads the same progress.
+ */
 .hero {
+  --p: 0;
   position: relative;
+  height: 760svh;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
   isolation: isolate;
   display: grid;
   align-items: center;
-  min-height: 100vh;
-  min-height: 100svh;
+  height: 100vh;
+  height: 100svh;
   padding-block: 7rem 6rem;
   overflow: hidden;
-  /* transparent: the fixed page aurora shows through and continues below */
-  background: transparent;
 }
 
-/* Readability scrim behind the copy on the left, and a soft fade into the page */
-.hero::after {
+/* Readability scrim behind the copy on the left; leaves with the copy */
+.stage::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background: radial-gradient(58% 46% at 24% 52%, color-mix(in oklab, var(--bg) 72%, transparent), transparent 100%);
+  opacity: clamp(0, calc(1 - var(--p) * 10), 1);
 }
 
 @media (max-width: 47.99rem) {
-  .hero::after {
-    background: radial-gradient(95% 40% at 40% 50%, color-mix(in oklab, var(--bg) 78%, transparent), transparent 100%);
+  .stage::after {
+    background: radial-gradient(95% 40% at 40% 45%, color-mix(in oklab, var(--bg) 78%, transparent), transparent 100%);
   }
 }
 
@@ -39,7 +49,7 @@
 }
 
 /* the animated canvas has taken over */
-.hero:has([data-live]) .sky {
+.stage:has([data-live]) .sky {
   opacity: 0;
 }
 
@@ -100,6 +110,26 @@
   display: grid;
   gap: var(--space-5);
   justify-items: start;
+  /* leaves as the story starts (children keep their own entrance keyframes) */
+  opacity: clamp(0, calc(1 - var(--p) * 12), 1);
+  translate: 0 calc(min(var(--p), 0.1) * -320px);
+}
+
+@media (max-width: 59.99rem) {
+  .cue {
+    display: none;
+  }
+
+  /* phones: copy sits in the upper half, laptop below it */
+  .inner {
+    align-self: start;
+    margin-top: 6svh;
+  }
+}
+
+.hero[data-past] .inner,
+.hero[data-past] .cue {
+  visibility: hidden;
 }
 
 .eyebrow {
@@ -146,6 +176,7 @@
 }
 
 .cue {
+  opacity: clamp(0, calc(1 - var(--p) * 12), 1);
   position: absolute;
   left: 50%;
   bottom: 1.25rem;
@@ -190,5 +221,308 @@
   50% {
     transform: translateY(3px);
     opacity: 1;
+  }
+}
+
+/* ---- "What's inside": heading and the six layer captions ---- */
+.inside {
+  position: absolute;
+  top: 5.25rem;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  width: min(100% - 2 * var(--pad), 40rem);
+  text-align: center;
+  --shown: clamp(0, min(calc((var(--p) - 0.09) * 14), calc((0.56 - var(--p)) * 14)), 1);
+  translate: -50% calc((1 - var(--shown)) * 12px);
+  opacity: var(--shown);
+  pointer-events: none;
+}
+
+.insideTitle {
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.caps {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+
+.cap {
+  --shown: clamp(0, min(calc((var(--p) - var(--in)) * 12), calc((var(--out) - var(--p)) * 16)), 1);
+  align-content: start;
+  --dir: -1;
+  position: absolute;
+  /* `--cy` is the part's height on screen, written by the laptop scene */
+  top: var(--cy, calc(16% + var(--slot) * 12.5%));
+  left: max(var(--pad), 3vw);
+  display: grid;
+  gap: var(--space-1);
+  width: min(21rem, 27vw);
+  opacity: var(--shown);
+  translate: calc(var(--dir) * (1 - var(--shown)) * 1.5rem) -50%;
+  text-shadow: 0 0 18px var(--bg);
+}
+
+.cap[data-side="right"] {
+  --dir: 1;
+  left: auto;
+  right: max(var(--pad), 3vw);
+}
+
+/* leader line pointing at the part */
+.cap::before {
+  content: "";
+  position: absolute;
+  top: 0.55rem;
+  width: clamp(2rem, 5vw, 5rem);
+  height: 1px;
+  left: calc(100% + var(--space-4));
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0.7;
+}
+
+.cap[data-side="right"]::before {
+  left: auto;
+  right: calc(100% + var(--space-4));
+  background: linear-gradient(270deg, var(--accent), transparent);
+}
+
+.part {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.part span {
+  color: var(--accent);
+}
+
+.capTitle {
+  font-size: clamp(1.125rem, 0.9rem + 0.6vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.blurb {
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.stat {
+  margin-top: var(--space-1);
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+.stat span {
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+
+/* ---- the route: heading and stop labels over the globe ---- */
+.route {
+  position: absolute;
+  top: 5.25rem;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  width: min(100% - 2 * var(--pad), 40rem);
+  text-align: center;
+  --shown: clamp(0, calc((var(--p) - 0.74) * 14), 1);
+  translate: -50% calc((1 - var(--shown)) * 12px);
+  opacity: var(--shown);
+  text-shadow: 0 0 18px #000;
+  pointer-events: none;
+}
+
+.stops {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+
+/* positioned on its marker by the scene: --x/--y, faded by --o */
+.stop {
+  position: absolute;
+  left: var(--x, 50%);
+  top: var(--y, 50%);
+  /* re-measured on resize; the overview shows the city only */
+  display: grid;
+  gap: 2px;
+  width: max-content;
+  max-width: min(18rem, 60vw);
+  padding: var(--space-3) var(--space-4);
+  border: var(--hairline);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklab, #000 70%, transparent);
+  opacity: var(--o, 0);
+}
+
+.hero[data-overview] .stopWhat {
+  display: none;
+}
+
+.stopCity {
+  font-size: 1.0625rem;
+  font-weight: 500;
+}
+
+.stopCity span {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.stopWhen {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.stopWhat {
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+/* narrow: one caption at a time, in a panel under the laptop */
+@media (max-width: 59.99rem) {
+  .hero {
+    height: 720svh;
+  }
+
+  .inside {
+    top: 4.75rem;
+  }
+
+  .cap,
+  .cap[data-side="right"] {
+    --shown: clamp(0, min(calc((var(--p) - var(--in-n)) * 14), calc((var(--out-n) - var(--p)) * 14)), 1);
+    top: auto;
+    bottom: 1.25rem;
+    left: var(--pad);
+    right: var(--pad);
+    width: auto;
+    padding: var(--space-4) var(--space-5);
+    border: var(--hairline);
+    border-radius: var(--radius-md, 14px);
+    background: color-mix(in oklab, var(--bg) 82%, transparent);
+    translate: 0 calc((1 - var(--shown)) * 1rem);
+    text-shadow: none;
+  }
+
+  .cap::before {
+    display: none;
+  }
+}
+
+/* reduced motion: no pin and no scene; the captions read as a grid */
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    height: auto;
+  }
+
+  .stage {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+    display: grid;
+    align-content: center;
+    gap: var(--space-8);
+    overflow: visible;
+  }
+
+  .inner,
+  .cue {
+    opacity: 1;
+    translate: none;
+  }
+
+  .stage::after {
+    opacity: 1;
+  }
+
+  .inside {
+    position: relative;
+    top: auto;
+    left: auto;
+    z-index: 2;
+    justify-self: center;
+    opacity: 1;
+    translate: none;
+  }
+
+  .caps {
+    position: relative;
+    inset: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-6);
+    padding-inline: var(--pad);
+  }
+
+  .cap,
+  .cap[data-side="right"] {
+    position: static;
+    width: auto;
+    opacity: 1;
+    translate: none;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+
+  .cap::before {
+    display: none;
+  }
+
+  .hero[data-past] .inner,
+  .hero[data-past] .cue {
+    visibility: visible;
+  }
+
+  .route {
+    position: relative;
+    top: auto;
+    left: auto;
+    justify-self: center;
+    opacity: 1;
+    translate: none;
+  }
+
+  .stops {
+    position: relative;
+    inset: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--space-5);
+    padding-inline: var(--pad);
+  }
+
+  .stop {
+    position: static;
+    width: auto;
+    max-width: none;
+    opacity: 1;
+    translate: none;
   }
 }

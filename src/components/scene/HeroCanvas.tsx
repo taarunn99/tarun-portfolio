@@ -13,6 +13,7 @@ import {
 } from "three";
 import { yieldToMain } from "@/components/motion/runtime";
 import { AURORA_FRAGMENT, AURORA_VERTEX } from "./hero/aurora";
+import { STORY_SELECTOR, storyProgress } from "@/lib/story-progress";
 import styles from "./HeroScene.module.css";
 
 const NARROW_QUERY = "(max-width: 47.99rem)";
@@ -159,14 +160,23 @@ export default function HeroCanvas() {
       resizeObserver.observe(host);
       onDispose(() => resizeObserver.disconnect());
 
-      // --- Scroll: the sky moves with the page, then hands over -----------
-      // to the fixed page backdrop by fading out over the hero's height.
+      // --- Scroll: the sky drifts through the pinned hero story, then ------
+      // hands over to the fixed page backdrop by fading out at its end.
+      const story = host.closest(STORY_SELECTOR);
       let scroll = 0;
       let scrollFade = 1;
       const applyScroll = () => {
-        const h = host.clientHeight || 1;
-        scroll = window.scrollY / h;
-        const next = 1 - clamp01((window.scrollY - h * 0.35) / (h * 0.65));
+        let next: number;
+        if (story) {
+          const p = storyProgress(story);
+          scroll = p * 0.8;
+          // the laptop scene fills the viewport from 0.72 (inside the screen)
+          next = 1 - clamp01((p - 0.6) / 0.12);
+        } else {
+          const h = host.clientHeight || 1;
+          scroll = window.scrollY / h;
+          next = 1 - clamp01((window.scrollY - h * 0.35) / (h * 0.65));
+        }
         if (next === scrollFade) return;
         const wasHidden = scrollFade <= 0.01;
         scrollFade = next;

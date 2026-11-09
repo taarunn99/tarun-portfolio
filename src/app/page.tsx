@@ -2,8 +2,6 @@ import { Page } from "@/components/sections/Page";
 import { Hero } from "@/components/sections/Hero";
 import { ProofStrip } from "@/components/sections/ProofStrip";
 import { FeaturedWork } from "@/components/sections/FeaturedWork";
-import { Capabilities } from "@/components/sections/Capabilities";
-import { JourneyRoute } from "@/components/sections/JourneyRoute";
 import { ServicesList } from "@/components/sections/ServicesList";
 import { ContactCta } from "@/components/sections/ContactCta";
 import { JsonLd } from "@/lib/seo/JsonLdScript";
@@ -16,8 +14,6 @@ export default function HomePage() {
       <Hero />
       <ProofStrip />
       <FeaturedWork />
-      <Capabilities />
-      <JourneyRoute variant="teaser" />
       <ServicesList />
       <ContactCta />
     </Page>
