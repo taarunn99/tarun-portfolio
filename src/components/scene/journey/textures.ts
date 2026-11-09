@@ -51,10 +51,10 @@ export function readPalette(el: Element): Palette {
     sun: readCssColor(el, "--sun", "#fff2c0"),
     sunX: readPercent(el, "--sun-x", 0.5),
     sunY: readPercent(el, "--sun-y", 0.7),
-    ink: readCssColor(el, "--bg", "#001f3f"),
+    ink: readCssColor(el, "--bg", "#03070b"),
     fg: readCssColor(el, "--fg", "#ffffff"),
     accent: readCssColor(el, "--accent", "#00d1b2"),
-    muted: readCssColor(el, "--muted", "#9fb3c8"),
+    muted: readCssColor(el, "--muted", "#9aa5b1"),
   };
 }
 

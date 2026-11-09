@@ -10,13 +10,13 @@
   --brand-white: #ffffff;     /* Pure Signal */
   --brand-carbon: #2e2e2e;    /* Carbon Core */
 
-  --bg: var(--brand-midnight);
-  --bg-elevated: #0a2a4d;
+  --bg: #03070b;               /* near black, as in the brand board */
+  --bg-elevated: var(--brand-midnight); /* cards and panels */
   --fg: var(--brand-white);
-  --muted: #9fb3c8;           /* 7.7:1 on midnight */
-  --line: #13355a;
-  --line-strong: #234a73;
-  --accent: var(--brand-cyan); /* 8.5:1 on midnight */
+  --muted: #9aa5b1;            /* 8.1:1 on bg, 6.6:1 on midnight */
+  --line: var(--brand-carbon); /* hairlines */
+  --line-strong: #444444;
+  --accent: var(--brand-cyan); /* 10.4:1 on bg */
   --accent-hover: #33dcc3;
   --accent-ink: var(--brand-midnight);
   --success: #5ee6a8;
@@ -24,8 +24,8 @@
   --focus: var(--accent);
   --selection-bg: var(--accent);
   --selection-fg: var(--accent-ink);
-  --scrim: rgba(0, 31, 63, 0.72);
-  --glow: rgba(0, 209, 178, 0.14);
+  --scrim: rgba(3, 7, 11, 0.72);
+  --glow: rgba(0, 209, 178, 0.18);
 
   color-scheme: dark;
 

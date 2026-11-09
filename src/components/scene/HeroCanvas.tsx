@@ -178,7 +178,7 @@ export default function HeroCanvas() {
       // Points travel well outside the skyline while unresolved.
       pointGeometry.boundingSphere = null;
 
-      const bg = new Color(readCssColor("--bg", "#001f3f"));
+      const bg = new Color(readCssColor("--bg", "#03070b"));
       const lightTheme = bg.r * 0.2126 + bg.g * 0.7152 + bg.b * 0.0722 > 0.5;
 
       const pointMaterial = new ShaderMaterial({

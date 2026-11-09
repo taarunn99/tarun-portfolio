@@ -21,13 +21,13 @@ Brand palette (set 2026-11-09): **Cyan Pulse** `#00d1b2`, **Midnight Grid** `#00
 
 | Token | Dark | Paper | Notes |
 |---|---|---|---|
-| `--bg` | `#001f3f` Midnight Grid | `#f5f7f9` | |
-| `--bg-elevated` | `#0a2a4d` | `#ffffff` Pure Signal | elevation = tone step + hairline, never drop shadow in dark |
-| `--fg` | `#ffffff` Pure Signal | `#2e2e2e` Carbon Core | 16.6:1 / 13.6:1 |
-| `--muted` | `#9fb3c8` | `#5b6573` | 7.7:1 / 5.5:1, body-safe |
-| `--line` | `#13355a` | `#dfe5ea` | decorative hairlines only; state-bearing borders use `--muted` |
-| `--line-strong` | `#234a73` | `#c9d2da` | |
-| `--accent` | `#00d1b2` Cyan Pulse | `#006b5c` | 8.5:1 / 6.0:1. Cyan Pulse is only 1.9:1 on white, so in paper it is allowed only as a fill/marker (`--marker`) with midnight ink |
+| `--bg` | `#03070b` near black | `#f5f7f9` | the brand board's black ground |
+| `--bg-elevated` | `#001f3f` Midnight Grid | `#ffffff` Pure Signal | elevation = tone step + hairline, never drop shadow in dark |
+| `--fg` | `#ffffff` Pure Signal | `#2e2e2e` Carbon Core | 20:1 / 13.6:1 |
+| `--muted` | `#9aa5b1` | `#5b6573` | 8.1:1 / 5.5:1, body-safe |
+| `--line` | `#2e2e2e` Carbon Core | `#dfe5ea` | decorative hairlines only; state-bearing borders use `--muted` |
+| `--line-strong` | `#444444` | `#c9d2da` | |
+| `--accent` | `#00d1b2` Cyan Pulse | `#006b5c` | 10.4:1 / 6.0:1. Cyan Pulse is only 1.9:1 on white, so in paper it is allowed only as a fill/marker (`--marker`) with midnight ink |
 | `--accent-ink` | `#001f3f` | `#ffffff` | text on accent fills |
 | `--success` | `#5ee6a8` | `#0f7a4a` | |
 | `--danger` | `#ff6b6b` | `#c0262d` | |

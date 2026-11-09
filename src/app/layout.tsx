@@ -49,7 +49,7 @@ export const ensureStatic = "navigation";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#001f3f",
+  themeColor: "#03070b",
   colorScheme: "dark",
 };
 
