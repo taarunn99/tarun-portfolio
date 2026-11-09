@@ -7,8 +7,9 @@
   min-height: 100svh;
   padding-block: 7rem 6rem;
   overflow: hidden;
-  /* transparent: the fixed page aurora shows through and continues below */
-  background: transparent;
+  /* transparent: the fixed page aurora shows through and continues below;
+     only a strip of dark ground runs the full width under the city */
+  background: linear-gradient(to top, var(--bg) 0, var(--bg) 3.5svh, transparent 9svh);
 }
 
 /* Readability scrim behind the copy on the left, and a soft fade into the page */

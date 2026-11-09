@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { site } from "@/content/site";
 import { HeroScene } from "@/components/scene/HeroScene";
-import { DubaiSkyline } from "@/components/ui/DubaiSkyline";
+import { HeroSkyline } from "@/components/ui/HeroSkyline";
 import { Magnetic } from "@/components/motion/Magnetic";
 import styles from "./Hero.module.css";
 
@@ -21,7 +21,7 @@ export function Hero() {
         <div className={`${styles.curtain} ${styles.curtainB}`} />
       </div>
       <HeroScene />
-      <DubaiSkyline className={styles.skyline} />
+      <HeroSkyline className={styles.skyline} />
       <div className={`container ${styles.inner}`}>
         <p className={`eyebrow ${styles.eyebrow}`}>{site.role} · {site.location.city}</p>
         <h1 id="hero-title" className={styles.name}>
