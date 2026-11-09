@@ -83,7 +83,7 @@ export const AURORA_FRAGMENT = /* glsl */ `
 
     float ia = a.x;
     float ib = b.x * 0.32;
-    // Glow on the horizon behind the skyline, like the light behind the mountain.
+    // Soft glow along the horizon.
     float horizon = exp(-max(vUv.y - 0.04, 0.0) * 6.0) * (0.32 + 0.06 * sin(t * 0.35));
     float intensity = ia + ib;
 

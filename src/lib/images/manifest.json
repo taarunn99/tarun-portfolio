@@ -1018,17 +1018,5 @@
         }
       ]
     }
-  },
-  "hero-skyline": {
-    "hash": "b90cec37",
-    "width": 2560,
-    "height": 1084,
-    "src": "/images/hero/dubai-skyline-2560.b90cec37.webp"
-  },
-  "hero-skyline-mobile": {
-    "hash": "e3d35e02",
-    "width": 1200,
-    "height": 750,
-    "src": "/images/hero/dubai-skyline-mobile-1200.e3d35e02.webp"
   }
 }

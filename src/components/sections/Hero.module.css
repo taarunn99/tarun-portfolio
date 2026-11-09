@@ -7,9 +7,8 @@
   min-height: 100svh;
   padding-block: 7rem 6rem;
   overflow: hidden;
-  /* transparent: the fixed page aurora shows through and continues below;
-     only a strip of dark ground runs the full width under the city */
-  background: linear-gradient(to top, var(--bg) 0, var(--bg) 3.5svh, transparent 9svh);
+  /* transparent: the fixed page aurora shows through and continues below */
+  background: transparent;
 }
 
 /* Readability scrim behind the copy on the left, and a soft fade into the page */
@@ -34,7 +33,7 @@
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  /* horizon glow behind the skyline */
+  /* low glow on the horizon */
   background: radial-gradient(90% 32% at 55% 100%, color-mix(in oklab, var(--aurora-deep) 55%, transparent), transparent 80%);
   transition: opacity 1.4s var(--ease-out-quint);
 }
@@ -72,9 +71,6 @@
     radial-gradient(50% 45% at 50% 55%, color-mix(in oklab, var(--aurora-deep) 40%, transparent), transparent 75%);
 }
 
-.skyline {
-  z-index: 1;
-}
 
 @media (prefers-reduced-motion: no-preference) {
   .curtainA {
@@ -84,14 +80,6 @@
     animation: sway 19s ease-in-out -5s infinite alternate;
   }
 
-  /* skyline sinks a little slower than the page: depth on scroll */
-  @supports (animation-timeline: scroll()) {
-    .skyline {
-      animation: skylineParallax linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 100vh;
-    }
-  }
 }
 
 @keyframes sway {
@@ -105,14 +93,6 @@
   }
 }
 
-@keyframes skylineParallax {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(0, 18%, 0);
-  }
-}
 
 .inner {
   position: relative;

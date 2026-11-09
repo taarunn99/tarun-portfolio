@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { site } from "@/content/site";
 import { HeroScene } from "@/components/scene/HeroScene";
-import { HeroSkyline } from "@/components/ui/HeroSkyline";
 import { Magnetic } from "@/components/motion/Magnetic";
 import styles from "./Hero.module.css";
 
 /**
- * Aurora hero: a night sky with moving aurora curtains over a Dubai skyline.
+ * Aurora hero: a night sky with moving aurora curtains.
  * The LCP element is the positioning line — painted HTML, visible immediately.
  * The entrance is pure CSS (keyframes starting at load), so there is no JS on
  * the critical path and nothing starts at opacity 0 for longer than a frame.
@@ -21,7 +20,6 @@ export function Hero() {
         <div className={`${styles.curtain} ${styles.curtainB}`} />
       </div>
       <HeroScene />
-      <HeroSkyline className={styles.skyline} />
       <div className={`container ${styles.inner}`}>
         <p className={`eyebrow ${styles.eyebrow}`}>{site.role} · {site.location.city}</p>
         <h1 id="hero-title" className={styles.name}>
