@@ -28,7 +28,7 @@ export const webweaver: CaseStudy = {
     retrospective:
       "It is a learning project, not a product; the live demo is offline. Its value is in what it taught: separate planning from file edits, and keep the human in the loop at the preview, not at the prompt.",
   },
-  cover: { id: "cover-webweaver", alt: "Abstract render: a woven lattice of dark filaments, one of them lime" },
+  cover: { id: "cover-webweaver", alt: "Abstract render: a woven lattice of dark filaments, one of them cyan" },
   gallery: [],
   links: { repo: "https://github.com/taarunn99/WebWeaver" },
   tags: ["ai", "website"],

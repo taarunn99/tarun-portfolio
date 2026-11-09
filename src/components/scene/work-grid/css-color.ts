@@ -32,12 +32,12 @@ export type GridPalette = {
 
 export function readGridPalette(): GridPalette {
   return {
-    bg: readCssColor("--bg", "#0a0a0a"),
-    tile: readCssColor("--bg-elevated", "#141414"),
-    fg: readCssColor("--fg", "#f2f2f0"),
-    muted: readCssColor("--muted", "#9a9a94"),
-    line: readCssColor("--line-strong", "#3a3a3a"),
-    accent: readCssColor("--accent", "#c9f55a"),
+    bg: readCssColor("--bg", "#001f3f"),
+    tile: readCssColor("--bg-elevated", "#0a2a4d"),
+    fg: readCssColor("--fg", "#ffffff"),
+    muted: readCssColor("--muted", "#9fb3c8"),
+    line: readCssColor("--line-strong", "#234a73"),
+    accent: readCssColor("--accent", "#00d1b2"),
   };
 }
 

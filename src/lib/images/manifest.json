@@ -754,267 +754,267 @@
     }
   },
   "cover-erp": {
-    "hash": "50ed9570",
-    "width": 1536,
-    "height": 960,
-    "src": "/images/covers/cover-erp-1440.50ed9570.webp",
-    "blurDataURL": "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAACwAQCdASoQAAoAA4BaJaQAAudle34AAP72oMGu7ipGZJq0ZQdyI9xgAAA=",
-    "thumbhash": "BfgFBICPWWZid4iXiokHgZPP1w==",
+    "hash": "f10e2509",
+    "width": 1440,
+    "height": 900,
+    "src": "/images/covers/cover-erp-1440.f10e2509.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoQAAoAA4BaJQBOgCHIdZCwAAD+8sj8rVpHZbScUYUJoMtaN3Ex34fgAAA=",
+    "thumbhash": "y8YBDIKPWWZid4iWiomPY/dslg==",
     "variants": {
       "avif": [
         {
           "w": 640,
-          "src": "/images/covers/cover-erp-640.50ed9570.avif"
+          "src": "/images/covers/cover-erp-640.f10e2509.avif"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-erp-960.50ed9570.avif"
+          "src": "/images/covers/cover-erp-960.f10e2509.avif"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-erp-1440.50ed9570.avif"
+          "src": "/images/covers/cover-erp-1440.f10e2509.avif"
         }
       ],
       "webp": [
         {
           "w": 640,
-          "src": "/images/covers/cover-erp-640.50ed9570.webp"
+          "src": "/images/covers/cover-erp-640.f10e2509.webp"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-erp-960.50ed9570.webp"
+          "src": "/images/covers/cover-erp-960.f10e2509.webp"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-erp-1440.50ed9570.webp"
+          "src": "/images/covers/cover-erp-1440.f10e2509.webp"
         }
       ]
     }
   },
   "cover-estimator": {
-    "hash": "e96e5986",
-    "width": 1536,
-    "height": 960,
-    "src": "/images/covers/cover-estimator-1440.e96e5986.webp",
-    "blurDataURL": "data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAACwAQCdASoQAAoAA4BaJaQAAud7YVAAAP7yzWv6kRXzoN6RdAAAAA==",
-    "thumbhash": "BfgFBICviXiGeHeZiYi/Zia2+A==",
+    "hash": "6ba21276",
+    "width": 1440,
+    "height": 900,
+    "src": "/images/covers/cover-estimator-1440.6ba21276.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAACwAQCdASoQAAoAA4BaJQBOgB6WeZ8AAP7uxyOLC9DoZz2Qq9Pwz4aL4fAAAA==",
+    "thumbhash": "y9YFDIKviXiGeHeZiXivhvpqqA==",
     "variants": {
       "avif": [
         {
           "w": 640,
-          "src": "/images/covers/cover-estimator-640.e96e5986.avif"
+          "src": "/images/covers/cover-estimator-640.6ba21276.avif"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-estimator-960.e96e5986.avif"
+          "src": "/images/covers/cover-estimator-960.6ba21276.avif"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-estimator-1440.e96e5986.avif"
+          "src": "/images/covers/cover-estimator-1440.6ba21276.avif"
         }
       ],
       "webp": [
         {
           "w": 640,
-          "src": "/images/covers/cover-estimator-640.e96e5986.webp"
+          "src": "/images/covers/cover-estimator-640.6ba21276.webp"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-estimator-960.e96e5986.webp"
+          "src": "/images/covers/cover-estimator-960.6ba21276.webp"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-estimator-1440.e96e5986.webp"
+          "src": "/images/covers/cover-estimator-1440.6ba21276.webp"
         }
       ]
     }
   },
   "cover-extension": {
-    "hash": "db3ae37b",
-    "width": 1536,
-    "height": 960,
-    "src": "/images/covers/cover-extension-1440.db3ae37b.webp",
-    "blurDataURL": "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAADQAQCdASoQAAoAA4BaJaQAAujb35L8AAD+97xaVbqkRtWI8d74yYAA",
-    "thumbhash": "BfgFBIAmZniZeHeQeoUJhfas9g==",
+    "hash": "d4bcbe13",
+    "width": 1440,
+    "height": 900,
+    "src": "/images/covers/cover-extension-1440.d4bcbe13.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAABwAQCdASoQAAoAA4BaJTGfIwARYAD+8O5oxFQxm3wzzKy10BV6vMptsVe/AAAA",
+    "thumbhash": "y8YBDIAmZniZeHeQeoUmmZDVCQ==",
     "variants": {
       "avif": [
         {
           "w": 640,
-          "src": "/images/covers/cover-extension-640.db3ae37b.avif"
+          "src": "/images/covers/cover-extension-640.d4bcbe13.avif"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-extension-960.db3ae37b.avif"
+          "src": "/images/covers/cover-extension-960.d4bcbe13.avif"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-extension-1440.db3ae37b.avif"
+          "src": "/images/covers/cover-extension-1440.d4bcbe13.avif"
         }
       ],
       "webp": [
         {
           "w": 640,
-          "src": "/images/covers/cover-extension-640.db3ae37b.webp"
+          "src": "/images/covers/cover-extension-640.d4bcbe13.webp"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-extension-960.db3ae37b.webp"
+          "src": "/images/covers/cover-extension-960.d4bcbe13.webp"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-extension-1440.db3ae37b.webp"
+          "src": "/images/covers/cover-extension-1440.d4bcbe13.webp"
         }
       ]
     }
   },
   "cover-pwa": {
-    "hash": "0ae6d5e4",
-    "width": 1536,
-    "height": 960,
-    "src": "/images/covers/cover-pwa-1440.0ae6d5e4.webp",
-    "blurDataURL": "data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAAAwAQCdASoQAAoAA4BaJaQAA3AA/vScLKQfyfmr89Jo+KHaDwAAAA==",
-    "thumbhash": "BAgGBIA/dYitiImCnJesj1Bt9w==",
+    "hash": "1f945bf8",
+    "width": 1440,
+    "height": 900,
+    "src": "/images/covers/cover-pwa-1440.1f945bf8.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAABwAQCdASoQAAoAA4BaJYgCdAFAAAD+8Q/Ql/W7cG3nTjv34tWk0k3BMejKYAAA",
+    "thumbhash": "ysYBDIA/dYitiImCnJc/rfLTKg==",
     "variants": {
       "avif": [
         {
           "w": 640,
-          "src": "/images/covers/cover-pwa-640.0ae6d5e4.avif"
+          "src": "/images/covers/cover-pwa-640.1f945bf8.avif"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-pwa-960.0ae6d5e4.avif"
+          "src": "/images/covers/cover-pwa-960.1f945bf8.avif"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-pwa-1440.0ae6d5e4.avif"
+          "src": "/images/covers/cover-pwa-1440.1f945bf8.avif"
         }
       ],
       "webp": [
         {
           "w": 640,
-          "src": "/images/covers/cover-pwa-640.0ae6d5e4.webp"
+          "src": "/images/covers/cover-pwa-640.1f945bf8.webp"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-pwa-960.0ae6d5e4.webp"
+          "src": "/images/covers/cover-pwa-960.1f945bf8.webp"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-pwa-1440.0ae6d5e4.webp"
+          "src": "/images/covers/cover-pwa-1440.1f945bf8.webp"
         }
       ]
     }
   },
   "cover-quiz": {
-    "hash": "c75412b8",
-    "width": 1536,
-    "height": 960,
-    "src": "/images/covers/cover-quiz-1440.c75412b8.webp",
-    "blurDataURL": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoQAAoAA4BaJaQAAxf8nrnPgAD+94r/aHpNlvW9XdumN/bZwb8wSbe8AAA=",
-    "thumbhash": "BPgFBIB/eoZwaIipeYoDlKW/tQ==",
+    "hash": "c6ff6c1d",
+    "width": 1440,
+    "height": 900,
+    "src": "/images/covers/cover-quiz-1440.c6ff6c1d.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAABQAQCdASoQAAoAA4BaJQBOgCgAAP7w3bcqe8nZ7pJFX/oAq14sFXpsDoaL4fAA",
+    "thumbhash": "ysYBDIJ/eoZwaIioeYp/cPlLpg==",
     "variants": {
       "avif": [
         {
           "w": 640,
-          "src": "/images/covers/cover-quiz-640.c75412b8.avif"
+          "src": "/images/covers/cover-quiz-640.c6ff6c1d.avif"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-quiz-960.c75412b8.avif"
+          "src": "/images/covers/cover-quiz-960.c6ff6c1d.avif"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-quiz-1440.c75412b8.avif"
+          "src": "/images/covers/cover-quiz-1440.c6ff6c1d.avif"
         }
       ],
       "webp": [
         {
           "w": 640,
-          "src": "/images/covers/cover-quiz-640.c75412b8.webp"
+          "src": "/images/covers/cover-quiz-640.c6ff6c1d.webp"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-quiz-960.c75412b8.webp"
+          "src": "/images/covers/cover-quiz-960.c6ff6c1d.webp"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-quiz-1440.c75412b8.webp"
+          "src": "/images/covers/cover-quiz-1440.c6ff6c1d.webp"
         }
       ]
     }
   },
   "cover-webweaver": {
-    "hash": "325eab8e",
-    "width": 1536,
-    "height": 960,
-    "src": "/images/covers/cover-webweaver-1440.325eab8e.webp",
-    "blurDataURL": "data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAAAwAQCdASoQAAoAA4BaJaQAA3AA/vTHtN5RKdsXV0+qXcsWbLAAAA==",
-    "thumbhash": "A/gFBIAHZ4iYaHeDiWgmp5CN9Q==",
+    "hash": "7770b48e",
+    "width": 1440,
+    "height": 900,
+    "src": "/images/covers/cover-webweaver-1440.7770b48e.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAABQAQCdASoQAAoAA4BaJQBOgEDwAP7xWVM3j0DmwfXKvWiP+9y0UAgA",
+    "thumbhash": "icYBDIAHZ4iYaHeDiWgImKSQtw==",
     "variants": {
       "avif": [
         {
           "w": 640,
-          "src": "/images/covers/cover-webweaver-640.325eab8e.avif"
+          "src": "/images/covers/cover-webweaver-640.7770b48e.avif"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-webweaver-960.325eab8e.avif"
+          "src": "/images/covers/cover-webweaver-960.7770b48e.avif"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-webweaver-1440.325eab8e.avif"
+          "src": "/images/covers/cover-webweaver-1440.7770b48e.avif"
         }
       ],
       "webp": [
         {
           "w": 640,
-          "src": "/images/covers/cover-webweaver-640.325eab8e.webp"
+          "src": "/images/covers/cover-webweaver-640.7770b48e.webp"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-webweaver-960.325eab8e.webp"
+          "src": "/images/covers/cover-webweaver-960.7770b48e.webp"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-webweaver-1440.325eab8e.webp"
+          "src": "/images/covers/cover-webweaver-1440.7770b48e.webp"
         }
       ]
     }
   },
   "cover-ads": {
-    "hash": "324c1c4b",
-    "width": 1536,
-    "height": 960,
-    "src": "/images/covers/cover-ads-1440.324c1c4b.webp",
-    "blurDataURL": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAADQAQCdASoQAAoAA4BaJaQAApMvUaO4AAD+9Fuc+sFddy5gy2x1Z2tOIHh1F4W5tlMuECR2K1U1JggA",
-    "thumbhash": "B/gFBIAbW5iAjHi4e5qgpPjutg==",
+    "hash": "45e5aeeb",
+    "width": 1440,
+    "height": 900,
+    "src": "/images/covers/cover-ads-1440.45e5aeeb.webp",
+    "blurDataURL": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAADQAQCdASoQAAoAA4BaJQBOgB6SKoK6AAD+8P7bnT+qUQCjH56iyhn3q4czAPlZ41UGWp9mZu9rEAAA",
+    "thumbhash": "zNYFDIILW5iAjHi3e6ocgPkzqA==",
     "variants": {
       "avif": [
         {
           "w": 640,
-          "src": "/images/covers/cover-ads-640.324c1c4b.avif"
+          "src": "/images/covers/cover-ads-640.45e5aeeb.avif"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-ads-960.324c1c4b.avif"
+          "src": "/images/covers/cover-ads-960.45e5aeeb.avif"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-ads-1440.324c1c4b.avif"
+          "src": "/images/covers/cover-ads-1440.45e5aeeb.avif"
         }
       ],
       "webp": [
         {
           "w": 640,
-          "src": "/images/covers/cover-ads-640.324c1c4b.webp"
+          "src": "/images/covers/cover-ads-640.45e5aeeb.webp"
         },
         {
           "w": 960,
-          "src": "/images/covers/cover-ads-960.324c1c4b.webp"
+          "src": "/images/covers/cover-ads-960.45e5aeeb.webp"
         },
         {
           "w": 1440,
-          "src": "/images/covers/cover-ads-1440.324c1c4b.webp"
+          "src": "/images/covers/cover-ads-1440.45e5aeeb.webp"
         }
       ]
     }

@@ -30,7 +30,7 @@ export const offlineCataloguePwa: CaseStudy = {
     retrospective:
       "The classification tokens were hand-entered; an extraction step from the technical datasheets would have been faster and would stay current as suppliers update products.",
   },
-  cover: { id: "cover-pwa", alt: "Abstract render: fanned matte-black cards, one marked with a lime dot" },
+  cover: { id: "cover-pwa", alt: "Abstract render: fanned matte-black cards, one marked with a cyan dot" },
   gallery: [],
   links: {},
   tags: ["pwa", "website"],

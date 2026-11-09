@@ -4,22 +4,28 @@
    ================================================================== */
 
 :root {
-  /* ---- colour (hex fallbacks; OKLCH overrides below) ---- */
-  --bg: #0a0a0a;
-  --bg-elevated: #141414;
-  --fg: #f2f2f0;
-  --muted: #9a9a94;
-  --line: #262626;
-  --line-strong: #3a3a3a;
-  --accent: #c9f55a;
-  --accent-hover: #d9ff7a;
-  --accent-ink: #0a0a0a;
+  /* ---- colour: brand palette (Cyan Pulse, Midnight Grid, Pure Signal, Carbon Core) ---- */
+  --brand-cyan: #00d1b2;      /* Cyan Pulse */
+  --brand-midnight: #001f3f;  /* Midnight Grid */
+  --brand-white: #ffffff;     /* Pure Signal */
+  --brand-carbon: #2e2e2e;    /* Carbon Core */
+
+  --bg: var(--brand-midnight);
+  --bg-elevated: #0a2a4d;
+  --fg: var(--brand-white);
+  --muted: #9fb3c8;           /* 7.7:1 on midnight */
+  --line: #13355a;
+  --line-strong: #234a73;
+  --accent: var(--brand-cyan); /* 8.5:1 on midnight */
+  --accent-hover: #33dcc3;
+  --accent-ink: var(--brand-midnight);
   --success: #5ee6a8;
   --danger: #ff6b6b;
   --focus: var(--accent);
   --selection-bg: var(--accent);
   --selection-fg: var(--accent-ink);
-  --scrim: rgba(10, 10, 10, 0.72);
+  --scrim: rgba(0, 31, 63, 0.72);
+  --glow: rgba(0, 209, 178, 0.14);
 
   color-scheme: dark;
 
@@ -106,57 +112,27 @@
   --z-preloader: 110;
 }
 
-@supports (color: oklch(0% 0 0)) {
-  :root {
-    --bg: oklch(14.5% 0 0);
-    --bg-elevated: oklch(19.1% 0 0);
-    --fg: oklch(96.1% 0.003 106.4);
-    --muted: oklch(68.4% 0.009 106.6);
-    --line: oklch(26.9% 0 0);
-    --line-strong: oklch(34% 0 0);
-    --accent: oklch(91% 0.185 123.6);
-    --accent-hover: oklch(from var(--accent) calc(l + 0.03) c h);
-    --accent-ink: oklch(14.5% 0 0);
-    --success: oklch(83.4% 0.149 160.7);
-    --danger: oklch(71.2% 0.181 22.8);
-  }
-}
-
 /* ---- paper theme ---- */
 [data-theme="paper"] {
-  --bg: #f5f5f0;
-  --bg-elevated: #ffffff;
-  --fg: #0f0f0f;
-  --muted: #5f5f5a;
-  --line: #e0e0d8;
-  --line-strong: #cfcfc6;
-  --accent: #3f6e00;
-  --accent-hover: #335a00;
-  --accent-ink: #f5f5f0;
+  --bg: #f5f7f9;
+  --bg-elevated: var(--brand-white);
+  --fg: var(--brand-carbon);  /* 13.6:1 on white */
+  --muted: #5b6573;
+  --line: #dfe5ea;
+  --line-strong: #c9d2da;
+  --accent: #006b5c;          /* deep Cyan Pulse for text: cyan itself is 1.9:1 on white */
+  --accent-hover: #00584c;
+  --accent-ink: var(--brand-white);
   --success: #0f7a4a;
   --danger: #c0262d;
-  --scrim: rgba(245, 245, 240, 0.78);
-  /* lime is allowed only as a fill/marker in paper */
-  --marker: #c9f55a;
-  --marker-ink: #0f0f0f;
+  --scrim: rgba(245, 247, 249, 0.78);
+  --glow: rgba(0, 209, 178, 0.1);
+  /* full Cyan Pulse is allowed only as a fill/marker in paper, with midnight ink */
+  --marker: var(--brand-cyan);
+  --marker-ink: var(--brand-midnight);
   color-scheme: light;
 }
 
-@supports (color: oklch(0% 0 0)) {
-  [data-theme="paper"] {
-    --bg: oklch(96.9% 0.007 106.5);
-    --bg-elevated: oklch(100% 0 0);
-    --fg: oklch(16.8% 0 0);
-    --muted: oklch(48.4% 0.008 106.7);
-    --line: oklch(90.4% 0.011 106.6);
-    --line-strong: oklch(84% 0.011 106.6);
-    --accent: oklch(48.5% 0.136 132.6);
-    --accent-hover: oklch(from var(--accent) calc(l - 0.05) c h);
-    --accent-ink: oklch(96.9% 0.007 106.5);
-    --success: oklch(51.2% 0.118 156.8);
-    --danger: oklch(52.7% 0.189 24.7);
-  }
-}
 
 /* ---- reduced motion zeroes every duration ---- */
 @media (prefers-reduced-motion: reduce) {

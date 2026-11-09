@@ -15,7 +15,7 @@
   justify-content: space-between;
   padding: var(--space-4);
   background:
-    radial-gradient(80% 60% at 70% 20%, rgba(201, 245, 90, 0.1), transparent 70%),
+    radial-gradient(80% 60% at 70% 20%, var(--glow), transparent 70%),
     linear-gradient(160deg, var(--bg-elevated), var(--bg));
   overflow: clip;
 }

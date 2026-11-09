@@ -17,21 +17,22 @@ Non-goals: glassmorphism everywhere, rainbow gradients, 3D for its own sake, Saa
 
 Colour tokens are defined in OKLCH with hex fallbacks. Dark is the default theme; **paper** is used on case-study pages and as the user-selectable light theme.
 
+Brand palette (set 2026-11-09): **Cyan Pulse** `#00d1b2`, **Midnight Grid** `#001f3f`, **Pure Signal** `#ffffff`, **Carbon Core** `#2e2e2e`. Every other colour below is a step derived from these four.
+
 | Token | Dark | Paper | Notes |
 |---|---|---|---|
-| `--bg` | `#0a0a0a` | `#f5f5f0` | warm-tinted neutrals (OKLCH hue ≈ 106) |
-| `--bg-elevated` | `#141414` | `#ffffff` | elevation = tone step + hairline, never drop shadow in dark |
-| `--fg` | `#f2f2f0` | `#0f0f0f` | 17.7:1 / 17.5:1 |
-| `--muted` | `#9a9a94` | `#5f5f5a` | 7.0:1 / 5.9:1 — body-safe |
-| `--line` | `#262626` | `#e0e0d8` | decorative hairlines only (~1.3:1 by design); state-bearing borders use `--muted` |
-| `--accent` | `#c9f55a` | `#3f6e00` | 15.7:1 / 5.6:1. In paper, lime is allowed only as a fill/marker with `#0f0f0f` ink |
-| `--accent-ink` | `#0a0a0a` | `#f5f5f0` | text on accent fills |
+| `--bg` | `#001f3f` Midnight Grid | `#f5f7f9` | |
+| `--bg-elevated` | `#0a2a4d` | `#ffffff` Pure Signal | elevation = tone step + hairline, never drop shadow in dark |
+| `--fg` | `#ffffff` Pure Signal | `#2e2e2e` Carbon Core | 16.6:1 / 13.6:1 |
+| `--muted` | `#9fb3c8` | `#5b6573` | 7.7:1 / 5.5:1, body-safe |
+| `--line` | `#13355a` | `#dfe5ea` | decorative hairlines only; state-bearing borders use `--muted` |
+| `--line-strong` | `#234a73` | `#c9d2da` | |
+| `--accent` | `#00d1b2` Cyan Pulse | `#006b5c` | 8.5:1 / 6.0:1. Cyan Pulse is only 1.9:1 on white, so in paper it is allowed only as a fill/marker (`--marker`) with midnight ink |
+| `--accent-ink` | `#001f3f` | `#ffffff` | text on accent fills |
 | `--success` | `#5ee6a8` | `#0f7a4a` | |
 | `--danger` | `#ff6b6b` | `#c0262d` | |
 
-Derived states: `--accent-hover: oklch(from var(--accent) calc(l - 0.06) c h)`; focus ring = `--accent` 2 px, offset 3 px. Selection = accent fill + accent-ink.
-
-**Why lime stays:** 15.7:1 contrast, already shipping at Lighthouse 100, and the most Gen-Z-coded option. The "near-black + acid-green = AI default" risk is neutralised by warm neutrals, an italic serif accent word, mono tabular numerals, real screenshots and editorial layout — not by changing the hue.
+Focus ring = `--accent` 2 px, offset 3 px. Selection = accent fill + accent-ink. Case-study cover renders were recoloured to match (cyan light, navy shadows); new renders should use a Cyan Pulse light on a Midnight Grid ground.
 
 ### Type
 

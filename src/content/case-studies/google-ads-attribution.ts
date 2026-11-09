@@ -31,7 +31,7 @@ export const googleAdsAttribution: CaseStudy = {
     retrospective:
       "Attribution by ledger matching is manual and conservative; it undercounts revenue from companies that first found us on Ads and later bought through a salesman. A CRM-native attribution field from day one would have made the number larger and the argument shorter.",
   },
-  cover: { id: "cover-ads", alt: "Abstract render: ascending bars of frosted glass, one with a lime edge light" },
+  cover: { id: "cover-ads", alt: "Abstract render: ascending bars of frosted glass, one with a cyan edge light" },
   gallery: [],
   links: {},
   tags: ["ads", "seo", "dashboard"],

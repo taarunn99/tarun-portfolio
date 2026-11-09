@@ -24,17 +24,17 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 64,
-          background: "radial-gradient(60% 50% at 80% 20%, rgba(201,245,90,0.14), transparent 70%), #0a0a0a",
-          color: "#f2f2f0",
+          background: "radial-gradient(60% 50% at 80% 20%, rgba(0,209,178,0.16), transparent 70%), #001f3f",
+          color: "#ffffff",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 24, letterSpacing: 3, textTransform: "uppercase", color: "#9a9a94" }}>
-          <div style={{ width: 36, height: 2, background: "#c9f55a" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 24, letterSpacing: 3, textTransform: "uppercase", color: "#9fb3c8" }}>
+          <div style={{ width: 36, height: 2, background: "#00d1b2" }} />
           {s?.eyebrow ?? "Services"} · Dubai
         </div>
         <div style={{ fontSize: 66, fontWeight: 600, letterSpacing: -2.5, lineHeight: 1.02, maxWidth: 1000 }}>{s?.title ?? site.seoTitle}</div>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#9a9a94" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#9fb3c8" }}>
           <div>{site.name}</div>
           <div>{site.url.replace(/^https?:\/\//, "")}</div>
         </div>

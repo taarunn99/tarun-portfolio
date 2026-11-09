@@ -17,24 +17,24 @@ export default function OpenGraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 64,
-          background: "radial-gradient(60% 50% at 80% 20%, rgba(201,245,90,0.14), transparent 70%), #0a0a0a",
-          color: "#f2f2f0",
+          background: "radial-gradient(60% 50% at 80% 20%, rgba(0,209,178,0.16), transparent 70%), #001f3f",
+          color: "#ffffff",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 24, letterSpacing: 3, textTransform: "uppercase", color: "#9a9a94" }}>
-          <div style={{ width: 36, height: 2, background: "#c9f55a" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 24, letterSpacing: 3, textTransform: "uppercase", color: "#9fb3c8" }}>
+          <div style={{ width: 36, height: 2, background: "#00d1b2" }} />
           {site.role} · {site.location.city}
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ fontSize: 120, fontWeight: 600, letterSpacing: -6, lineHeight: 0.95 }}>{site.name}</div>
-          <div style={{ fontSize: 32, color: "#9a9a94", maxWidth: 900 }}>{site.positioning}</div>
+          <div style={{ fontSize: 32, color: "#9fb3c8", maxWidth: 900 }}>{site.positioning}</div>
         </div>
         <div style={{ display: "flex", gap: 48 }}>
           {top.map((m) => (
             <div key={m.label} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <div style={{ fontSize: 44, fontWeight: 600, color: "#c9f55a", letterSpacing: -1.5 }}>{m.value}</div>
-              <div style={{ fontSize: 18, color: "#9a9a94", textTransform: "uppercase", letterSpacing: 2 }}>{m.label}</div>
+              <div style={{ fontSize: 44, fontWeight: 600, color: "#00d1b2", letterSpacing: -1.5 }}>{m.value}</div>
+              <div style={{ fontSize: 18, color: "#9fb3c8", textTransform: "uppercase", letterSpacing: 2 }}>{m.label}</div>
             </div>
           ))}
         </div>

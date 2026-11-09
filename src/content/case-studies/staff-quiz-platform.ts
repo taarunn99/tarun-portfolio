@@ -29,7 +29,7 @@ export const staffQuizPlatform: CaseStudy = {
     retrospective:
       "Twelve people is a small first cohort. The platform is built for repeated rounds; the retrospective number worth tracking is score improvement across rounds, which I'd add to the admin view.",
   },
-  cover: { id: "cover-quiz", alt: "Abstract render: four black spheres, the third lit with a lime rim light" },
+  cover: { id: "cover-quiz", alt: "Abstract render: four black spheres, the third lit with a cyan rim light" },
   gallery: [],
   links: { live: "https://mapei-quiz.vercel.app" },
   tags: ["website", "ops"],

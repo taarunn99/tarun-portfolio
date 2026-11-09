@@ -31,7 +31,7 @@ export const zohoStockSync: CaseStudy = {
     retrospective:
       "I ran the backfill in batches with manual review between them, which was slow but right. The piece I'd add earlier is the daily invoiced-vs-shipped mismatch report. It existed only after the cleanup and would have caught the drift years ago.",
   },
-  cover: { id: "cover-erp", alt: "Abstract render: eight matte-black cubes linked by hairline lime traces" },
+  cover: { id: "cover-erp", alt: "Abstract render: eight matte-black cubes linked by hairline cyan traces" },
   gallery: [],
   links: {},
   tags: ["erp", "automation"],

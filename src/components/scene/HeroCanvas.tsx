@@ -146,7 +146,7 @@ export default function HeroCanvas() {
       onDispose(() => disposeSkyline(groups));
 
       const edgeGeometry = buildEdges(groups);
-      const fgColor = new Color(readCssColor("--fg", "#f2f2f0"));
+      const fgColor = new Color(readCssColor("--fg", "#ffffff"));
       const edgeMaterial = new LineBasicMaterial({
         color: fgColor,
         transparent: true,
@@ -178,7 +178,7 @@ export default function HeroCanvas() {
       // Points travel well outside the skyline while unresolved.
       pointGeometry.boundingSphere = null;
 
-      const bg = new Color(readCssColor("--bg", "#0a0a0a"));
+      const bg = new Color(readCssColor("--bg", "#001f3f"));
       const lightTheme = bg.r * 0.2126 + bg.g * 0.7152 + bg.b * 0.0722 > 0.5;
 
       const pointMaterial = new ShaderMaterial({
@@ -189,7 +189,7 @@ export default function HeroCanvas() {
           uProgress: { value: 0 },
           uSize: { value: compact ? 19 : 26 },
           uPixelRatio: { value: renderer.getPixelRatio() },
-          uAccent: { value: new Color(readCssColor("--accent", "#c9f55a")) },
+          uAccent: { value: new Color(readCssColor("--accent", "#00d1b2")) },
           uFg: { value: fgColor },
         },
         transparent: true,

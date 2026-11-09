@@ -30,7 +30,7 @@ export const estimatingWorkbench: CaseStudy = {
     retrospective:
       "Separating proposal (model) from computation (engine) was the right call and made testing trivial. What I underestimated was rate provenance: half the value turned out to be knowing where a number came from, so I'd design that first next time.",
   },
-  cover: { id: "cover-estimator", alt: "Abstract render: an obsidian balance of two floating discs, one holding a lime pellet" },
+  cover: { id: "cover-estimator", alt: "Abstract render: an obsidian balance of two floating discs, one holding a cyan pellet" },
   gallery: [],
   links: {},
   tags: ["ai", "automation", "dashboard"],

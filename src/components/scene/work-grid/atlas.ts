@@ -74,7 +74,7 @@ function paintPlaceholder(ctx: CanvasRenderingContext2D, tile: GridTile, p: Grid
   ctx.stroke();
   ctx.globalAlpha = 1;
 
-  // Lime index, bottom-left
+  // Accent index, bottom-left
   ctx.fillStyle = p.accent;
   ctx.font = `500 ${Math.round(s * 0.13)}px ${mono}`;
   ctx.textBaseline = "alphabetic";
