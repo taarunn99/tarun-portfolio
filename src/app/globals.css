@@ -23,6 +23,11 @@ html {
 html,
 body {
   overflow-x: clip;
+}
+
+/* The page colour lives on <html> (the canvas); <body> stays transparent so
+   the fixed aurora backdrop (z-index -1) is not painted over. */
+html {
   background: var(--bg);
 }
 

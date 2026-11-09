@@ -1,7 +1,11 @@
 .page {
   min-height: 100dvh;
-  background: var(--bg);
   color: var(--fg);
+}
+
+/* Dark pages let the fixed aurora backdrop show through; paper stays solid. */
+.page[data-theme="paper"] {
+  background: var(--bg);
 }
 
 .main {

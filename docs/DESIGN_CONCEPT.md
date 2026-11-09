@@ -24,7 +24,7 @@ Brand palette (set 2026-11-09): **Cyan Pulse** `#00d1b2`, **Midnight Grid** `#00
 | `--bg` | `#03070b` near black | `#f5f7f9` | the brand board's black ground |
 | `--bg-elevated` | `#001f3f` Midnight Grid | `#ffffff` Pure Signal | elevation = tone step + hairline, never drop shadow in dark |
 | `--fg` | `#ffffff` Pure Signal | `#2e2e2e` Carbon Core | 20:1 / 13.6:1 |
-| `--muted` | `#9aa5b1` | `#5b6573` | 8.1:1 / 5.5:1, body-safe |
+| `--muted` | `#b4bdc7` | `#5b6573` | 10.6:1 (5:1+ over the aurora) / 5.5:1, body-safe |
 | `--line` | `#2e2e2e` Carbon Core | `#dfe5ea` | decorative hairlines only; state-bearing borders use `--muted` |
 | `--line-strong` | `#444444` | `#c9d2da` | |
 | `--accent` | `#00d1b2` Cyan Pulse | `#006b5c` | 10.4:1 / 6.0:1. Cyan Pulse is only 1.9:1 on white, so in paper it is allowed only as a fill/marker (`--marker`) with midnight ink |
@@ -73,7 +73,7 @@ All durations collapse to 0 under `prefers-reduced-motion: reduce`. Text reveals
 
 ## 4. Signature moments
 
-1. **Hero.** Name + positioning line as painted HTML (the LCP). Behind it, gated behind the first gesture: a WebGL "signal field" — a point cloud that resolves from noise into a wireframe Dubai skyline / monogram. Mobile: fewer points, DPR ≤ 1.5. Reduced motion: static gradient.
+1. **Hero.** Name + positioning line as painted HTML (the LCP), over an aurora night sky ("Aurora Forest" board: `--aurora-*` tokens) with a Dubai skyline silhouette on the horizon (Burj Khalifa, Burj Al Arab, Museum of the Future, Dubai Frame, Emirates Towers; `ui/DubaiSkyline`, server-rendered SVG). A static CSS aurora paints first and is the DOM twin; gated behind the first gesture, a WebGL aurora shader (`scene/hero/aurora.ts`, half-resolution buffer) fades in over it and drifts with time and page scroll. The skyline parallaxes via a CSS scroll-driven animation. Below the hero, `ui/AuroraBackdrop` keeps a calmer fixed aurora and starfield behind every dark page (CSS only, scroll-driven drift); paper pages stay solid. Reduced motion: static sky.
 2. **Proof strip.** Mono numerals that count up on view: 7 products · 9.2× ROAS · AED 2.27M pipeline · 776,478 units · AED 160K saved. Marquee of stack/brands below, 50 s linear, pauses on hover.
 3. **Work grid.** Vanilla-three rebuild of the phantom.land mechanics (see `research/05` §4): `InstancedMesh` 11×11, infinite wrap, still atlases, hover self-glow, cursor parallax ×0.07, press-zoom, drag inertia, lens pass with low-tier bypass, keyboard pan, SSR list as the accessible twin. Touch/no-WebGL: DOM grid.
 4. **Journey.** SVG route India → Singapore → Dubai; route draws on scroll; marker rides the path; camera pans/zooms; milestone cards activate. Desktop "enter the scene": camera flies into a 2.5D layered diorama where dated project cards float along the path (reel-inspired, our art).

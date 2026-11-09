@@ -55,7 +55,7 @@
 }
 
 .count {
-  opacity: 0.7;
+  opacity: 0.8; /* 5.5:1 midnight ink on Cyan Pulse; 0.7 fell to 4.4 */
 }
 
 .toggle {

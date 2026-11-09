@@ -31,7 +31,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 24, letterSpacing: 3, textTransform: "uppercase", color: "#9aa5b1" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 24, letterSpacing: 3, textTransform: "uppercase", color: "#b4bdc7" }}>
           <div style={{ width: 36, height: 2, background: "#00d1b2" }} />
           {cs?.client ?? site.role}
         </div>
@@ -40,11 +40,11 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           {metric ? (
             <div style={{ display: "flex", alignItems: "baseline", gap: 18 }}>
               <div style={{ fontSize: 56, fontWeight: 600, color: "#00d1b2", letterSpacing: -2 }}>{metric.value}</div>
-              <div style={{ fontSize: 26, color: "#9aa5b1", textTransform: "uppercase", letterSpacing: 2 }}>{metric.label}</div>
+              <div style={{ fontSize: 26, color: "#b4bdc7", textTransform: "uppercase", letterSpacing: 2 }}>{metric.label}</div>
             </div>
           ) : null}
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#9aa5b1" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#b4bdc7" }}>
           <div>{site.name}</div>
           <div>{site.url.replace(/^https?:\/\//, "")}</div>
         </div>

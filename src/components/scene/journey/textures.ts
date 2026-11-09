@@ -54,7 +54,7 @@ export function readPalette(el: Element): Palette {
     ink: readCssColor(el, "--bg", "#03070b"),
     fg: readCssColor(el, "--fg", "#ffffff"),
     accent: readCssColor(el, "--accent", "#00d1b2"),
-    muted: readCssColor(el, "--muted", "#9aa5b1"),
+    muted: readCssColor(el, "--muted", "#b4bdc7"),
   };
 }
 

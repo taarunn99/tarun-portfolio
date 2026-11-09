@@ -7,20 +7,110 @@
   min-height: 100svh;
   padding-block: 7rem 6rem;
   overflow: hidden;
-  background:
-    radial-gradient(60% 50% at 70% 40%, color-mix(in oklab, var(--accent) 9%, transparent), transparent 70%),
-    var(--bg);
+  /* transparent: the fixed page aurora shows through and continues below */
+  background: transparent;
 }
 
+/* Readability scrim behind the copy on the left, and a soft fade into the page */
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  background: radial-gradient(58% 46% at 24% 52%, color-mix(in oklab, var(--bg) 72%, transparent), transparent 100%);
+}
+
+@media (max-width: 47.99rem) {
+  .hero::after {
+    background: radial-gradient(95% 40% at 40% 50%, color-mix(in oklab, var(--bg) 78%, transparent), transparent 100%);
+  }
+}
+
+/* ---- static aurora (DOM twin of the WebGL sky) ---- */
+.sky {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* horizon glow behind the skyline */
+  background: radial-gradient(90% 32% at 55% 100%, color-mix(in oklab, var(--aurora-deep) 55%, transparent), transparent 80%);
+  transition: opacity 1.4s var(--ease-out-quint);
+}
+
+/* the animated canvas has taken over */
+.hero:has([data-live]) .sky {
+  opacity: 0;
+}
+
+.curtain {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.curtainA {
+  top: -20%;
+  right: -18%;
+  width: 95%;
+  height: 80%;
+  rotate: -38deg;
   background:
-    radial-gradient(70% 70% at 50% 50%, transparent 40%, color-mix(in oklab, var(--bg) 70%, transparent) 100%),
-    linear-gradient(to bottom, transparent 70%, var(--bg) 100%);
+    radial-gradient(48% 9% at 50% 78%, color-mix(in oklab, var(--accent) 70%, transparent), transparent 75%),
+    radial-gradient(50% 40% at 50% 58%, color-mix(in oklab, var(--aurora-glow) 45%, transparent), transparent 75%),
+    radial-gradient(52% 60% at 50% 40%, color-mix(in oklab, var(--aurora-deep) 45%, transparent), transparent 75%);
+}
+
+.curtainB {
+  top: 22%;
+  left: -25%;
+  width: 90%;
+  height: 55%;
+  rotate: -14deg;
+  background:
+    radial-gradient(46% 9% at 50% 76%, color-mix(in oklab, var(--aurora-glow) 50%, transparent), transparent 75%),
+    radial-gradient(50% 45% at 50% 55%, color-mix(in oklab, var(--aurora-deep) 40%, transparent), transparent 75%);
+}
+
+.skyline {
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .curtainA {
+    animation: sway 14s ease-in-out infinite alternate;
+  }
+  .curtainB {
+    animation: sway 19s ease-in-out -5s infinite alternate;
+  }
+
+  /* skyline sinks a little slower than the page: depth on scroll */
+  @supports (animation-timeline: scroll()) {
+    .skyline {
+      animation: skylineParallax linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+  }
+}
+
+@keyframes sway {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.8;
+  }
+  to {
+    transform: translate3d(-3%, 2%, 0) scale(1.06);
+    opacity: 1;
+  }
+}
+
+@keyframes skylineParallax {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 18%, 0);
+  }
 }
 
 .inner {

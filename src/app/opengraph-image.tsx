@@ -22,19 +22,19 @@ export default function OpenGraphImage() {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 24, letterSpacing: 3, textTransform: "uppercase", color: "#9aa5b1" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 24, letterSpacing: 3, textTransform: "uppercase", color: "#b4bdc7" }}>
           <div style={{ width: 36, height: 2, background: "#00d1b2" }} />
           {site.role} · {site.location.city}
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ fontSize: 120, fontWeight: 600, letterSpacing: -6, lineHeight: 0.95 }}>{site.name}</div>
-          <div style={{ fontSize: 32, color: "#9aa5b1", maxWidth: 900 }}>{site.positioning}</div>
+          <div style={{ fontSize: 32, color: "#b4bdc7", maxWidth: 900 }}>{site.positioning}</div>
         </div>
         <div style={{ display: "flex", gap: 48 }}>
           {top.map((m) => (
             <div key={m.label} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <div style={{ fontSize: 44, fontWeight: 600, color: "#00d1b2", letterSpacing: -1.5 }}>{m.value}</div>
-              <div style={{ fontSize: 18, color: "#9aa5b1", textTransform: "uppercase", letterSpacing: 2 }}>{m.label}</div>
+              <div style={{ fontSize: 18, color: "#b4bdc7", textTransform: "uppercase", letterSpacing: 2 }}>{m.label}</div>
             </div>
           ))}
         </div>

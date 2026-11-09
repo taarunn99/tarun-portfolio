@@ -10,10 +10,17 @@
   --brand-white: #ffffff;     /* Pure Signal */
   --brand-carbon: #2e2e2e;    /* Carbon Core */
 
+  /* aurora sky (hero + page backdrop), from the "Aurora Forest" board */
+  --aurora-ice: #cbefeb;       /* Aquamarine Ice */
+  --aurora-glow: #48a89a;
+  --aurora-deep: #00524d;
+  --aurora-forest: #053931;    /* Aurora Forest */
+  --aurora-night: #072928;
+
   --bg: #03070b;               /* near black, as in the brand board */
   --bg-elevated: var(--brand-midnight); /* cards and panels */
   --fg: var(--brand-white);
-  --muted: #9aa5b1;            /* 8.1:1 on bg, 6.6:1 on midnight */
+  --muted: #b4bdc7;            /* 10.6:1 on bg, 8.7:1 on midnight, 5:1+ over the aurora */
   --line: var(--brand-carbon); /* hairlines */
   --line-strong: #444444;
   --accent: var(--brand-cyan); /* 10.4:1 on bg */

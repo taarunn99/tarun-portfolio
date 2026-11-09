@@ -2,42 +2,26 @@
 
 import { useEffect, useRef } from "react";
 import {
-  AdditiveBlending,
   BufferGeometry,
   Color,
   Float32BufferAttribute,
-  Group,
-  LineBasicMaterial,
-  LineSegments,
-  NormalBlending,
-  PerspectiveCamera,
-  Points,
+  Mesh,
+  OrthographicCamera,
   Scene,
   ShaderMaterial,
   WebGLRenderer,
 } from "three";
 import { yieldToMain } from "@/components/motion/runtime";
-import {
-  SKYLINE_WIDTH,
-  buildEdges,
-  buildSkyline,
-  disposeSkyline,
-  mulberry32,
-  samplePoints,
-} from "./hero/skyline";
-import { POINT_FRAGMENT, POINT_VERTEX } from "./hero/shaders";
+import { AURORA_FRAGMENT, AURORA_VERTEX } from "./hero/aurora";
 import styles from "./HeroScene.module.css";
 
-const CAMERA_FOV = 40;
-const CAMERA_Z = 7;
-/** Duration of the noise → skyline resolve, in seconds (expo.out). */
-const RESOLVE_SECONDS = 2.4;
 const NARROW_QUERY = "(max-width: 47.99rem)";
+/** The aurora is soft light, so it renders at a fraction of CSS size and upscales. */
+const BUFFER_SCALE = 0.5;
 
 /**
  * Reads a CSS custom property and normalises it to a hex/rgb string three.js
- * understands (tokens are OKLCH; three's Color parser is not). A 2D canvas
- * resolves any CSS colour the browser supports.
+ * understands. A 2D canvas resolves any CSS colour the browser supports.
  */
 function readCssColor(name: string, fallback: string): string {
   const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -67,19 +51,15 @@ function probeWebGL(): boolean {
   }
 }
 
-function expoOut(t: number): number {
-  return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
-}
-
 function clamp01(v: number): number {
   return v < 0 ? 0 : v > 1 ? 1 : v;
 }
 
 /**
- * The hero "signal field": a point cloud that resolves from scattered noise
- * into a wireframe Dubai skyline. Init is chunked (renderer → geometry →
- * sampling → compile) so no single task blocks the main thread, and every
- * resource is tracked so an unmount mid-init still disposes cleanly.
+ * The hero sky: animated aurora curtains that drift with time and with page
+ * scroll. The static CSS aurora in the hero is the DOM twin and the fallback;
+ * this canvas fades in over it and sets `data-live` on its host so the CSS
+ * version can step back. Init is chunked and every resource is disposed.
  */
 export default function HeroCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -99,14 +79,8 @@ export default function HeroCanvas() {
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
       // --- Step 1: renderer -------------------------------------------------
-      // Yield before touching the canvas: keeps context creation off the
-      // mount task, and a strict-mode remount never inherits a force-lost
-      // context from the first pass.
       await yieldToMain();
       if (disposed) return;
-
-      // Probe on a throwaway canvas first: three logs its own error when the
-      // context is refused, and the fallback must stay silent.
       if (!probeWebGL()) return;
 
       let renderer: WebGLRenderer;
@@ -119,7 +93,7 @@ export default function HeroCanvas() {
           failIfMajorPerformanceCaveat: true,
         });
       } catch {
-        // No usable WebGL — the CSS backdrop is the fallback.
+        // No usable WebGL: the CSS aurora stays as the hero sky.
         return;
       }
       onDispose(() => {
@@ -129,145 +103,80 @@ export default function HeroCanvas() {
       });
 
       renderer.setClearColor(0x000000, 0);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 2) * BUFFER_SCALE);
 
+      await yieldToMain();
+      if (disposed) return;
+
+      // --- Step 2: full-screen aurora --------------------------------------
       const scene = new Scene();
-      const camera = new PerspectiveCamera(CAMERA_FOV, 1, 0.1, 50);
-      camera.position.set(0, 0, CAMERA_Z);
+      const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
-      const city = new Group();
-      scene.add(city);
+      // One triangle that covers the viewport.
+      const geometry = new BufferGeometry();
+      geometry.setAttribute("position", new Float32BufferAttribute([-1, -1, 0, 3, -1, 0, -1, 3, 0], 3));
 
-      await yieldToMain();
-      if (disposed) return;
-
-      // --- Step 2: procedural skyline + wireframe ---------------------------
-      const groups = buildSkyline();
-      onDispose(() => disposeSkyline(groups));
-
-      const edgeGeometry = buildEdges(groups);
-      const fgColor = new Color(readCssColor("--fg", "#ffffff"));
-      const edgeMaterial = new LineBasicMaterial({
-        color: fgColor,
-        transparent: true,
-        opacity: 0,
-        depthWrite: false,
-      });
-      const wireframe = new LineSegments(edgeGeometry, edgeMaterial);
-      wireframe.visible = false;
-      city.add(wireframe);
-      onDispose(() => {
-        edgeGeometry.dispose();
-        edgeMaterial.dispose();
-      });
-
-      await yieldToMain();
-      if (disposed) return;
-
-      // --- Step 3: surface sampling ----------------------------------------
-      const compact = coarse || narrowQuery.matches;
-      const count = compact ? 1800 : 5200;
-      const cloud = samplePoints(groups, count, mulberry32(0x1d5b));
-
-      const pointGeometry = new BufferGeometry();
-      pointGeometry.setAttribute("position", new Float32BufferAttribute(cloud.position, 3));
-      pointGeometry.setAttribute("aNoise", new Float32BufferAttribute(cloud.noise, 3));
-      pointGeometry.setAttribute("aScale", new Float32BufferAttribute(cloud.scale, 1));
-      pointGeometry.setAttribute("aPhase", new Float32BufferAttribute(cloud.phase, 1));
-      pointGeometry.setAttribute("aTint", new Float32BufferAttribute(cloud.tint, 1));
-      // Points travel well outside the skyline while unresolved.
-      pointGeometry.boundingSphere = null;
-
-      const bg = new Color(readCssColor("--bg", "#03070b"));
-      const lightTheme = bg.r * 0.2126 + bg.g * 0.7152 + bg.b * 0.0722 > 0.5;
-
-      const pointMaterial = new ShaderMaterial({
-        vertexShader: POINT_VERTEX,
-        fragmentShader: POINT_FRAGMENT,
+      const material = new ShaderMaterial({
+        vertexShader: AURORA_VERTEX,
+        fragmentShader: AURORA_FRAGMENT,
         uniforms: {
           uTime: { value: 0 },
-          uProgress: { value: 0 },
-          uSize: { value: compact ? 19 : 26 },
-          uPixelRatio: { value: renderer.getPixelRatio() },
+          uScroll: { value: 0 },
+          uAspect: { value: 1 },
+          uNarrow: { value: narrowQuery.matches ? 1 : 0 },
           uAccent: { value: new Color(readCssColor("--accent", "#00d1b2")) },
-          uFg: { value: fgColor },
+          uGlow: { value: new Color(readCssColor("--aurora-glow", "#48a89a")) },
+          uDeep: { value: new Color(readCssColor("--aurora-deep", "#00524d")) },
+          uIce: { value: new Color(readCssColor("--aurora-ice", "#cbefeb")) },
         },
         transparent: true,
         depthWrite: false,
-        blending: lightTheme ? NormalBlending : AdditiveBlending,
+        depthTest: false,
+        premultipliedAlpha: true,
       });
 
-      const points = new Points(pointGeometry, pointMaterial);
-      points.frustumCulled = false;
-      city.add(points);
+      const mesh = new Mesh(geometry, material);
+      mesh.frustumCulled = false;
+      scene.add(mesh);
       onDispose(() => {
-        pointGeometry.dispose();
-        pointMaterial.dispose();
+        geometry.dispose();
+        material.dispose();
       });
 
       await yieldToMain();
       if (disposed) return;
-
-      // --- Composition ------------------------------------------------------
-      // Horizon sits below the vertical centre; on wide screens the city is
-      // pushed to the right third so the hero copy on the left stays clear.
-      const layout = (width: number, height: number) => {
-        const aspect = width / height;
-        const visibleHeight = 2 * CAMERA_Z * Math.tan((CAMERA_FOV * Math.PI) / 360);
-        const visibleWidth = visibleHeight * aspect;
-        if (narrowQuery.matches) {
-          // Portrait: the copy is vertically centred, so the city sits on a
-          // horizon in the open band between the nav and the eyebrow.
-          const scale = Math.min(0.8, (visibleWidth * 0.9) / 4.8);
-          city.scale.setScalar(scale);
-          city.position.set(0, visibleHeight * 0.19, 0);
-        } else {
-          const scale = Math.min(1, (visibleWidth * 0.56) / SKYLINE_WIDTH);
-          city.scale.setScalar(scale);
-          city.position.set(visibleWidth * 0.24, -visibleHeight * 0.16, 0);
-        }
-      };
 
       const resize = () => {
         const width = host.clientWidth;
         const height = host.clientHeight;
         if (!width || !height) return;
         renderer.setSize(width, height, false);
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-        layout(width, height);
+        material.uniforms.uAspect.value = width / height;
+        material.uniforms.uNarrow.value = narrowQuery.matches ? 1 : 0;
       };
       resize();
       const resizeObserver = new ResizeObserver(resize);
       resizeObserver.observe(host);
       onDispose(() => resizeObserver.disconnect());
 
-      // --- Pointer parallax ------------------------------------------------
-      const target = { x: 0, y: 0 };
-      const pointer = { x: 0, y: 0 };
-      const onPointerMove = (event: PointerEvent) => {
-        target.x = (event.clientX / window.innerWidth) * 2 - 1;
-        target.y = -((event.clientY / window.innerHeight) * 2 - 1);
-      };
-      if (!coarse) {
-        window.addEventListener("pointermove", onPointerMove, { passive: true });
-        onDispose(() => window.removeEventListener("pointermove", onPointerMove));
-      }
-
-      // --- Scroll fade -----------------------------------------------------
+      // --- Scroll: the sky moves with the page, then hands over -----------
+      // to the fixed page backdrop by fading out over the hero's height.
+      let scroll = 0;
       let scrollFade = 1;
       const applyScroll = () => {
-        const next = 1 - clamp01(window.scrollY / (host.clientHeight * 0.65 || 1));
+        const h = host.clientHeight || 1;
+        scroll = window.scrollY / h;
+        const next = 1 - clamp01((window.scrollY - h * 0.35) / (h * 0.65));
         if (next === scrollFade) return;
         const wasHidden = scrollFade <= 0.01;
         scrollFade = next;
-        host.style.opacity = next >= 1 ? "" : next.toFixed(3);
+        canvas.style.opacity = next >= 1 ? "" : next.toFixed(3);
         if (wasHidden !== scrollFade <= 0.01) sync();
       };
       window.addEventListener("scroll", applyScroll, { passive: true });
       onDispose(() => {
         window.removeEventListener("scroll", applyScroll);
-        host.style.opacity = "";
+        canvas.style.opacity = "";
       });
 
       // --- Render loop -----------------------------------------------------
@@ -275,36 +184,23 @@ export default function HeroCanvas() {
       let last = performance.now();
       let running = false;
       let revealed = false;
+      let smoothScroll = 0;
 
       const tick = (now: number) => {
         const dt = Math.min((now - last) / 1000, 0.1);
         last = now;
         elapsed += dt;
+        // Ease toward the scroll position so the curtains glide, not jump.
+        smoothScroll += (scroll - smoothScroll) * Math.min(1, dt * 4);
 
-        const progress = expoOut(Math.min(elapsed / RESOLVE_SECONDS, 1));
-        pointMaterial.uniforms.uTime.value = elapsed;
-        pointMaterial.uniforms.uProgress.value = progress;
-
-        const wireIn = clamp01((progress - 0.6) / 0.4);
-        wireframe.visible = wireIn > 0;
-        edgeMaterial.opacity = wireIn * wireIn * 0.1;
-
-        if (coarse) {
-          target.x = Math.sin(elapsed * 0.22) * 0.5;
-          target.y = Math.cos(elapsed * 0.17) * 0.3;
-        }
-        pointer.x += (target.x - pointer.x) * 0.05;
-        pointer.y += (target.y - pointer.y) * 0.05;
-        camera.position.x = pointer.x * 0.5;
-        camera.position.y = pointer.y * 0.35;
-        camera.lookAt(0, 0, 0);
-        city.rotation.y = pointer.x * 0.1;
-
+        material.uniforms.uTime.value = elapsed * 0.6;
+        material.uniforms.uScroll.value = smoothScroll;
         renderer.render(scene, camera);
 
         if (!revealed) {
           revealed = true;
           canvas.classList.add(styles.visible);
+          host.dataset.live = "true";
         }
       };
 
@@ -321,6 +217,9 @@ export default function HeroCanvas() {
         renderer.setAnimationLoop(null);
       };
       onDispose(stop);
+      onDispose(() => {
+        delete host.dataset.live;
+      });
 
       // Only animate while visible, focused, unfaded and motion is allowed.
       let inView = true;
@@ -356,7 +255,7 @@ export default function HeroCanvas() {
         canvas.removeEventListener("webglcontextrestored", onContextRestored);
       });
 
-      // --- Step 4: compile shaders off the first animated frame -----------
+      // --- Step 3: compile off the first animated frame --------------------
       renderer.compile(scene, camera);
       await yieldToMain();
       if (disposed) return;
