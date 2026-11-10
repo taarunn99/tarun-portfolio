@@ -5,10 +5,11 @@
  * Hero.module.css follow the same marks.
  *
  *   0.00 to 0.08  hero copy leaves; laptop slides to centre and springs up
- *   0.08 to 0.44  parts separate top to bottom, each on its own spring
+ *   0.10 to 0.47  the website peels off the screen, layer by layer, each on
+ *                 its own spring, and stacks above the keyboard
  *   0.06 to 0.62  one full turn, ending face on
- *   0.44 to 0.54  hold, fully exploded, captions beside each layer
- *   0.54 to 0.62  parts snap back together
+ *   0.47 to 0.54  hold, full stack, captions beside each layer
+ *   0.54 to 0.62  the layers fly back into the screen
  *   0.62 to 0.72  camera dives into the screen
  *   0.72 to 1.00  the journey, on the globe: Bhopal, Singapore, Dubai
  */
@@ -21,12 +22,10 @@ export const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
 /** overshoots then settles: the "spring" in each part's separation */
 export const easeOutBack = (t: number, s = 1.5) => 1 + (s + 1) * (t - 1) ** 3 + s * (t - 1) ** 2;
 
-/** Order the parts leave in, top first. */
-export const PART_ORDER = ["top", "cooling", "board", "speakers", "battery", "hardware", "bottom"] as const;
-
-const EXPLODE_START = 0.08;
-const EXPLODE_STEP = 0.04;
-const EXPLODE_SPAN = 0.12;
+const LAYER_START = 0.1;
+const LAYER_STEP = 0.045;
+const LAYER_SPAN = 0.14;
+const LAYER_COUNT = 6;
 const IMPLODE_START = 0.54;
 const IMPLODE_SPAN = 0.08;
 export const ZOOM_START = 0.62;
@@ -35,11 +34,16 @@ export const JOURNEY_START = ZOOM_START + ZOOM_SPAN;
 
 const implode = (p: number) => easeInOutCubic(clamp01((p - IMPLODE_START) / IMPLODE_SPAN));
 
-/** Separation of the k-th part in PART_ORDER (with overshoot), then back. */
-export function explodeAmount(p: number, k: number): number {
-  const t = clamp01((p - (EXPLODE_START + k * EXPLODE_STEP)) / EXPLODE_SPAN);
-  const out = t === 0 ? 0 : easeOutBack(t, 1.25);
-  return out * (1 - implode(p));
+/**
+ * How far layer `i` (0 = top of the stack) has travelled from the screen to
+ * its floor: 0 to 1 with a springy overshoot, then back to 0 as they return.
+ * Returning, the bottom layers go first so the stack collapses top down.
+ */
+export function layerAmount(p: number, i: number): number {
+  const t = clamp01((p - (LAYER_START + i * LAYER_STEP)) / LAYER_SPAN);
+  const out = t === 0 ? 0 : easeOutBack(t, 1.3);
+  const back = easeInOutCubic(clamp01((p - IMPLODE_START - (LAYER_COUNT - 1 - i) * 0.008) / (IMPLODE_SPAN - 0.04)));
+  return out * (1 - back);
 }
 
 /** 0 at rest beside the copy, 1 centred. */
@@ -58,9 +62,9 @@ export function spinYaw(p: number, base: number): number {
   return mix(base, Math.PI * 2, easeInOutCubic(clamp01((p - 0.06) / 0.56)));
 }
 
-/** How "exploded" the whole stack is, for framing (no overshoot). */
+/** How built the stack is, for framing (no overshoot). */
 export function stackAmount(p: number): number {
-  return easeOutCubic(clamp01((p - EXPLODE_START) / (EXPLODE_STEP * 6 + EXPLODE_SPAN))) * (1 - implode(p));
+  return easeOutCubic(clamp01((p - LAYER_START) / (LAYER_STEP * (LAYER_COUNT - 1) + LAYER_SPAN))) * (1 - implode(p));
 }
 
 /** 0 framed, 1 the screen fills the viewport. */

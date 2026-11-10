@@ -6,8 +6,10 @@ import {
   AmbientLight,
   Color,
   DirectionalLight,
+  Matrix4,
   PerspectiveCamera,
   PMREMGenerator,
+  Quaternion,
   Scene,
   SRGBColorSpace,
   Vector3,
@@ -21,11 +23,12 @@ import { waypoints } from "@/content/journey";
 import { STORY_SELECTOR, storyProgress } from "@/lib/story-progress";
 import { buildLaptop, D, LID_OPEN, SCREEN_ASPECT, SCREEN_CENTER, SCREEN_H, SCREEN_W, W } from "./model";
 import { buildEarth, slerpLatLng } from "./earth";
+import { LAYER_IDS, buildLayers, type LayerId } from "./layers";
 import {
-  PART_ORDER,
   WALLPAPER,
   clamp01,
-  explodeAmount,
+  easeOutCubic,
+  layerAmount,
   frameFor,
   journeyState,
   journeyT,
@@ -179,18 +182,35 @@ export default function LaptopCanvas() {
       );
       scene.add(laptop.root);
       onDispose(laptop.dispose);
-      const partById = new Map(laptop.parts.map((part) => [part.id, part]));
+
+      // the website that peels off the screen; caption sides come from the DOM
+      const capEls = story ? Array.from(story.querySelectorAll<HTMLElement>("[data-anchor]")) : [];
+      const sides = Object.fromEntries(
+        LAYER_IDS.map((id) => [id, capEls.find((el) => el.dataset.anchor === id)?.dataset.side === "right" ? "right" : "left"]),
+      ) as Record<LayerId, "left" | "right">;
+      const web = buildLayers(
+        {
+          accent,
+          glow: readCssColor("--aurora-glow", "#48a89a"),
+          deep: readCssColor("--aurora-deep", "#00524d"),
+          ice: readCssColor("--aurora-ice", "#cbefeb"),
+          night: readCssColor("--aurora-night", "#072928"),
+          midnight: readCssColor("--brand-midnight", "#001f3f"),
+          carbon: readCssColor("--brand-carbon", "#2e2e2e"),
+        },
+        sides,
+      );
+      laptop.root.add(web.group);
+      onDispose(web.dispose);
+      const layerById = new Map(web.layers.map((l) => [l.id, l]));
 
       const camera = new PerspectiveCamera(FOV, 1, 0.5, 600);
 
       // --- DOM hooks ---------------------------------------------------------
-      const captions = story
-        ? Array.from(story.querySelectorAll<HTMLElement>("[data-anchor]")).flatMap((el) => {
-            const anchor = laptop.anchors[el.dataset.anchor ?? ""];
-            const part = anchor ? partById.get(anchor.part) : undefined;
-            return anchor && part ? [{ el, anchor, part }] : [];
-          })
-        : [];
+      const captions = capEls.flatMap((el) => {
+        const layer = layerById.get(el.dataset.anchor as LayerId);
+        return layer ? [{ el, layer }] : [];
+      });
       const stopLabels = story ? Array.from(story.querySelectorAll<HTMLElement>("[data-stop]")) : [];
       const scratch = new Vector3();
       const capY = new Float32Array(captions.length);
@@ -246,6 +266,21 @@ export default function LaptopCanvas() {
       const headPos = new Vector3();
       const corner = new Vector3();
       const up = new Vector3();
+      // layer poses, in the laptop root's space
+      const rootInv = new Matrix4();
+      const rootQInv = new Quaternion();
+      const lidQ = new Quaternion();
+      const panelQ = new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), Math.PI / 2);
+      const flatQ = new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), -Math.PI / 2);
+      const onScreenQ = new Quaternion();
+      const onScreenP = new Vector3();
+      const outN = new Vector3();
+      const floorP = new Vector3();
+      /** the stack: website on top, infrastructure at the bottom */
+      const STACK_BASE = 7;
+      const STACK_GAP = 5.2;
+      const STACK_Z = 1.5;
+      const STACK_TOP = STACK_BASE + STACK_GAP * (LAYER_IDS.length - 1) + 2;
 
       /** Screen centre, outward normal, up and across vectors in world space. */
       const screenBasis = () => {
@@ -274,18 +309,42 @@ export default function LaptopCanvas() {
         const direct = zoom >= 0.999;
 
         // --- laptop pose
-        const lidOpen = lidAmount(seconds);
+        // opens on arrival, or at once if the visitor starts scrolling first
+        const lidOpen = Math.max(lidAmount(seconds), easeOutCubic(clamp01(p / 0.06)));
         laptop.lid.rotation.x = LID_OPEN * lidOpen;
-        PART_ORDER.forEach((id, k2) => {
-          const part = partById.get(id);
-          if (part) part.object.position.y = mix(part.assembled, part.exploded, explodeAmount(p, k2));
-        });
         const lift = liftAmount(p) * 3 * (1 - zoom);
         laptop.root.position.y = lift;
         laptop.root.rotation.y = spinYaw(p, BASE_YAW);
-        const fanSpeed = 2 + explodeAmount(p, 1) * 14;
-        for (const rotor of laptop.fanBlades) rotor.rotation.y += fanSpeed * dt;
         laptop.root.updateMatrixWorld(true);
+
+        // --- the website layers: peel off the screen, arc out towards the
+        // viewer, turn flat and settle on their floor of the stack
+        screenBasis();
+        rootInv.copy(laptop.root.matrixWorld).invert();
+        laptop.root.getWorldQuaternion(rootQInv).invert();
+        laptop.lid.getWorldQuaternion(lidQ);
+        onScreenQ.copy(rootQInv).multiply(lidQ).multiply(panelQ);
+        onScreenP.copy(screenC).applyMatrix4(rootInv);
+        outN.copy(screenN).applyQuaternion(rootQInv);
+        web.layers.forEach((layer, i) => {
+          const t = layerAmount(p, i);
+          const mesh = layer.mesh;
+          if (t <= 0.001) {
+            mesh.visible = false;
+            return;
+          }
+          const tc = clamp01(t);
+          mesh.visible = true;
+          floorP.set(0, STACK_BASE + (LAYER_IDS.length - 1 - i) * STACK_GAP, STACK_Z);
+          mesh.position
+            .copy(onScreenP)
+            .addScaledVector(outN, 0.08 + i * 0.03)
+            .lerp(floorP, t)
+            .addScaledVector(outN, Math.sin(Math.PI * tc) * 6);
+          mesh.quaternion.slerpQuaternions(onScreenQ, flatQ, tc);
+          mesh.scale.setScalar(mix(1, 0.86, tc));
+          layer.material.opacity = clamp01(t * 3) * 0.97;
+        });
 
         // --- Earth view for this moment
         if (!direct) {
@@ -309,14 +368,15 @@ export default function LaptopCanvas() {
         earth.update(seconds);
 
         // --- laptop camera: framed, blending to head-on with the screen
-        const topY = (partById.get("top")?.object.position.y ?? 0) + 1.6 + LID_RISE * lidOpen;
-        const bottomY = partById.get("bottom")?.object.position.y ?? 0;
+        const topY = Math.max(1.6 + LID_RISE * lidOpen, mix(0, STACK_TOP, stack));
+        const bottomY = 0;
         const stackH = topY - bottomY + 2;
         const stackW = mix(W + 3, Math.hypot(W, D) + 2, Math.min(1, move + stack));
         const f = frameFor(narrow, move, stack);
         const hTan = tanHalf * camera.aspect;
         const dist = Math.max(stackH / (2 * tanHalf * f.fh), stackW / (2 * hTan * f.fw));
-        const elevation = mix(0.24, 0.36, stack);
+        // look down on the stack so each floor's face reads
+        const elevation = mix(0.24, 0.52, stack);
         const cy = (topY + bottomY) / 2 + lift;
         framePos.set(0, cy + Math.sin(elevation) * dist, Math.cos(elevation) * dist);
         frameLook.set(0, cy, 0);
@@ -415,9 +475,9 @@ export default function LaptopCanvas() {
         // --- caption heights: beside their part, never overlapping a
         // neighbour on the same side, never under the heading
         if (!narrow && !direct) {
-          captions.forEach(({ anchor, part }, i) => {
-            scratch.copy(anchor.local);
-            part.object.localToWorld(scratch);
+          captions.forEach(({ layer }, i) => {
+            scratch.copy(layer.anchor);
+            layer.mesh.localToWorld(scratch);
             scratch.project(camera);
             capY[i] = ((1 - scratch.y) / 2) * height;
           });

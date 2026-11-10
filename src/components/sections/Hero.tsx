@@ -9,29 +9,31 @@ import { StoryScroll } from "@/components/motion/StoryScroll";
 import styles from "./Hero.module.css";
 
 /**
- * Each caption names a layer of the laptop and the capability it stands for.
+ * Each caption names a layer of the website that peels off the laptop screen
+ * (top of the stack first) and the capability it stands for.
  * `in` is the scroll progress where it appears beside its part on wide
  * screens (matches the part's separation in scene/laptop/choreography);
  * `inN`/`outN` are its turn in the single caption slot on narrow screens.
  */
 const LAYERS = [
-  { anchor: "display", part: "Display", capability: "web", side: "left", in: 0.17, inN: 0.15, outN: 0.22 },
-  { anchor: "keyboard", part: "Keyboard", capability: "brand", side: "right", in: 0.19, inN: 0.22, outN: 0.29 },
-  { anchor: "board", part: "Logic board", capability: "ai", side: "left", in: 0.25, inN: 0.29, outN: 0.36 },
-  { anchor: "speakers", part: "Speakers", capability: "growth", side: "right", in: 0.29, inN: 0.36, outN: 0.43 },
-  { anchor: "battery", part: "Battery", capability: "erp", side: "left", in: 0.33, inN: 0.43, outN: 0.5 },
-  { anchor: "bottom", part: "Bottom case", capability: "ops", side: "right", in: 0.41, inN: 0.5, outN: 0.56 },
+  { anchor: "web", part: "Interface", capability: "web", side: "left", in: 0.2, inN: 0.15, outN: 0.22 },
+  { anchor: "brand", part: "Brand", capability: "brand", side: "right", in: 0.245, inN: 0.22, outN: 0.29 },
+  { anchor: "growth", part: "Growth", capability: "growth", side: "left", in: 0.29, inN: 0.29, outN: 0.36 },
+  { anchor: "ai", part: "Automation", capability: "ai", side: "right", in: 0.335, inN: 0.36, outN: 0.43 },
+  { anchor: "erp", part: "Data", capability: "erp", side: "left", in: 0.38, inN: 0.43, outN: 0.5 },
+  { anchor: "ops", part: "Infrastructure", capability: "ops", side: "right", in: 0.425, inN: 0.5, outN: 0.56 },
 ] as const;
 
 /** Wide-screen captions all leave together as the laptop snaps shut. */
-const CAPTIONS_OUT = 0.53;
+const CAPTIONS_OUT = 0.57;
 
 /**
  * The hero is a pinned scroll story. At rest: name and positioning (the LCP,
  * painted HTML) beside a laptop that opens on arrival, a live Earth as its
- * wallpaper. Scrolling springs the laptop up, takes it apart layer by layer
- * and turns it once, with each layer's capability beside it; then it snaps
- * shut, the camera dives into the screen and the globe flies the route
+ * wallpaper. Scrolling springs the laptop up and peels the website off its
+ * screen into six stacked layers (interface down to infrastructure) while it
+ * turns once, each layer's capability beside it; the layers fly back into the
+ * screen, the camera dives in and the globe flies the route
  * Bhopal, Singapore, Dubai. `--p` (0 to 1) drives the copy and captions in
  * CSS; the 3D scene (scene/laptop) reads the same progress.
  *
