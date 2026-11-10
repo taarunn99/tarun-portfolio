@@ -9,6 +9,7 @@ import {
   Matrix4,
   Mesh,
   MeshBasicMaterial,
+  MeshPhysicalMaterial,
   MeshStandardMaterial,
   PlaneGeometry,
   SRGBColorSpace,
@@ -30,10 +31,12 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 
 export const W = 31.2;
 export const D = 22;
-const CASE_H = 0.7;
-const DECK_H = 0.9;
-const LID_T = 0.55;
+/** one thin body (no separate case slab, so no seam) and a thin lid */
+const DECK_H = 0.82;
+const LID_T = 0.26;
 const LID_D = D - 0.4;
+/** deck top, for framing in the scene */
+export const DECK_TOP = DECK_H;
 
 export type PartId = "top" | "bottom";
 
@@ -56,9 +59,9 @@ export type Laptop = {
 export const LID_OPEN = -1.83; // about 105 degrees
 
 /** The display panel, in lid-local space (x across, z from hinge to top edge). */
-export const SCREEN_W = W - 1.6;
-export const SCREEN_H = LID_D - 2.2;
-export const SCREEN_CENTER = { x: 0, y: -0.008, z: LID_D / 2 - 0.1 } as const;
+export const SCREEN_W = W - 0.9;
+export const SCREEN_H = LID_D - 1.15;
+export const SCREEN_CENTER = { x: 0, y: -0.008, z: LID_D / 2 + 0.06 } as const;
 export const SCREEN_ASPECT = SCREEN_W / SCREEN_H;
 
 /** Deterministic PRNG so the board layout is identical on every load. */
@@ -140,11 +143,12 @@ export function buildLaptop(palette: Palette, screenMap?: Texture): Laptop {
   };
 
   // --- materials -----------------------------------------------------------
-  const aluminium = mat(new MeshStandardMaterial({ color: "#45484e", metalness: 0.9, roughness: 0.38 }));
-  const aluminiumDark = mat(new MeshStandardMaterial({ color: "#2b2d31", metalness: 0.85, roughness: 0.45 }));
-  const black = mat(new MeshStandardMaterial({ color: "#0c0d0f", metalness: 0.2, roughness: 0.55 }));
-  const keyMat = mat(new MeshStandardMaterial({ color: "#121316", metalness: 0.1, roughness: 0.6 }));
-  const glass = mat(new MeshStandardMaterial({ color: "#4a4e55", metalness: 0.7, roughness: 0.22 }));
+  // space black anodised aluminium: dark faces, light only on the rounded edges
+  const aluminium = mat(new MeshStandardMaterial({ color: "#1b1e22", metalness: 1, roughness: 0.3 }));
+  const aluminiumDark = mat(new MeshStandardMaterial({ color: "#1c1e22", metalness: 0.9, roughness: 0.4 }));
+  const black = mat(new MeshStandardMaterial({ color: "#07080a", metalness: 0.3, roughness: 0.5 }));
+  const keyMat = mat(new MeshStandardMaterial({ color: "#0d0e11", metalness: 0.2, roughness: 0.55 }));
+  const glass = mat(new MeshPhysicalMaterial({ color: "#121418", metalness: 0.6, roughness: 0.12, clearcoat: 0.3, clearcoatRoughness: 0.2 }));
 
   // the wallpaper: a live render target from the Earth scene when given,
   // otherwise static aurora art
@@ -173,30 +177,27 @@ export function buildLaptop(palette: Palette, screenMap?: Texture): Laptop {
     return m;
   };
 
-  // Exploded heights, top to bottom. Assembled, every internal sits inside
-  // the deck/case volume (y 0 to CASE_H + DECK_H).
-  // --- bottom case ----------------------------------------------------------
-  const bottom = part("bottom", 0, -10);
-  bottom.add(mesh(new RoundedBoxGeometry(W, CASE_H, D, 4, 0.34), aluminium, 0, CASE_H / 2, 0));
-  // inner tray floor, so the open case reads as a tray from above
-  bottom.add(mesh(new BoxGeometry(W - 1.4, 0.02, D - 1.4), aluminiumDark, 0, CASE_H + 0.011, 0));
+  // --- underside: four low feet only ---------------------------------------
+  const bottom = part("bottom", 0, 0);
   for (const [x, z] of [
-    [-W / 2 + 2.2, -D / 2 + 2.2],
-    [W / 2 - 2.2, -D / 2 + 2.2],
-    [-W / 2 + 2.2, D / 2 - 2.2],
-    [W / 2 - 2.2, D / 2 - 2.2],
+    [-W / 2 + 2.4, -D / 2 + 2.4],
+    [W / 2 - 2.4, -D / 2 + 2.4],
+    [-W / 2 + 2.4, D / 2 - 2.4],
+    [W / 2 - 2.4, D / 2 - 2.4],
   ] as const) {
-    bottom.add(mesh(new CylinderGeometry(0.8, 0.8, 0.12, 24), black, x, -0.06, z));
+    bottom.add(mesh(new CylinderGeometry(0.55, 0.55, 0.05, 24), black, x, -0.02, z));
   }
 
   // --- top assembly: keyboard deck + lid -----------------------------------
-  const top = part("top", CASE_H, 30);
+  const top = part("top", 0, 0);
   {
-    top.add(mesh(new RoundedBoxGeometry(W, DECK_H, D, 4, 0.4), aluminium, 0, DECK_H / 2, 0));
+    // one body, edges fully rounded (radius is half the thickness)
+    top.add(mesh(new RoundedBoxGeometry(W, DECK_H, D, 6, DECK_H / 2 - 0.01), aluminium, 0, DECK_H / 2, 0));
     const deckTop = DECK_H + 0.002;
-    // keyboard well and keys
-    top.add(mesh(new BoxGeometry(27.2, 0.02, 11.6), black, 0, deckTop, -3.1));
-    const keyGeo = track(new RoundedBoxGeometry(1, 0.16, 1, 2, 0.12));
+    // keyboard well, speaker grilles either side, low-profile keys
+    top.add(mesh(new BoxGeometry(26.6, 0.012, 11.2), black, 0, deckTop, -3.1));
+    for (const x of [-14.25, 14.25]) top.add(mesh(new BoxGeometry(1.1, 0.01, 10.6), aluminiumDark, x, deckTop, -3.1));
+    const keyGeo = track(new RoundedBoxGeometry(1, 0.07, 1, 2, 0.03));
     const rows: number[][] = [
       Array<number>(14).fill(1.55).map((w, i) => (i === 0 || i === 13 ? 1.55 : w)),
       [1.55, ...Array<number>(12).fill(1.55), 2.4],
@@ -216,29 +217,27 @@ export function buildLaptop(palette: Palette, screenMap?: Texture): Laptop {
       const depth = ri === 0 ? 0.9 : 1.55;
       const z = -8.1 + ri * 1.8 + (ri === 0 ? 0.3 : 0);
       for (const w of row) {
-        m4.makeScale(w, 1, depth).setPosition(x + w / 2, deckTop + 0.08, z);
+        m4.makeScale(w, 1, depth).setPosition(x + w / 2, deckTop + 0.035, z);
         keys.setMatrixAt(k++, m4);
         x += w + gap;
       }
     });
     top.add(keys);
     // trackpad
-    top.add(mesh(new RoundedBoxGeometry(13, 0.04, 7.8, 2, 0.02), glass, 0, deckTop, 6.4));
-    // hinges
-    for (const x of [-11.6, 11.6]) {
-      const hinge = mesh(new CylinderGeometry(0.42, 0.42, 3.2, 20), aluminiumDark, x, DECK_H + 0.1, -D / 2 + 0.25);
-      hinge.rotation.z = Math.PI / 2;
-      top.add(hinge);
-    }
+    top.add(mesh(new RoundedBoxGeometry(14.5, 0.02, 8.6, 2, 0.01), glass, 0, deckTop, 6.3));
+    // one long, slim hinge barrel
+    const hinge = mesh(new CylinderGeometry(0.3, 0.3, W - 7, 24), aluminiumDark, 0, DECK_H + 0.02, -D / 2 + 0.28);
+    hinge.rotation.z = Math.PI / 2;
+    top.add(hinge);
   }
 
   const lid = new Group();
-  lid.position.set(0, DECK_H + 0.05, -D / 2 + 0.2);
+  lid.position.set(0, DECK_H + 0.02, -D / 2 + 0.2);
   top.add(lid);
   {
-    lid.add(mesh(new RoundedBoxGeometry(W, LID_T, LID_D, 4, 0.27), aluminium, 0, LID_T / 2, LID_D / 2));
-    // bezel and screen on the inner face (local -y), facing the keys when closed
-    const bezel = mesh(new PlaneGeometry(W - 0.6, LID_D - 0.6), black, 0, -0.004, LID_D / 2);
+    lid.add(mesh(new RoundedBoxGeometry(W, LID_T, LID_D, 4, LID_T / 2 - 0.01), aluminium, 0, LID_T / 2, LID_D / 2));
+    // edge-to-edge glass with slim bezels on the inner face (local -y)
+    const bezel = mesh(new PlaneGeometry(W - 0.3, LID_D - 0.3), black, 0, -0.004, LID_D / 2);
     bezel.rotation.x = Math.PI / 2;
     lid.add(bezel);
     const panel = mesh(new PlaneGeometry(SCREEN_W, SCREEN_H), screen, SCREEN_CENTER.x, SCREEN_CENTER.y, SCREEN_CENTER.z);

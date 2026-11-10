@@ -21,7 +21,7 @@ import { yieldToMain } from "@/components/motion/runtime";
 import { readCssColor } from "@/components/scene/work-grid/css-color";
 import { waypoints } from "@/content/journey";
 import { STORY_SELECTOR, storyProgress } from "@/lib/story-progress";
-import { buildLaptop, D, LID_OPEN, SCREEN_ASPECT, SCREEN_CENTER, SCREEN_H, SCREEN_W, W } from "./model";
+import { buildLaptop, D, DECK_TOP, LID_OPEN, SCREEN_ASPECT, SCREEN_CENTER, SCREEN_H, SCREEN_W, W } from "./model";
 import { buildEarth, slerpLatLng } from "./earth";
 import { LAYER_IDS, buildLayers, type LayerId } from "./layers";
 import {
@@ -368,7 +368,7 @@ export default function LaptopCanvas() {
         earth.update(seconds);
 
         // --- laptop camera: framed, blending to head-on with the screen
-        const topY = Math.max(1.6 + LID_RISE * lidOpen, mix(0, STACK_TOP, stack));
+        const topY = Math.max(DECK_TOP + LID_RISE * lidOpen, mix(0, STACK_TOP, stack));
         const bottomY = 0;
         const stackH = topY - bottomY + 2;
         const stackW = mix(W + 3, Math.hypot(W, D) + 2, Math.min(1, move + stack));
