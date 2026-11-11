@@ -1,0 +1,211 @@
+.card {
+  position: relative;
+  height: 100%;
+  perspective: 1600px;
+}
+
+.link {
+  display: block;
+  height: 100%;
+}
+
+.inner {
+  display: grid;
+  /* long nowrap client names must not set the card's width */
+  grid-template-columns: minmax(0, 1fr);
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform var(--dur-reveal) var(--ease-out-quint);
+}
+
+.front,
+.back {
+  grid-area: 1 / 1;
+  min-width: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Turned over: hover on a mouse (after a beat, so cards gliding past a still
+   cursor don't flicker), keyboard focus, or the touch toggle. */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .inner {
+    transform: rotateY(180deg);
+    transition-delay: 120ms;
+  }
+}
+
+.card:has(.link:focus-visible) .inner,
+.card[data-flipped] .inner {
+  transform: rotateY(180deg);
+}
+
+/* ---- front ---- */
+.front {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.media {
+  aspect-ratio: 16 / 10;
+  border: var(--hairline);
+  border-radius: var(--radius-sm);
+  overflow: clip;
+  background: var(--bg-elevated);
+}
+
+.media > * {
+  width: 100%;
+  height: 100%;
+}
+
+.meta {
+  display: flex;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.index {
+  color: var(--accent);
+}
+
+.client {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.title {
+  font-size: var(--fs-h3);
+  text-wrap: balance;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ---- back ---- */
+.back {
+  transform: rotateY(180deg);
+  display: grid;
+  align-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid color-mix(in oklab, var(--accent) 45%, transparent);
+  border-radius: var(--radius-md);
+  background:
+    radial-gradient(120% 70% at 0% 0%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 70%),
+    var(--bg-elevated);
+}
+
+.backHead {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.heroValue {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  font-size: clamp(2.25rem, 1.6rem + 2vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+}
+
+.heroLabel {
+  display: grid;
+  gap: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.note {
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+.metrics {
+  display: grid;
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding-block: clamp(0.4rem, 1.3svh, 0.75rem);
+  border-top: var(--hairline);
+  font-size: var(--fs-small);
+}
+
+.row dt {
+  color: var(--muted);
+}
+
+.row dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--fg);
+  text-align: end;
+}
+
+.more {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 0.3em;
+}
+
+/* ---- touch toggle ---- */
+.toggle {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 2;
+  display: none;
+  min-height: 2.25rem;
+  padding-inline: var(--space-4);
+  border: 1px solid color-mix(in oklab, var(--accent) 55%, transparent);
+  border-radius: var(--radius-pill);
+  background: color-mix(in oklab, var(--bg) 78%, transparent);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+  }
+}
