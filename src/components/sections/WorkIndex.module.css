@@ -18,6 +18,15 @@
   backdrop-filter: blur(10px);
 }
 
+/* Touch screens: no live blur while scrolling, a denser tint instead. */
+@media (hover: none), (pointer: coarse) {
+  .toolbar {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: color-mix(in oklab, var(--bg) 95%, transparent);
+  }
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;

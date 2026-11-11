@@ -36,6 +36,8 @@ const RUNS = Math.max(1, Number(process.env.LH_RUNS ?? 1));
 const CPU = process.env.LH_CPU ?? "";
 const OUT = path.join(root, "reports");
 const CATEGORIES = ["performance", "accessibility", "best-practices", "seo"];
+/** `LH_FORMS=mobile` audits one form factor only (default: mobile then desktop). */
+const FORMS = (process.env.LH_FORMS ?? "mobile,desktop").split(",").map((f) => f.trim()).filter((f) => f === "mobile" || f === "desktop");
 
 const nextBin = path.join(root, "node_modules", "next", "dist", "bin", "next");
 const lighthouseBin = path.join(root, "node_modules", "lighthouse", "cli", "index.js");
@@ -177,7 +179,7 @@ async function main() {
   try {
     cpuMultiplier = await calibrateCpu();
     for (const pathname of PATHS) {
-      for (const formFactor of ["mobile", "desktop"]) {
+      for (const formFactor of FORMS) {
         const runs = [];
         for (let i = 1; i <= RUNS; i++) runs.push(await audit(pathname, formFactor, i));
         results.push(median(runs));

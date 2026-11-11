@@ -23,7 +23,7 @@ export function FeaturedWork() {
       data-story
       style={{ "--p": 0, "--n": items.length } as CSSProperties}
     >
-      <StoryScroll id="work-title" />
+      <StoryScroll id="work-title" targets="[data-p]" prop="--wp" />
       <div className={styles.stage}>
         <header className={`container ${styles.head}`}>
           <p className="eyebrow">Selected work</p>
@@ -33,7 +33,7 @@ export function FeaturedWork() {
           </Link>
         </header>
         <div className={styles.viewport}>
-          <ol className={styles.track}>
+          <ol className={styles.track} data-p>
             {items.map((cs, i) => (
               <li key={cs.slug} className={styles.item}>
                 <FlipCard cs={cs} index={i} />
@@ -42,7 +42,7 @@ export function FeaturedWork() {
           </ol>
         </div>
         <div className={`container ${styles.progress}`} aria-hidden="true">
-          <span />
+          <span data-p />
         </div>
       </div>
     </section>

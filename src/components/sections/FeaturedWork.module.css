@@ -1,3 +1,11 @@
+/* Scroll progress for this section only. Not inherited, so writing it each
+   frame restyles the track and the bar, not every card inside them. */
+@property --wp {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
 /*
  * Pinned sideways scroll. Everything is worked out from the card count:
  *   --track     full width of the row of cards, padding included
@@ -87,7 +95,7 @@
   margin: 0;
   padding: 0 var(--start);
   list-style: none;
-  transform: translate3d(calc(var(--p) * var(--overflow) * -1), 0, 0);
+  transform: translate3d(calc(var(--wp) * var(--overflow) * -1), 0, 0);
   will-change: transform;
 }
 
@@ -109,7 +117,7 @@
   display: block;
   height: 100%;
   background: var(--accent);
-  transform: scaleX(var(--p));
+  transform: scaleX(var(--wp));
   transform-origin: left;
 }
 

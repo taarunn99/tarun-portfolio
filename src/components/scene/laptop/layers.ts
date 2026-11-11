@@ -332,9 +332,17 @@ export type Layer = {
   material: MeshBasicMaterial;
   /** caption anchor in the layer's local space (its outer edge) */
   anchor: Vector3;
+  /** draws the layer's art if it has not been drawn yet (canvas work, ~10 to 70 ms on a phone) */
+  paint: () => void;
 };
 
-export type Layers = { group: Group; layers: Layer[]; dispose: () => void };
+export type Layers = {
+  group: Group;
+  layers: Layer[];
+  /** draws the next undrawn layer; false when all are drawn */
+  paintNext: () => boolean;
+  dispose: () => void;
+};
 
 /** `sides` says which edge each caption sits on, so anchors face it. */
 export function buildLayers(palette: Palette, sides: Record<LayerId, "left" | "right">): Layers {
@@ -346,8 +354,6 @@ export function buildLayers(palette: Palette, sides: Record<LayerId, "left" | "r
     const canvas = document.createElement("canvas");
     canvas.width = CW;
     canvas.height = CH;
-    const ctx = canvas.getContext("2d");
-    if (ctx) DRAW[id](ctx, palette);
     const texture = new CanvasTexture(canvas);
     texture.colorSpace = SRGBColorSpace;
     texture.anisotropy = 8;
@@ -364,12 +370,28 @@ export function buildLayers(palette: Palette, sides: Record<LayerId, "left" | "r
     mesh.visible = false;
     group.add(mesh);
     const anchor = new Vector3((sides[id] === "left" ? -1 : 1) * SCREEN_W * 0.5, 0, 0);
-    return { id, mesh, material, anchor };
+    // Drawn on demand, one layer per task, so building the scene never
+    // blocks the main thread for all six at once.
+    let painted = false;
+    const paint = () => {
+      if (painted) return;
+      painted = true;
+      const ctx = canvas.getContext("2d");
+      if (ctx) DRAW[id](ctx, palette);
+      texture.needsUpdate = true;
+    };
+    return { id, mesh, material, anchor, paint, painted: () => painted };
   });
 
   return {
     group,
     layers,
+    paintNext: () => {
+      const next = layers.find((l) => !l.painted());
+      if (!next) return false;
+      next.paint();
+      return true;
+    },
     dispose: () => {
       for (const d of disposables) d.dispose();
     },

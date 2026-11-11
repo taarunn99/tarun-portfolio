@@ -12,6 +12,7 @@ import {
   WebGLRenderer,
 } from "three";
 import { yieldToMain } from "@/components/motion/runtime";
+import { compileScene } from "@/lib/compile-scene";
 import { AURORA_FRAGMENT, AURORA_VERTEX } from "./hero/aurora";
 import { STORY_SELECTOR, storyProgress } from "@/lib/story-progress";
 import styles from "./HeroScene.module.css";
@@ -104,7 +105,8 @@ export default function HeroCanvas() {
       });
 
       renderer.setClearColor(0x000000, 0);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 2) * BUFFER_SCALE);
+      // soft light upscales cleanly: phones draw it at half of CSS size
+      renderer.setPixelRatio(coarse ? 0.5 : Math.min(window.devicePixelRatio || 1, 2) * BUFFER_SCALE);
 
       await yieldToMain();
       if (disposed) return;
@@ -266,7 +268,11 @@ export default function HeroCanvas() {
       });
 
       // --- Step 3: compile off the first animated frame --------------------
-      renderer.compile(scene, camera);
+      try {
+        await compileScene(renderer, scene, camera);
+      } catch {
+        // compile on first render instead
+      }
       await yieldToMain();
       if (disposed) return;
 

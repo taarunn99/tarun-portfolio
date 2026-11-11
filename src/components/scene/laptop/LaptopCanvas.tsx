@@ -18,6 +18,7 @@ import {
 } from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { yieldToMain } from "@/components/motion/runtime";
+import { compileScene } from "@/lib/compile-scene";
 import { readCssColor } from "@/components/scene/work-grid/css-color";
 import { waypoints } from "@/content/journey";
 import { STORY_SELECTOR, storyProgress } from "@/lib/story-progress";
@@ -123,7 +124,8 @@ export default function LaptopCanvas() {
       const scene = new Scene();
       const pmrem = new PMREMGenerator(renderer);
       const room = new RoomEnvironment();
-      const env = pmrem.fromScene(room, 0.04).texture;
+      // no pre-blur: the reflections are subtle and the blur passes are the costly part
+      const env = pmrem.fromScene(room, 0).texture;
       room.dispose();
       pmrem.dispose();
       scene.environment = env;
@@ -161,7 +163,8 @@ export default function LaptopCanvas() {
       onDispose(() => screenTarget.dispose());
       let targetWidth = 1024;
       const sizeTarget = (px: number) => {
-        const w = px > 1500 ? 2048 : px > 900 ? 1536 : 1024;
+        // phones draw the laptop screen a few hundred px wide: no need for 1024
+        const w = px > 1500 ? 2048 : px > 900 ? 1536 : px > 480 ? 1024 : 512;
         if (w === targetWidth) return;
         targetWidth = w;
         screenTarget.setSize(w, Math.round(w / SCREEN_ASPECT));
@@ -247,6 +250,7 @@ export default function LaptopCanvas() {
       let last = performance.now();
       let running = false;
       let revealed = false;
+      let rtFrame = 0;
 
       const onScroll = () => {
         if (story) target = storyProgress(story);
@@ -334,6 +338,7 @@ export default function LaptopCanvas() {
             return;
           }
           const tc = clamp01(t);
+          layer.paint();
           mesh.visible = true;
           floorP.set(0, STACK_BASE + (LAYER_IDS.length - 1 - i) * STACK_GAP, STACK_Z);
           mesh.position
@@ -405,7 +410,11 @@ export default function LaptopCanvas() {
           earth.camera.aspect = SCREEN_ASPECT;
           earth.camera.clearViewOffset();
           earth.camera.updateProjectionMatrix();
-          earth.renderTo(renderer, screenTarget);
+          // Phones: while the globe is only the wallpaper on a small screen,
+          // refresh it every other frame (it turns slowly); every frame once
+          // the camera starts to dive in.
+          rtFrame++;
+          if (!coarse || zoom > 0.001 || rtFrame % 2 === 1) earth.renderTo(renderer, screenTarget);
           renderer.setClearColor(0x000000, 0);
           renderer.clear();
           renderer.render(scene, camera);
@@ -560,11 +569,32 @@ export default function LaptopCanvas() {
       void document.fonts?.ready.then(() => {
         if (!disposed) measureCaptions();
       });
-      renderer.compile(scene, camera);
-      renderer.compile(earth.scene, earth.camera);
+      // Shaders compile in parallel where the GPU driver allows it
+      // (KHR_parallel_shader_compile), instead of one long blocking task.
+      try {
+        // hidden meshes are skipped by compile: show the layers for it so
+        // the first peel does not stall on a shader compile
+        for (const l of web.layers) l.mesh.visible = true;
+        await compileScene(renderer, scene, camera);
+        for (const l of web.layers) l.mesh.visible = false;
+        await yieldToMain();
+        if (disposed) return;
+        await compileScene(renderer, earth.scene, earth.camera);
+      } catch {
+        // compile on first render instead
+      }
       await yieldToMain();
       if (disposed) return;
       sync();
+
+      // Draw the peel-off layers in the background, one per task, well
+      // before the scroll reaches them (a layer that is needed sooner
+      // draws itself on demand in the frame loop).
+      const paintLater = () => {
+        if (disposed) return;
+        if (web.paintNext()) window.setTimeout(paintLater, 120);
+      };
+      window.setTimeout(paintLater, 600);
     })();
 
     return () => {

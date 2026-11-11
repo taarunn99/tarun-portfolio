@@ -14,6 +14,7 @@ import {
   WebGLRenderer,
 } from "three";
 import { yieldToMain } from "@/components/motion/runtime";
+import { compileScene } from "@/lib/compile-scene";
 import { STORY_SELECTOR, storyProgress } from "@/lib/story-progress";
 import { PROOF_FRAGMENT, PROOF_VERTEX } from "./shaders";
 import { particleSeeds, sampleNumber } from "./targets";
@@ -316,7 +317,11 @@ export default function ProofCanvas() {
         canvas.removeEventListener("webglcontextrestored", sync);
       });
 
-      renderer.compile(scene, camera);
+      try {
+        await compileScene(renderer, scene, camera);
+      } catch {
+        // compile on first render instead
+      }
       await yieldToMain();
       if (disposed) return;
       sync();

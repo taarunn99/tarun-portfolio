@@ -10,8 +10,12 @@ import {
   AmbientLight,
   Group,
   ImageBitmapLoader,
+  LinearFilter,
   Mesh,
   MeshBasicMaterial,
+  OrthographicCamera,
+  PlaneGeometry,
+  RepeatWrapping,
   MeshStandardMaterial,
   PerspectiveCamera,
   Points,
@@ -25,7 +29,7 @@ import {
   TubeGeometry,
   Vector3,
   type WebGLRenderer,
-  type WebGLRenderTarget,
+  WebGLRenderTarget,
 } from "three";
 
 /**
@@ -136,29 +140,68 @@ export function buildEarth(opts: { textureUrl: string; accent: string; stops: St
     surfaceMat.needsUpdate = true;
   });
 
-  // --- clouds (generated, drifting slowly) ----------------------------------
+  // --- clouds (generated once, drifting slowly) -----------------------------
+  // The cloud field is 3D noise, which is far too costly to evaluate per pixel
+  // every frame on a phone. It is baked once into an equirectangular map on
+  // the GPU (same UV layout as SphereGeometry, so no seam) and the cloud
+  // sphere just turns slowly.
+  const cloudMap = keep(new WebGLRenderTarget(1024, 512, { depthBuffer: false, magFilter: LinearFilter, minFilter: LinearFilter }));
+  cloudMap.texture.wrapS = RepeatWrapping;
+  const bakeMat = keep(
+    new ShaderMaterial({
+      vertexShader: /* glsl */ `
+        varying vec2 vUv;
+        void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }`,
+      fragmentShader: /* glsl */ `
+        varying vec2 vUv;
+        ${NOISE}
+        void main() {
+          float phi = vUv.x * 6.28318530718;
+          float theta = (1.0 - vUv.y) * 3.14159265359;
+          vec3 pos = vec3(-cos(phi) * sin(theta), cos(theta), sin(phi) * sin(theta)) * 1.008;
+          vec3 p = pos * 3.6;
+          float band = 1.0 - smoothstep(0.55, 0.95, abs(pos.y));
+          float c = fbm3(p + vec3(n3(p * 2.3)) * 0.9);
+          float a = smoothstep(0.6, 0.84, c) * (0.4 + 0.4 * band);
+          gl_FragColor = vec4(a, a, a, 1.0);
+        }`,
+      depthTest: false,
+      depthWrite: false,
+    }),
+  );
+  const bakeScene = new Scene();
+  const bakeQuad = new Mesh(keep(new PlaneGeometry(2, 2)), bakeMat);
+  bakeQuad.frustumCulled = false;
+  bakeScene.add(bakeQuad);
+  const bakeCamera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  let baked = false;
+  const bake = (renderer: WebGLRenderer) => {
+    if (baked) return;
+    baked = true;
+    const prev = renderer.getRenderTarget();
+    renderer.setRenderTarget(cloudMap);
+    renderer.render(bakeScene, bakeCamera);
+    renderer.setRenderTarget(prev);
+  };
+
   const cloudMat = keep(
     new ShaderMaterial({
       transparent: true,
       depthWrite: false,
       toneMapped: false,
-      uniforms: { uTime: { value: 0 }, uSun: { value: new Vector3() } },
+      uniforms: { uMap: { value: cloudMap.texture }, uSun: { value: new Vector3() } },
       vertexShader: /* glsl */ `
-        varying vec3 vPos; varying vec3 vNormalW;
+        varying vec2 vUv; varying vec3 vNormalW;
         void main() {
-          vPos = position;
+          vUv = uv;
           vNormalW = normalize(mat3(modelMatrix) * normal);
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }`,
       fragmentShader: /* glsl */ `
-        uniform float uTime; uniform vec3 uSun;
-        varying vec3 vPos; varying vec3 vNormalW;
-        ${NOISE}
+        uniform sampler2D uMap; uniform vec3 uSun;
+        varying vec2 vUv; varying vec3 vNormalW;
         void main() {
-          vec3 p = vPos * 3.6 + vec3(uTime * 0.01, 0.0, 0.0);
-          float band = 1.0 - smoothstep(0.55, 0.95, abs(vPos.y));
-          float c = fbm3(p + vec3(n3(p * 2.3)) * 0.9);
-          float a = smoothstep(0.6, 0.84, c) * (0.4 + 0.4 * band);
+          float a = texture2D(uMap, vUv).r;
           float light = clamp(dot(normalize(vNormalW), normalize(uSun)) * 0.9 + 0.25, 0.08, 1.0);
           gl_FragColor = vec4(vec3(light), a * 0.85);
         }`,
@@ -319,7 +362,7 @@ export function buildEarth(opts: { textureUrl: string; accent: string; stops: St
       return scratch.clone().normalize().dot(camera.position.clone().sub(scratch).normalize()) > 0.15;
     },
     update: (seconds) => {
-      cloudMat.uniforms.uTime.value = seconds;
+      clouds.rotation.y = seconds * 0.003;
       (cloudMat.uniforms.uSun.value as Vector3).copy(sun.position);
       for (const m of markers) {
         const pulse = (seconds * 0.8) % 1;
@@ -328,6 +371,7 @@ export function buildEarth(opts: { textureUrl: string; accent: string; stops: St
       }
     },
     renderTo: (renderer, target) => {
+      bake(renderer);
       renderer.setRenderTarget(target);
       renderer.setClearColor(0x000000, 1);
       renderer.clear();

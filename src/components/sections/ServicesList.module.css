@@ -98,10 +98,13 @@
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .section {
-      animation: open linear both;
-      animation-timeline: view();
-      animation-range: cover 0% cover 100%;
+    /* the panel opening repaints the whole screen each frame: wide screens only */
+    @media (min-width: 48rem) {
+      .section {
+        animation: open linear both;
+        animation-timeline: view();
+        animation-range: cover 0% cover 100%;
+      }
     }
 
     .fill {

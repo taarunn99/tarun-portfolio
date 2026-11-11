@@ -27,6 +27,22 @@
   mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
 }
 
+/* Touch screens: a live blur over moving WebGL is re-rendered every frame of
+   scrolling, which phones pay for in dropped frames. A denser tint reads the
+   same at phone size. */
+@media (hover: none), (pointer: coarse) {
+  .header::before {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--bg) 94%, transparent) 0%,
+      color-mix(in oklab, var(--bg) 72%, transparent) 50%,
+      transparent 100%
+    );
+  }
+}
+
 .nav {
   pointer-events: auto;
   width: min(100%, var(--container));
