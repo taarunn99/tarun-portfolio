@@ -18,6 +18,12 @@
   height: 100svh;
   padding-block: 7rem 6rem;
   overflow: hidden;
+  /* As the story ends and the stage scrolls away, its bottom edge fades into
+     the page backdrop instead of ending on a hard line. Grows over the last
+     2.5% of the story to the bottom 30% (below the journey's stop labels). */
+  --fade: calc(clamp(0, (var(--p) - 0.975) * 40, 1) * 30%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade)), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade)), transparent);
 }
 
 /* Readability scrim behind the copy on the left; leaves with the copy */
@@ -449,6 +455,8 @@
     align-content: center;
     gap: var(--space-8);
     overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 
   .inner,
