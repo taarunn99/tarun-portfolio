@@ -1,19 +1,142 @@
-.strip {
-  padding-block: var(--space-8) 0;
+/*
+ * Short pinned story: six numbers, one at a time. `--p` (0 to 1, from
+ * motion/StoryScroll) gives `--u` (0 to 6); each slide holds for the first
+ * 60% of its window, then fades as the particles fly to the next number.
+ * The same timing lives in scene/proof/ProofCanvas (HOLD).
+ */
+.proof {
+  --p: 0;
+  --u: calc(var(--p) * 6);
+  position: relative;
+  height: 300vh;
+  height: 300svh;
 }
 
-.grid {
+.stage {
+  position: sticky;
+  top: 0;
+  isolation: isolate;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-7) var(--space-5);
-  padding-bottom: var(--space-8);
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  height: 100svh;
+  padding-block: 6rem var(--space-7);
+  overflow: hidden;
 }
 
-/* Three equal columns from tablet up: six 1fr tracks size to their numerals
-   ("7" vs "AED 2.27M") and squeeze the labels into four-line stacks. */
-@media (min-width: 48rem) {
-  .grid {
+.head {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+}
+
+.title {
+  font-size: var(--fs-h2);
+  text-wrap: balance;
+}
+
+.slides {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-items: center;
+  padding-inline: var(--space-5);
+  list-style: none;
+  margin: 0;
+}
+
+.slide {
+  grid-area: 1 / 1;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  text-align: center;
+  opacity: clamp(0, min(calc((var(--u) - var(--a)) / 0.15), calc((var(--b) - var(--u)) / 0.2)), 1);
+}
+
+/* The number box. The particle canvas fits each number into this same box. */
+.value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 64rem);
+  height: clamp(5.5rem, 26svh, 15rem);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  font-size: clamp(3rem, 1rem + 9vw, 9.5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  color: var(--fg);
+  transition: color 0.8s var(--ease-out-quint);
+}
+
+/* particles have taken over: the digits step back, the labels stay */
+.proof[data-particles] .value {
+  color: transparent;
+}
+
+.label {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  max-width: 40ch;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+  text-wrap: balance;
+}
+
+.index {
+  color: var(--accent);
+}
+
+.note {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.marquee {
+  padding-block: var(--space-7) var(--space-8);
+}
+
+/* Reduced motion: no pin, a plain grid of all six. */
+@media (prefers-reduced-motion: reduce) {
+  .proof {
+    height: auto;
+  }
+
+  .stage {
+    position: relative;
+    height: auto;
+    padding-block: var(--space-8);
+    gap: var(--space-7);
+  }
+
+  .slides {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-7) var(--space-5);
+  }
+
+  .slide {
+    grid-area: auto;
+    opacity: 1;
+  }
+
+  .value {
+    height: auto;
+    font-size: clamp(2rem, 1.2rem + 2.6vw, 3.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 48rem) {
+  .slides {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-8) var(--space-6);
   }
 }
