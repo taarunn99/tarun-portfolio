@@ -1,23 +1,43 @@
+/*
+ * The services panel: solid Midnight Grid instead of the aurora backdrop.
+ * Scroll-driven (CSS only):
+ *   - the panel opens from an inset rounded card to full bleed as it enters,
+ *     and closes again as it leaves (`open`, on the section's own view)
+ *   - every `.fill` line fills from faint to full ink as its row moves up the
+ *     screen (`fill`, on the row's view timeline), line by line, because the
+ *     inline background is one strip across the wrapped lines
+ */
 .section {
-  border-top: var(--hairline);
+  --ink: var(--fg);
+  --faint: color-mix(in oklab, var(--fg) 20%, transparent);
+  position: relative;
+  padding-block: var(--section-y);
+  background: var(--bg-elevated);
+}
+
+.inner {
+  display: grid;
+  gap: var(--block-y);
 }
 
 .head {
   display: grid;
   gap: var(--space-4);
-  margin-bottom: var(--block-y);
+  view-timeline: --head block;
 }
 
 .title {
   font-size: var(--fs-h1);
+  max-width: 20ch;
 }
 
 .list {
-  border-top: var(--hairline);
+  border-top: 1px solid color-mix(in oklab, var(--fg) 14%, transparent);
 }
 
 .item {
-  border-bottom: var(--hairline);
+  border-bottom: 1px solid color-mix(in oklab, var(--fg) 14%, transparent);
+  view-timeline: --row block;
 }
 
 .link {
@@ -25,9 +45,12 @@
   grid-template-columns: auto 1fr;
   gap: var(--space-5);
   align-items: start;
-  padding-block: var(--space-6);
+  padding-block: clamp(var(--space-6), 6svh, var(--space-8));
   cursor: pointer;
-  transition: color var(--dur-fast) var(--ease-out-ui);
+}
+
+.link:hover {
+  --ink: var(--accent);
 }
 
 .index {
@@ -35,33 +58,98 @@
   font-size: var(--fs-caption);
   letter-spacing: var(--ls-caption);
   color: var(--accent);
-  padding-top: 0.4rem;
+  padding-top: 0.6rem;
 }
 
 .body {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
 
 .eyebrow {
-  font-size: var(--fs-small);
-  color: var(--muted);
-}
-
-.itemTitle {
-  font-size: var(--fs-h3);
-  font-weight: 500;
-  letter-spacing: var(--ls-h3);
-  line-height: var(--lh-heading);
-  transition: color var(--dur-fast) var(--ease-out-ui);
-}
-
-.link:hover .itemTitle {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
   color: var(--accent);
 }
 
-.outcome {
-  color: var(--muted);
-  max-width: 60ch;
+.itemTitle {
+  font-size: clamp(1.75rem, 1.1rem + 2.6vw, 3.5rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: var(--lh-heading);
+  max-width: 22ch;
 }
 
+.outcome {
+  font-size: var(--fs-lead);
+  max-width: 52ch;
+}
+
+/* Filled by default: no support, reduced motion and print read normally. */
+.fill {
+  color: var(--ink);
+}
+
+.outcome .fill {
+  color: var(--muted);
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section {
+      animation: open linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    .fill {
+      color: transparent;
+      background-image: linear-gradient(var(--ink), var(--ink)), linear-gradient(var(--faint), var(--faint));
+      background-repeat: no-repeat;
+      background-size: 0% 100%, 100% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: fill linear both;
+      animation-timeline: --row;
+      animation-range: entry 70% cover 50%;
+    }
+
+    .outcome .fill {
+      color: transparent;
+      background-image: linear-gradient(var(--muted), var(--muted)), linear-gradient(var(--faint), var(--faint));
+    }
+
+    .late {
+      animation-range: entry 100% cover 58%;
+    }
+
+    /* the heading fills against its own position */
+    .head .fill {
+      animation-timeline: --head;
+      animation-range: entry 60% cover 45%;
+    }
+  }
+}
+
+@keyframes open {
+  0% {
+    clip-path: inset(0 4% round 2rem);
+  }
+
+  18%,
+  82% {
+    clip-path: inset(0 0 round 0);
+  }
+
+  100% {
+    clip-path: inset(0 4% round 2rem);
+  }
+}
+
+@keyframes fill {
+  to {
+    background-size: 100% 100%, 100% 100%;
+  }
+}

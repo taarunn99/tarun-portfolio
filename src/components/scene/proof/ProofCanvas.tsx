@@ -132,7 +132,7 @@ export default function ProofCanvas() {
           uBox: { value: [1, 1] },
           uMouse: { value: [99999, 99999] },
           uMouseOn: { value: 0 },
-          uRadius: { value: coarse ? 70 : 95 },
+          uRadius: { value: coarse ? 50 : 60 },
           uSize: { value: coarse || narrow ? 2.6 : 2.3 },
           uPx: { value: px },
           uAccent: { value: new Color(readColor(story, "--accent", "#00d1b2")) },

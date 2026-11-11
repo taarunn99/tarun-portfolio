@@ -70,7 +70,7 @@ void main() {
   vec2 d = world - uMouse;
   float dist = length(d);
   float push = uMouseOn * (1.0 - smoothstep(0.0, uRadius, dist));
-  world += (d / max(dist, 0.001)) * push * uRadius * 0.55;
+  world += (d / max(dist, 0.001)) * push * uRadius * 0.45;
 
   gl_Position = projectionMatrix * vec4(world, 0.0, 1.0);
   gl_PointSize = uSize * uPx * (0.55 + aSeed.y * 0.9) * (1.0 + flight * 0.35);
