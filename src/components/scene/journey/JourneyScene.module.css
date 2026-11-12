@@ -355,3 +355,26 @@
     transition: none;
   }
 }
+
+/* Touch screens: a live blur under cards that move over the 3D view every
+   frame is the most expensive paint on a phone; a denser tint reads the
+   same and costs nothing. */
+@media (hover: none), (pointer: coarse) {
+  .close,
+  .sceneCard,
+  .listWrap {
+    backdrop-filter: none;
+  }
+
+  .listWrap {
+    background: color-mix(in oklab, var(--bg) 92%, transparent);
+  }
+
+  .close {
+    background: color-mix(in oklab, var(--bg) 85%, transparent);
+  }
+
+  .sceneCard {
+    background: color-mix(in oklab, var(--bg) 90%, transparent);
+  }
+}

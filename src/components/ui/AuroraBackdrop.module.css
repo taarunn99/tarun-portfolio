@@ -109,6 +109,18 @@
   );
 }
 
+/* Phones: one set of rays per curtain is plenty at this size, and each set
+   is a very wide moving layer, so the second set only costs GPU memory. */
+@media (max-width: 47.99rem) {
+  .raysB {
+    display: none;
+  }
+
+  .rays {
+    inset: 0 -20%;
+  }
+}
+
 /* ---- glowing stars ---- */
 .twinkles {
   position: absolute;

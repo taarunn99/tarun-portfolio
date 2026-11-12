@@ -198,6 +198,7 @@ export default function HeroCanvas() {
       let running = false;
       let revealed = false;
       let smoothScroll = 0;
+      let frame = 0;
 
       const tick = (now: number) => {
         const dt = Math.min((now - last) / 1000, 0.1);
@@ -205,6 +206,10 @@ export default function HeroCanvas() {
         elapsed += dt;
         // Ease toward the scroll position so the curtains glide, not jump.
         smoothScroll += (scroll - smoothScroll) * Math.min(1, dt * 4);
+        // Touch screens: the light drifts slowly, so 30 redraws a second look
+        // the same and leave the GPU free for the laptop and the scroll.
+        frame++;
+        if (coarse && revealed && frame % 2 === 0) return;
 
         material.uniforms.uTime.value = elapsed * 0.6;
         material.uniforms.uScroll.value = smoothScroll;
