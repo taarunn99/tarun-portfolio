@@ -2,16 +2,195 @@
   border-top: var(--hairline);
 }
 
+/*
+ * The band. --mx/--my/--ang/--dx/--dy come from motion/BandLight on a mouse;
+ * the defaults below are the resting light (and the only state on touch
+ * screens and under reduced motion).
+ */
+.band {
+  --mx: 28%;
+  --my: 30%;
+  --ang: -40deg;
+  --dx: 0px;
+  --dy: 0px;
+  --rim: color-mix(in oklab, var(--accent) 85%, white);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  gap: var(--space-7);
+  padding: clamp(var(--space-6), 5vw, var(--space-8));
+  padding-bottom: clamp(9rem, 22vw, 14rem);
+  border: 1px solid color-mix(in oklab, var(--fg) 10%, transparent);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+}
+
+/* narrow: the visible arc is just right of the circle's top, so the light rests there */
+@media (max-width: 59.99rem) {
+  .band {
+    --ang: 22deg;
+  }
+}
+
+@media (min-width: 60rem) {
+  .band {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    padding-bottom: clamp(var(--space-7), 6vw, var(--space-8));
+    min-height: 26rem;
+  }
+}
+
+/* a fine dot grid, faint everywhere, brighter around the pointer */
+.grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(circle, color-mix(in oklab, var(--fg) 30%, transparent) 1px, transparent 1.4px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(320px circle at var(--mx) var(--my), #000, color-mix(in oklab, #000 12%, transparent) 70%);
+  mask-image: radial-gradient(320px circle at var(--mx) var(--my), #000, color-mix(in oklab, #000 12%, transparent) 70%);
+  opacity: 0.55;
+}
+
+.spot {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(520px circle at var(--mx) var(--my), color-mix(in oklab, var(--accent) 10%, transparent), transparent 70%);
+  pointer-events: none;
+}
+
+/* the planet: a huge circle whose top edge curves along the bottom right */
+.horizon {
+  position: absolute;
+  z-index: -1;
+  width: max(900px, 95%);
+  aspect-ratio: 1;
+  right: -38%;
+  top: 62%;
+  transform: translate3d(var(--dx), var(--dy), 0);
+  pointer-events: none;
+}
+
+@media (min-width: 60rem) {
+  .horizon {
+    width: max(1100px, 80%);
+    right: -26%;
+    top: 56%;
+  }
+}
+
+.planet {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--accent) 7%, transparent), transparent 30%),
+    var(--bg);
+  border: 1px solid color-mix(in oklab, var(--accent) 22%, transparent);
+}
+
+/* the light on the rim: a ring, shown only in an arc facing --ang */
+.rim {
+  position: absolute;
+  inset: -40px;
+  -webkit-mask-image: conic-gradient(from calc(var(--ang) - 45deg), transparent, #000 45deg, transparent 90deg);
+  mask-image: conic-gradient(from calc(var(--ang) - 45deg), transparent, #000 45deg, transparent 90deg);
+}
+
+.rimLight {
+  position: absolute;
+  inset: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--rim);
+  box-shadow:
+    0 0 28px 2px color-mix(in oklab, var(--accent) 45%, transparent),
+    inset 0 0 22px color-mix(in oklab, var(--accent) 25%, transparent);
+}
+
+.copy,
+.actions {
+  position: relative;
+}
+
 .title {
-  font-size: var(--fs-display);
+  font-size: clamp(2.25rem, 1.4rem + 3.4vw, 4.5rem);
   letter-spacing: var(--ls-display);
-  line-height: var(--lh-display);
-  margin-block: var(--space-4) var(--space-5);
-  max-width: 14ch;
+  line-height: 1;
+  margin-block: var(--space-4) var(--space-4);
+  max-width: 13ch;
 }
 
 .lead {
-  font-size: var(--fs-lead);
+  font-size: var(--fs-body);
   color: var(--muted);
-  margin-bottom: var(--space-6);
+  max-width: 42ch;
+}
+
+.actions {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: start;
+}
+
+@media (min-width: 60rem) {
+  .actions {
+    justify-items: end;
+  }
+}
+
+.mail {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding-bottom: 0.2rem;
+  font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.35rem);
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  border-bottom: 1px solid color-mix(in oklab, var(--fg) 22%, transparent);
+  transition: border-color var(--dur-fast) var(--ease-out-ui);
+  overflow-wrap: anywhere;
+}
+
+.mail svg {
+  flex: none;
+  transition: transform var(--dur-base) var(--ease-out-quint);
+}
+
+.mail:hover {
+  border-color: var(--accent);
+}
+
+.mail:hover svg {
+  transform: translate(3px, -3px);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.time {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.time [data-dot] {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 22%, transparent);
 }
