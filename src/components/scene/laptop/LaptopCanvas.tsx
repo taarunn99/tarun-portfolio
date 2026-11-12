@@ -106,7 +106,7 @@ export default function LaptopCanvas() {
       } catch {
         return;
       }
-      const dpr = Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, coarse ? 1.25 : 2);
       renderer.setClearColor(0x000000, 0);
       renderer.setPixelRatio(dpr);
       renderer.toneMapping = ACESFilmicToneMapping;
@@ -152,6 +152,7 @@ export default function LaptopCanvas() {
       const [bhopal, singapore, dubai] = stops;
       if (!bhopal || !singapore || !dubai) return;
       const earth = buildEarth({
+        lite: coarse,
         // phones keep the lighter texture (GPU memory); larger screens get detail
         textureUrl: !coarse && window.innerWidth * dpr > 1000 ? "/images/sky/earth-4096.webp" : "/images/sky/earth-2048.webp",
         accent,

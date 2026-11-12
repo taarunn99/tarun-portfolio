@@ -99,7 +99,10 @@ export type Earth = {
   dispose: () => void;
 };
 
-export function buildEarth(opts: { textureUrl: string; accent: string; stops: Stop[] }): Earth {
+export function buildEarth(opts: { textureUrl: string; accent: string; stops: Stop[]; lite?: boolean }): Earth {
+  // phones: lighter spheres; at that size the silhouette reads the same
+  const seg = opts.lite ? 0.66 : 1;
+  const sg = (r: number, w: number, h: number) => new SphereGeometry(r, Math.round(w * seg), Math.round(h * seg));
   const disposables: Array<{ dispose: () => void }> = [];
   const keep = <T extends { dispose: () => void }>(x: T): T => {
     disposables.push(x);
@@ -123,7 +126,7 @@ export function buildEarth(opts: { textureUrl: string; accent: string; stops: St
 
   // --- surface ---------------------------------------------------------------
   const surfaceMat = keep(new MeshStandardMaterial({ color: "#1d3b63", roughness: 0.95, metalness: 0, toneMapped: false }));
-  const surface = new Mesh(keep(new SphereGeometry(1, 128, 96)), surfaceMat);
+  const surface = new Mesh(keep(sg(1, 128, 96)), surfaceMat);
   spin.add(surface);
 
   let texture: Texture | null = null;
@@ -207,12 +210,12 @@ export function buildEarth(opts: { textureUrl: string; accent: string; stops: St
         }`,
     }),
   );
-  const clouds = new Mesh(keep(new SphereGeometry(1.008, 96, 72)), cloudMat);
+  const clouds = new Mesh(keep(sg(1.008, 96, 72)), cloudMat);
   spin.add(clouds);
 
   // --- atmosphere: halo outside the limb, haze on it ------------------------
   const halo = new Mesh(
-    keep(new SphereGeometry(1.14, 64, 48)),
+    keep(sg(1.14, 64, 48)),
     keep(
       new ShaderMaterial({
         side: BackSide,
@@ -240,7 +243,7 @@ export function buildEarth(opts: { textureUrl: string; accent: string; stops: St
   );
   scene.add(halo);
   const haze = new Mesh(
-    keep(new SphereGeometry(1.012, 96, 72)),
+    keep(sg(1.012, 96, 72)),
     keep(
       new ShaderMaterial({
         transparent: true,
