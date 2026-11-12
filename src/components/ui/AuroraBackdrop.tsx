@@ -35,7 +35,7 @@ const METEORS: Array<[number, number, number, number, number]> = [
 /**
  * Fixed aurora sky behind dark pages. Static markup; all motion is CSS on
  * transform and opacity (compositor only), so it costs the main thread
- * nothing: ray-streaked curtains that drift with scroll, a handful of
+ * nothing: ray-streaked curtains (one painted layer each) that drift with scroll, a handful of
  * glowing stars that twinkle and swell as you scroll, and the odd hair-thin
  * shooting star. Still under reduced motion.
  */
@@ -43,15 +43,8 @@ export function AuroraBackdrop() {
   return (
     <div className={styles.backdrop} aria-hidden="true">
       <div className={styles.stars} />
-      <div className={`${styles.curtain} ${styles.curtainA}`}>
-        <div className={styles.glow} />
-        <div className={`${styles.rays} ${styles.raysA}`} />
-        <div className={`${styles.rays} ${styles.raysB}`} />
-      </div>
-      <div className={`${styles.curtain} ${styles.curtainB}`}>
-        <div className={styles.glow} />
-        <div className={`${styles.rays} ${styles.raysB}`} />
-      </div>
+      <div className={`${styles.curtain} ${styles.curtainA}`} />
+      <div className={`${styles.curtain} ${styles.curtainB}`} />
       <div className={styles.twinkles}>
         {STARS.map(([x, y, s, d, ph, flare], i) => (
           <span
