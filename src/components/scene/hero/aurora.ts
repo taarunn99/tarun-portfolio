@@ -102,7 +102,8 @@ export const AURORA_FRAGMENT = /* glsl */ `
     vec3 horizonColour = mix(uDeep, uGlow, 0.45);
     float total = clamp(intensity + horizon, 0.0, 1.0);
     vec3 mixed = (colour * clamp(intensity, 0.0, 1.0) + horizonColour * horizon) / max(intensity + horizon, 0.0001);
-    float alpha = total * (1.0 - uScroll * 0.35);
+    // a soft shimmer only: the photo underneath carries the look
+    float alpha = total * 0.5 * (1.0 - uScroll * 0.35);
     gl_FragColor = vec4(mixed * alpha, alpha);
   }
 `;

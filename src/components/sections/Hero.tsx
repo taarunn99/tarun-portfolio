@@ -4,6 +4,7 @@ import { site } from "@/content/site";
 import { capabilities } from "@/content/capabilities";
 import { waypoints } from "@/content/journey";
 import { HeroScene } from "@/components/scene/HeroScene";
+import { SkyPhoto } from "@/components/scene/SkyPhoto";
 import { Magnetic } from "@/components/motion/Magnetic";
 import { StoryScroll } from "@/components/motion/StoryScroll";
 import styles from "./Hero.module.css";
@@ -47,6 +48,10 @@ export function Hero() {
     <section className={styles.hero} aria-labelledby="hero-title" data-story style={{ "--p": 0 } as CSSProperties}>
       <StoryScroll id="hero-title" />
       <div className={styles.stage}>
+        {/* Photo aurora: sky only, soft and faded so the copy reads over it */}
+        <div className={styles.photo} aria-hidden="true">
+          <SkyPhoto className={styles.photoCanvas} />
+        </div>
         {/* Static aurora: paints instantly, and is the fallback when the animated sky can't run */}
         <div className={styles.sky} aria-hidden="true">
           <div className={`${styles.curtain} ${styles.curtainA}`} />
