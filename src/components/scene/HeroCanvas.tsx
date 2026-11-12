@@ -131,6 +131,7 @@ export default function HeroCanvas() {
           uGlow: { value: new Color(readCssColor("--aurora-glow", "#48a89a")) },
           uDeep: { value: new Color(readCssColor("--aurora-deep", "#00524d")) },
           uIce: { value: new Color(readCssColor("--aurora-ice", "#cbefeb")) },
+          uViolet: { value: new Color(readCssColor("--aurora-violet", "#6b4fc8")) },
         },
         transparent: true,
         depthWrite: false,

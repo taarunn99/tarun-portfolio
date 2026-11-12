@@ -16,6 +16,7 @@
   --aurora-deep: #00524d;
   --aurora-forest: #053931;    /* Aurora Forest */
   --aurora-night: #072928;
+  --aurora-violet: #6b4fc8;     /* the faint violet crown real aurorae carry above the green */
 
   --bg: #03070b;               /* near black, as in the brand board */
   --bg-elevated: var(--brand-midnight); /* cards and panels */

@@ -25,6 +25,7 @@ export const AURORA_FRAGMENT = /* glsl */ `
   uniform vec3 uGlow;
   uniform vec3 uDeep;
   uniform vec3 uIce;
+  uniform vec3 uViolet;
   varying vec2 vUv;
 
   float hash(vec2 p) {
@@ -56,14 +57,18 @@ export const AURORA_FRAGMENT = /* glsl */ `
   // One curtain: centre line y = c0 + tilt * x, wobbling with noise.
   // Returns x = body intensity, y = how close to the lower fringe (0..1).
   vec2 curtain(vec2 p, float t, float c0, float tilt, float tail, float seed, float soft) {
+    // slow folds travel along the curtain, like a hanging sheet in a breeze
     float wobble = 0.07 * sin(p.x * 2.1 + t * 0.21 + seed)
+                 + 0.035 * sin(p.x * 6.3 - t * 0.5 + seed * 2.0)
                  + 0.16 * (fbm(vec2(p.x * 1.3 + t * 0.06 + seed, t * 0.04)) - 0.5);
     float d = p.y - (c0 + tilt * p.x + wobble);
     float lower = smoothstep(-0.03 - soft, 0.02 + soft * 0.5, d);
     float upper = exp(-max(d, 0.0) / tail);
     float fringe = exp(-abs(d) * 34.0);
     float rays = fbm(vec2(p.x * 10.0 + t * 0.09 + seed * 3.0, d * 1.2 - t * 0.05));
-    rays = 0.15 + 1.45 * pow(rays, 1.9);
+    // fine, fast-flickering rays on top of the broad ones
+    float fine = noise(vec2(p.x * 46.0 + t * 0.8 + seed, d * 2.0));
+    rays = 0.12 + 1.45 * pow(rays, 1.9) * (0.7 + 0.6 * fine);
     float body = lower * upper * rays;
     return vec2(body + fringe * 0.55 * rays, fringe);
   }
@@ -90,6 +95,9 @@ export const AURORA_FRAGMENT = /* glsl */ `
     vec3 body = mix(uDeep, uGlow, clamp(intensity * 1.2, 0.0, 1.0));
     vec3 colour = mix(body, uAccent, clamp(a.y + b.y * 0.6, 0.0, 1.0) * 0.85);
     colour = mix(colour, uIce, clamp(a.y * ia - 0.55, 0.0, 1.0));
+    // the violet crown: high in each curtain's tail, far from the fringe
+    float crown = clamp((1.0 - a.y) * ia * 1.4 - 0.25, 0.0, 1.0) * smoothstep(0.35, 0.95, vUv.y);
+    colour = mix(colour, uViolet, crown * 0.45);
 
     vec3 horizonColour = mix(uDeep, uGlow, 0.45);
     float total = clamp(intensity + horizon, 0.0, 1.0);
