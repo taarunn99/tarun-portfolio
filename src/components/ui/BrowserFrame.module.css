@@ -1,7 +1,7 @@
 .frame {
   border: var(--hairline);
   border-radius: var(--radius-md);
-  background: var(--bg-elevated);
+  background: var(--bg-nickel);
   overflow: clip;
 }
 

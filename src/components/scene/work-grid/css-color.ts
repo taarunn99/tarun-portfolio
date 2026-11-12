@@ -33,7 +33,7 @@ export type GridPalette = {
 export function readGridPalette(): GridPalette {
   return {
     bg: readCssColor("--bg", "#03070b"),
-    tile: readCssColor("--bg-elevated", "#001f3f"),
+    tile: readCssColor("--bg-nickel", "#0d0e10"),
     fg: readCssColor("--fg", "#ffffff"),
     muted: readCssColor("--muted", "#b4bdc7"),
     line: readCssColor("--line-strong", "#444444"),

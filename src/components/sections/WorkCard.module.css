@@ -1,9 +1,39 @@
 .card {
+  position: relative;
   display: grid;
   gap: var(--space-4);
   align-content: start;
   height: 100%;
   min-width: 0;
+  padding: var(--space-3) var(--space-3) var(--space-5);
+  border: 1px solid color-mix(in oklab, var(--fg) 8%, transparent);
+  border-radius: var(--radius-lg);
+  background: var(--bg-nickel);
+  transition:
+    transform var(--dur-slow) var(--ease-out-quint),
+    border-color var(--dur-base) var(--ease-out-ui),
+    box-shadow var(--dur-slow) var(--ease-out-quint);
+}
+
+.card > :not(.link) {
+  padding-inline: var(--space-2);
+}
+
+.link > :not(.media) {
+  padding-inline: var(--space-2);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklab, var(--accent) 45%, transparent);
+    box-shadow: 0 24px 60px -30px color-mix(in oklab, var(--accent) 45%, transparent);
+  }
+
+  .card:hover .media img {
+    transform: scale(1.04);
+    filter: none;
+  }
 }
 
 .link {
@@ -22,15 +52,22 @@
 
 .media {
   aspect-ratio: 16 / 10;
-  border: var(--hairline);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   overflow: clip;
-  background: var(--bg-elevated);
+  background: var(--bg);
 }
 
 .media > * {
   width: 100%;
   height: 100%;
+}
+
+.media img {
+  /* covers rest in nickel greyscale, like the wall above; colour on hover */
+  filter: grayscale(0.8) brightness(0.9);
+  transition:
+    transform var(--dur-reveal) var(--ease-out-quint),
+    filter var(--dur-slow) var(--ease-out-ui);
 }
 
 .meta {
@@ -62,6 +99,16 @@
 
 .link:hover .title {
   color: var(--accent);
+}
+
+.summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: var(--fs-small);
+  line-height: 1.55;
 }
 
 .metric {

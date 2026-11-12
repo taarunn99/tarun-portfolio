@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useMemo, useState, useSyncExternalStore, type CSSProperties } from "react";
 import type { CaseStudy, Tag as TagType } from "@/content/types";
+import { allIntro, tagIntros } from "@/content/work-tags";
 import { WorkCard } from "./WorkCard";
 import styles from "./WorkIndex.module.css";
 
@@ -47,6 +48,21 @@ export function WorkIndex({ items, tags }: Props) {
 
   const setTag = (tag: TagType | null) => setUrlTag(tag);
 
+  const counts = useMemo(() => {
+    const c = new Map<TagType, number>();
+    for (const i of items) for (const t of i.tags) c.set(t, (c.get(t) ?? 0) + 1);
+    return c;
+  }, [items]);
+
+  /** the tools used most across the projects in view, from their stacks */
+  const tools = useMemo(() => {
+    const f = new Map<string, number>();
+    for (const i of visible) for (const t of i.sections.stack) f.set(t, (f.get(t) ?? 0) + 1);
+    return [...f].sort((a, b) => b[1] - a[1]).slice(0, 7).map(([t]) => t);
+  }, [visible]);
+
+  const activeLabel = active ? (tags.find((t) => t.id === active)?.label ?? active) : null;
+
   return (
     <div className={styles.index}>
       <div className={styles.toolbar}>
@@ -64,6 +80,7 @@ export function WorkIndex({ items, tags }: Props) {
               onClick={() => setTag(active === t.id ? null : t.id)}
             >
               {t.label}
+              <span className={styles.count}>{counts.get(t.id) ?? 0}</span>
             </button>
           ))}
         </div>
@@ -79,15 +96,30 @@ export function WorkIndex({ items, tags }: Props) {
         </div>
       </div>
 
-      <p className={styles.status} aria-live="polite">
-        {visible.length} {visible.length === 1 ? "project" : "projects"}
-        {active ? ` · ${tags.find((t) => t.id === active)?.label ?? active}` : ""}
-      </p>
+      <div key={`intro-${active ?? "all"}`} className={styles.intro}>
+        <p className={styles.introLabel}>{activeLabel ?? "All projects"}</p>
+        <p className={styles.introLine}>{active ? tagIntros[active] : allIntro}</p>
+        <div className={styles.introFoot}>
+          <ul className={styles.tools} aria-label="Tools used">
+            {tools.map((t) => (
+              <li key={t}>{t}</li>
+            ))}
+          </ul>
+          <p className={styles.status} aria-live="polite">
+            {visible.length} {visible.length === 1 ? "project" : "projects"}
+          </p>
+        </div>
+      </div>
 
       {view === "grid" ? (
-        <div className={styles.grid}>
+        <div key={`grid-${active ?? "all"}`} className={styles.grid}>
           {items.map((cs, i) => (
-            <div key={cs.slug} hidden={!visible.includes(cs)}>
+            <div
+              key={cs.slug}
+              hidden={!visible.includes(cs)}
+              className={styles.cell}
+              style={{ "--i": Math.max(0, visible.indexOf(cs)) } as CSSProperties}
+            >
               <WorkCard cs={cs} index={i} />
             </div>
           ))}

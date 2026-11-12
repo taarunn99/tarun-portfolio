@@ -1,0 +1,225 @@
+.sites {
+  padding-block: var(--section-y) var(--block-y);
+}
+
+.head {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--block-y);
+}
+
+.title {
+  font-size: var(--fs-h1);
+  max-width: 16ch;
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  color: var(--muted);
+  max-width: 44ch;
+}
+
+/* ---- the deck ---- */
+.deck {
+  display: grid;
+  gap: var(--space-6);
+  list-style: none;
+}
+
+.slot {
+  min-width: 0;
+}
+
+/* Wide screens: each card pins a little lower than the last, so the deck
+   stacks up as you scroll and every new site slides over the one before. */
+@media (min-width: 60rem) and (min-height: 40rem) {
+  .deck {
+    gap: 0;
+  }
+
+  .slot {
+    position: sticky;
+    top: calc(5.5rem + var(--i) * 1.1rem);
+    padding-bottom: 12svh;
+  }
+
+  .slot:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.card {
+  position: relative;
+  display: grid;
+  gap: var(--space-6);
+  padding: clamp(var(--space-5), 3.5vw, var(--space-7));
+  border: 1px solid color-mix(in oklab, var(--fg) 9%, transparent);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(90% 60% at 100% 0%, color-mix(in oklab, var(--accent) 6%, transparent), transparent 70%),
+    var(--bg-nickel);
+  box-shadow: 0 -24px 60px -20px color-mix(in oklab, #000 80%, transparent);
+  overflow: hidden;
+}
+
+@media (min-width: 60rem) {
+  .card {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    column-gap: var(--space-8);
+    align-items: center;
+    min-height: min(78svh, 40rem);
+  }
+}
+
+/* ---- screenshots: the live site in front, inner pages fanned behind ---- */
+.shots {
+  position: relative;
+  padding: 7% 14% 7% 0;
+}
+
+.main {
+  position: relative;
+  z-index: 2;
+  transition: transform var(--dur-slow) var(--ease-out-quint);
+}
+
+.main :is(img, [class*="placeholder"]) {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+}
+
+.back {
+  position: absolute;
+  z-index: 1;
+  width: 52%;
+  aspect-ratio: 16 / 10;
+  border: 1px solid color-mix(in oklab, var(--fg) 12%, transparent);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg);
+  box-shadow: 0 20px 50px -18px color-mix(in oklab, #000 85%, transparent);
+  transition: transform var(--dur-slow) var(--ease-out-quint);
+}
+
+.back :is(img, [class*="placeholder"]) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.back[data-k="0"] {
+  top: 0;
+  right: 2%;
+  transform: rotate(4deg) translate(2%, -2%);
+}
+
+.back[data-k="1"] {
+  bottom: -6%;
+  right: 4%;
+  transform: rotate(-3deg) translate(0, 6%);
+  opacity: 0.85;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .main {
+    transform: translateY(-6px) rotate(-0.6deg);
+  }
+
+  .card:hover .back[data-k="0"] {
+    transform: rotate(7deg) translate(6%, -8%);
+  }
+
+  .card:hover .back[data-k="1"] {
+    transform: rotate(-6deg) translate(6%, 16%);
+    opacity: 1;
+  }
+}
+
+/* ---- info ---- */
+.info {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  gap: var(--space-4);
+  align-content: center;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.index {
+  color: var(--accent);
+}
+
+.domain {
+  font-size: clamp(2rem, 1.3rem + 2.6vw, 3.5rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.client {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--accent);
+  margin-top: calc(-1 * var(--space-2));
+}
+
+.about {
+  color: var(--muted);
+  max-width: 46ch;
+}
+
+.built {
+  display: grid;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid color-mix(in oklab, var(--fg) 9%, transparent);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.stack li {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid color-mix(in oklab, var(--fg) 14%, transparent);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--fg);
+  background: color-mix(in oklab, var(--fg) 3%, transparent);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.links svg {
+  margin-left: var(--space-1);
+}

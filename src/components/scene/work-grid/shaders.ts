@@ -72,7 +72,11 @@ export const TILE_FRAGMENT = /* glsl */ `
     vec2 inside = step(vec2(0.0), mUv) * step(mUv, vec2(1.0));
     float inMedia = inside.x * inside.y;
     vec2 mediaUv = vCell + (uMediaOrigin + clamp(mUv, 0.0, 1.0) * uMediaSize) * cell;
-    vec3 media = texture2D(uAtlas, mediaUv).rgb * (1.0 + 0.12 * hov);
+    vec3 media = texture2D(uAtlas, mediaUv).rgb;
+    // At rest the covers sit in nickel greyscale so the wall reads black;
+    // the hovered tile comes back to full colour.
+    float lum = dot(media, vec3(0.299, 0.587, 0.114));
+    media = mix(vec3(lum) * 0.82, media, 0.18 + 0.82 * hov) * (1.0 + 0.12 * hov);
     color = mix(color, media, inMedia);
 
     color = mix(uBg, color, uOpacity);

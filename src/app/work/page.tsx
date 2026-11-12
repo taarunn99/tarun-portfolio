@@ -3,6 +3,8 @@ import { caseStudies, allTags, tagLabels } from "@/content/case-studies";
 import { site } from "@/content/site";
 import { Page } from "@/components/sections/Page";
 import { WorkIndex } from "@/components/sections/WorkIndex";
+import { WebsitesShowcase } from "@/components/sections/WebsitesShowcase";
+import { websiteCaseStudies } from "@/content/websites";
 import { Heading } from "@/components/ui/Heading";
 import { WorkGridCanvas } from "@/components/scene/work-grid/WorkGridCanvas";
 import type { GridTile } from "@/components/scene/work-grid/types";
@@ -36,7 +38,8 @@ function gridTiles(): GridTile[] {
 }
 
 export default function WorkPage() {
-  const tags = allTags.map((id) => ({ id, label: tagLabels[id] }));
+  const rest = caseStudies.filter((c) => !websiteCaseStudies.has(c.slug));
+  const tags = allTags.filter((id) => rest.some((c) => c.tags.includes(id))).map((id) => ({ id, label: tagLabels[id] }));
   return (
     <Page>
       <JsonLd data={breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Work", path: "/work" }])} />
@@ -55,11 +58,15 @@ export default function WorkPage() {
           </div>
         </div>
       </section>
+      <WebsitesShowcase />
       <section className={`container ${styles.index}`} aria-labelledby="all-work">
-        <h2 id="all-work" className="sr-only">
-          All projects
-        </h2>
-        <WorkIndex items={[...caseStudies]} tags={tags} />
+        <header className={styles.indexHead}>
+          <p className="eyebrow">Everything else</p>
+          <h2 id="all-work" className={styles.indexTitle}>
+            Systems, tools and <em className="accent-word">automation</em>
+          </h2>
+        </header>
+        <WorkIndex items={rest} tags={tags} />
       </section>
     </Page>
   );

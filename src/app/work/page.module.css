@@ -60,7 +60,19 @@
 }
 
 .index {
-  padding-block: var(--section-y);
+  display: grid;
+  gap: var(--block-y);
+  padding-block: var(--block-y) var(--section-y);
+}
+
+.indexHead {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.indexTitle {
+  font-size: var(--fs-h1);
+  max-width: 16ch;
 }
 
 /* No grid on coarse pointers or under reduced motion: a full first screen of text

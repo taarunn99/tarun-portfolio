@@ -19,6 +19,7 @@
 
   --bg: #03070b;               /* near black, as in the brand board */
   --bg-elevated: var(--brand-midnight); /* cards and panels */
+  --bg-nickel: #0d0e10;        /* nickel black: neutral dark surface for the work wall and site cards */
   --fg: var(--brand-white);
   --muted: #b4bdc7;            /* 10.6:1 on bg, 8.7:1 on midnight, 5:1+ over the aurora */
   --line: var(--brand-carbon); /* hairlines */

@@ -27,6 +27,7 @@ export function WorkCard({ cs, index, priority }: Props) {
           <span className={styles.year}>{cs.year}</span>
         </div>
         <h3 className={styles.title}>{cs.title}</h3>
+        <p className={styles.summary}>{cs.summary}</p>
         <p className={styles.metric}>
           <span className={styles.metricValue}>{cs.headlineMetric.value}</span>
           <span className={styles.metricLabel}>{cs.headlineMetric.label}</span>

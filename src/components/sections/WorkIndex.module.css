@@ -98,10 +98,83 @@
   color: var(--muted);
 }
 
+/* ---- the open tab: what it covers, the tools, how many ---- */
+.intro {
+  display: grid;
+  gap: var(--space-4);
+  padding: clamp(var(--space-5), 3vw, var(--space-7));
+  border: 1px solid color-mix(in oklab, var(--fg) 9%, transparent);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(70% 120% at 0% 0%, color-mix(in oklab, var(--accent) 9%, transparent), transparent 65%),
+    var(--bg-nickel);
+  animation: rise var(--dur-reveal) var(--ease-out-quint) both;
+}
+
+.introLabel {
+  font-size: clamp(2rem, 1.2rem + 3vw, 3.75rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.introLine {
+  font-size: var(--fs-lead);
+  color: var(--muted);
+  max-width: 48ch;
+}
+
+.introFoot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid color-mix(in oklab, var(--fg) 9%, transparent);
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.tools li {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--fg);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
-  gap: var(--space-7) var(--space-5);
+  gap: var(--space-5);
+}
+
+/* cards rise in, one after another, each time a tab opens */
+.cell {
+  min-width: 0;
+  animation: rise var(--dur-reveal) var(--ease-out-quint) both;
+  animation-delay: calc(min(var(--i), 8) * 60ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro,
+  .cell {
+    animation: none;
+  }
 }
 
 .list {
