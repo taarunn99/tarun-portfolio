@@ -19,15 +19,15 @@
   --aurora-violet: #6b4fc8;     /* the faint violet crown real aurorae carry above the green */
 
   --bg: #03070b;               /* near black, as in the brand board */
-  --bg-elevated: var(--brand-midnight); /* cards and panels */
+  --bg-elevated: #15171b;      /* cards and panels: graphite, no blue */
   --bg-nickel: #0d0e10;        /* nickel black: neutral dark surface for the work wall and site cards */
   --fg: var(--brand-white);
-  --muted: #b4bdc7;            /* 10.6:1 on bg, 8.7:1 on midnight, 5:1+ over the aurora */
+  --muted: #b4bdc7;            /* 10.6:1 on bg, 9.4:1 on graphite, 5:1+ over the aurora */
   --line: var(--brand-carbon); /* hairlines */
   --line-strong: #444444;
   --accent: var(--brand-cyan); /* 10.4:1 on bg */
   --accent-hover: #33dcc3;
-  --accent-ink: var(--brand-midnight);
+  --accent-ink: var(--bg);     /* text on cyan: near black */
   --success: #5ee6a8;
   --danger: #ff6b6b;
   --focus: var(--accent);
