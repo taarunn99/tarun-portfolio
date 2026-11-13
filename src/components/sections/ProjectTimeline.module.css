@@ -1,38 +1,22 @@
 /*
- * Project timeline: a pinned sideways scroll. `--p` (0 to 1) lives on the
- * track only; the track turns it into a position that rests on each project
- * before gliding on (`--q`), and each item works out how far it is from the
- * current spot (`--x`, in items) and lights up as it gets there (`--on`).
- * One item width (`--w`) of track per 40svh of scroll.
+ * Project timeline. By default (no JavaScript, or reduced motion) a plain
+ * list. motion/TimelineMotion sets `data-live` and takes over: the section
+ * pins, the track glides sideways with a slow zoom (transform only), each
+ * project lights up as it reaches the current spot (`data-on`, faded on a
+ * timer), then a sweep dissolves everything into rising dust (canvas).
+ * `--s` is the spacing between projects, set by the motion from the screen.
  */
-.timeline {
-  --w: clamp(15rem, 26vw, 24rem);
-  /* where the current dot sits: the middle of the screen (phones: the left edge) */
-  --tl-lead: calc(50vw - var(--w) / 2);
-  --dot: calc(var(--w) / 2);
-  position: relative;
-  height: calc(var(--n) * 40vh + 100vh);
-  height: calc(var(--n) * 40svh + 100svh);
-}
 
-.stage {
-  position: sticky;
-  top: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr); /* the long track must not widen the column */
-  grid-template-rows: auto 1fr;
-  height: 100vh;
-  height: 100svh;
-  padding-top: 6rem;
-  overflow: hidden;
-  isolation: isolate;
+/* ---------------------------------------------------------- the list -- */
+.timeline {
+  position: relative;
+  padding-block: var(--space-9) var(--space-8);
 }
 
 .head {
-  position: relative;
-  z-index: 2;
   display: grid;
   gap: var(--space-2);
+  margin-bottom: var(--space-6);
 }
 
 .title {
@@ -41,119 +25,38 @@
   max-width: 20ch;
 }
 
-/* the dim line across the screen; the lit part travels with the track */
-.rail {
-  grid-area: 2 / 1;
-  align-self: center;
-  height: 1px;
-  background: color-mix(in oklab, var(--fg) 14%, transparent);
-}
-
 .track {
-  --p: 0;
-  /* position along the line, in items: --u follows the scroll; --q holds on
-     each project for the first 55% of its stretch, then glides to the next */
-  --u: calc(var(--p) * (var(--n) - 1));
-  --q: var(--u);
-  grid-area: 2 / 1;
-  align-self: center;
-  position: relative;
-  display: flex;
-  width: max-content;
-  height: 0;
-  padding-left: var(--tl-lead);
+  display: grid;
+  gap: var(--space-5);
+  padding-inline: var(--gutter);
   list-style: none;
-  transform: translateX(calc(var(--q) * var(--w) * -1));
-  will-change: transform;
 }
 
-@supports (width: round(down, 1.5px, 1px)) {
-  .track {
-    --k: round(down, var(--u), 1);
-    --q: calc(var(--k) + clamp(0, (var(--u) - var(--k) - 0.55) / 0.45, 1));
-  }
-}
-
-/* lit line: from the first dot to the centre of the screen */
-.fill {
-  position: absolute;
-  left: calc(var(--tl-lead) + var(--dot));
-  top: -1px;
-  width: calc(var(--q) * var(--w));
-  height: 2px;
-  background: linear-gradient(90deg, color-mix(in oklab, var(--accent) 50%, transparent), var(--accent) 85%, var(--fg));
-  box-shadow: 0 0 12px color-mix(in oklab, var(--accent) 60%, transparent);
+.line,
+.year,
+.dust {
+  display: none;
 }
 
 .item {
-  --x: calc(var(--q) - var(--i));
-  --d: max(var(--x), calc(var(--x) * -1));
-  --on: clamp(0, 1 - var(--d) * 1.1, 1);
-  --past: clamp(0, (var(--x) + 0.15) * 8, 1);
   position: relative;
-  flex: none;
-  width: var(--w);
-  height: 0;
+  padding-left: var(--space-6);
 }
 
 .dot {
   position: absolute;
-  left: var(--dot);
-  top: 0;
-  width: 0.85rem;
-  height: 0.85rem;
-  translate: -50% -50%;
-  border: 1px solid color-mix(in oklab, var(--fg) calc(30% + var(--past) * 70%), transparent);
+  left: 0.45rem;
+  top: 0.35rem;
+  width: 0.7rem;
+  height: 0.7rem;
   border-radius: 50%;
-  background: color-mix(in oklab, var(--accent) calc(var(--past) * 100%), var(--bg));
-  box-shadow: 0 0 calc(var(--on) * 22px) calc(var(--on) * 5px) color-mix(in oklab, var(--accent) 55%, transparent);
-  transform: scale(calc(1 + var(--on) * 0.45));
-}
-
-/* the year, huge and faint, where each year starts */
-.year {
-  position: absolute;
-  left: calc(var(--dot) - 0.06em);
-  z-index: -1;
-  font-size: calc(var(--w) * 0.36);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.05em;
-  color: transparent;
-  -webkit-text-stroke: 1px color-mix(in oklab, var(--accent) calc(14% + var(--on) * 26%), transparent);
-  pointer-events: none;
-}
-
-/* on the opposite side of the line from the card */
-.item[data-side="up"] .year {
-  top: 1rem;
-}
-
-.item[data-side="down"] .year {
-  bottom: 1rem;
+  background: var(--accent);
 }
 
 .card {
-  position: absolute;
-  left: calc(var(--dot) - 0.4rem);
-  width: min(calc(var(--w) * 1.75), 28rem);
   display: grid;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-2) var(--space-3) 0;
-  /* never below 70%: the waiting projects stay readable (4.5:1 and up);
-     the current one is marked by colour, the dot and a small lift */
-  opacity: calc(0.7 + var(--on) * 0.3);
-  transition: color var(--dur-fast) var(--ease-out-ui);
-}
-
-.item[data-side="up"] .card {
-  bottom: 1.75rem;
-  transform: translateY(calc((1 - var(--on)) * 0.75rem));
-}
-
-.item[data-side="down"] .card {
-  top: 1.75rem;
-  transform: translateY(calc((1 - var(--on)) * -0.75rem));
+  max-width: 30rem;
 }
 
 .when {
@@ -161,37 +64,19 @@
   font-size: var(--fs-caption);
   letter-spacing: var(--ls-caption);
   text-transform: uppercase;
-  color: color-mix(in oklab, var(--accent) calc(var(--on) * 100%), var(--muted));
+  color: var(--accent);
 }
 
 .name {
-  color: color-mix(in oklab, var(--fg) calc(var(--on) * 100%), var(--muted));
   font-size: var(--fs-h3);
   font-weight: 500;
   letter-spacing: -0.015em;
-  line-height: 1.1;
+  line-height: 1.15;
 }
 
-.line {
+.note {
   color: var(--muted);
-  max-width: 34ch;
-  line-height: 1.4;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-}
-
-.tags span {
-  padding: 0.15rem 0.5rem;
-  border: 1px solid color-mix(in oklab, var(--fg) 14%, transparent);
-  border-radius: var(--radius-pill);
-  font-family: var(--font-mono);
-  font-size: var(--fs-caption);
-  text-transform: uppercase;
-  color: var(--muted);
+  line-height: 1.45;
 }
 
 .card:hover .name,
@@ -199,77 +84,183 @@
   color: var(--accent);
 }
 
-@media (max-width: 47.99rem) {
-  .timeline {
-    --w: 58vw;
-    --tl-lead: var(--gutter);
-    --dot: 0.6rem;
-  }
-
-  .card {
-    width: calc(100vw - var(--gutter) * 2 - 0.2rem);
-  }
-
-  .year {
-    font-size: calc(var(--w) * 0.3);
-  }
-
-  .line {
-    font-size: var(--fs-small);
-  }
+/* ---------------------------------------------------------- pinned -- */
+.timeline[data-live] {
+  padding: 0;
 }
 
-/* ---- reduced motion: a plain vertical list ---- */
-@media (prefers-reduced-motion: reduce) {
-  .timeline {
-    height: auto;
+.timeline[data-live] .pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.timeline[data-live] .head {
+  position: absolute;
+  inset: 6rem 0 auto;
+  z-index: 2;
+  margin-block: 0;
+}
+
+.timeline[data-live] .stage {
+  position: absolute;
+  inset: 0;
+}
+
+.timeline[data-live] .track {
+  position: absolute;
+  left: 0;
+  top: 58%;
+  display: block;
+  width: calc(var(--s) * var(--n));
+  height: 0;
+  padding: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.timeline[data-live] .line {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--fg) 12%, transparent);
+  transform-origin: 100% 50%;
+}
+
+.timeline[data-live] .fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--accent) 60%, transparent) 30%,
+    var(--accent) 72%,
+    var(--aurora-ice) 93%,
+    var(--fg) 100%
+  );
+  box-shadow:
+    0 0 6px 1px color-mix(in oklab, var(--accent) 60%, transparent),
+    0 0 20px 3px color-mix(in oklab, var(--accent) 28%, transparent);
+}
+
+.timeline[data-live] .item {
+  position: absolute;
+  top: 0;
+  left: calc(var(--s) * (var(--i) + 0.5));
+  padding: 0;
+}
+
+.timeline[data-live] .dot {
+  left: -0.35rem;
+  top: -0.35rem;
+  background: var(--bg);
+  border: 1px solid color-mix(in oklab, var(--fg) 35%, transparent);
+  transition:
+    background-color var(--dur-slow) var(--ease-out-quint),
+    border-color var(--dur-slow) var(--ease-out-quint),
+    box-shadow var(--dur-slow) var(--ease-out-quint);
+}
+
+.timeline[data-live] .card {
+  position: absolute;
+  left: -0.75rem;
+  width: min(calc(var(--s) * 0.9), 22rem);
+  /* the waiting projects stay readable (4.5:1 and up); the lit one gets
+     full ink, its colour and the glowing dot */
+  opacity: 0.7;
+  transition: opacity var(--dur-reveal) var(--ease-out-quint);
+}
+
+.timeline[data-live] .item[data-side="up"] .card {
+  bottom: 1.9rem;
+}
+
+.timeline[data-live] .item[data-side="down"] .card {
+  top: 1.9rem;
+}
+
+.timeline[data-live] .name {
+  color: var(--muted);
+  font-size: clamp(1.125rem, 0.95rem + 0.8vw, 1.5rem);
+  transition: color var(--dur-reveal) var(--ease-out-quint);
+}
+
+.timeline[data-live] .when {
+  color: var(--muted);
+  transition: color var(--dur-reveal) var(--ease-out-quint);
+}
+
+.timeline[data-live] .note {
+  font-size: var(--fs-small);
+}
+
+.timeline[data-live] .item[data-on] .card {
+  opacity: 1;
+}
+
+.timeline[data-live] .item[data-on] .name {
+  color: var(--fg);
+}
+
+.timeline[data-live] .item[data-on] .when {
+  color: var(--accent);
+}
+
+.timeline[data-live] .item[data-on] .dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 6px color-mix(in oklab, var(--accent) 14%, transparent),
+    0 0 22px color-mix(in oklab, var(--accent) 50%, transparent);
+}
+
+/* the year, big and faint, on the opposite side of the line from the card */
+.timeline[data-live] .year {
+  display: block;
+  position: absolute;
+  left: -0.06em;
+  z-index: -1;
+  font-size: calc(var(--s) * 0.32);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in oklab, var(--accent) 26%, transparent);
+  pointer-events: none;
+}
+
+.timeline[data-live] .item[data-side="up"] .year {
+  top: 1.1rem;
+}
+
+.timeline[data-live] .item[data-side="down"] .year {
+  bottom: 1.1rem;
+}
+
+.timeline[data-live] .dust {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+@media (max-width: 47.99rem) {
+  .timeline[data-live] .card {
+    width: calc(var(--s) * 0.92);
   }
 
-  .stage {
-    position: static;
-    height: auto;
-    grid-template-rows: auto auto;
-    gap: var(--space-6);
-    padding-block: var(--space-9) var(--space-8);
-    overflow: visible;
-  }
-
-  .rail,
-  .fill,
-  .year {
-    display: none;
-  }
-
-  .track {
-    grid-area: auto;
-    display: grid;
-    gap: var(--space-5);
-    width: auto;
-    height: auto;
-    padding-inline: var(--gutter, 1.25rem);
-    transform: none;
-  }
-
-  .item {
-    --on: 1;
-    --past: 1;
-    width: auto;
-    height: auto;
-    padding-left: var(--space-6);
-  }
-
-  .dot {
-    left: 0.45rem;
-    top: 1.3rem;
-    box-shadow: none;
-    transform: none;
-  }
-
-  .card,
-  .item[data-side] .card {
-    position: static;
-    width: auto;
-    opacity: 1;
-    transform: none;
+  .timeline[data-live] .note {
+    font-size: var(--fs-caption);
   }
 }
