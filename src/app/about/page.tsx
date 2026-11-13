@@ -5,6 +5,7 @@ import { resume } from "@/content/resume";
 import { Page } from "@/components/sections/Page";
 import { JourneyRoute } from "@/components/sections/JourneyRoute";
 import { Capabilities } from "@/components/sections/Capabilities";
+import { ProjectTimeline } from "@/components/sections/ProjectTimeline";
 import { ContactCta } from "@/components/sections/ContactCta";
 import { Heading } from "@/components/ui/Heading";
 import { Reveal } from "@/components/motion/Reveal";
@@ -51,6 +52,7 @@ export default function AboutPage() {
         </div>
       </section>
       <JourneyRoute variant="full" />
+      <ProjectTimeline />
       <Capabilities />
       <ContactCta />
     </Page>

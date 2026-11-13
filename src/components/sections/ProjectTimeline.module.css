@@ -1,0 +1,275 @@
+/*
+ * Project timeline: a pinned sideways scroll. `--p` (0 to 1) lives on the
+ * track only; the track turns it into a position that rests on each project
+ * before gliding on (`--q`), and each item works out how far it is from the
+ * current spot (`--x`, in items) and lights up as it gets there (`--on`).
+ * One item width (`--w`) of track per 40svh of scroll.
+ */
+.timeline {
+  --w: clamp(15rem, 26vw, 24rem);
+  /* where the current dot sits: the middle of the screen (phones: the left edge) */
+  --tl-lead: calc(50vw - var(--w) / 2);
+  --dot: calc(var(--w) / 2);
+  position: relative;
+  height: calc(var(--n) * 40vh + 100vh);
+  height: calc(var(--n) * 40svh + 100svh);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr); /* the long track must not widen the column */
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  height: 100svh;
+  padding-top: 6rem;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.head {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.title {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.02em;
+  max-width: 20ch;
+}
+
+/* the dim line across the screen; the lit part travels with the track */
+.rail {
+  grid-area: 2 / 1;
+  align-self: center;
+  height: 1px;
+  background: color-mix(in oklab, var(--fg) 14%, transparent);
+}
+
+.track {
+  --p: 0;
+  /* position along the line, in items: --u follows the scroll; --q holds on
+     each project for the first 55% of its stretch, then glides to the next */
+  --u: calc(var(--p) * (var(--n) - 1));
+  --q: var(--u);
+  grid-area: 2 / 1;
+  align-self: center;
+  position: relative;
+  display: flex;
+  width: max-content;
+  height: 0;
+  padding-left: var(--tl-lead);
+  list-style: none;
+  transform: translateX(calc(var(--q) * var(--w) * -1));
+  will-change: transform;
+}
+
+@supports (width: round(down, 1.5px, 1px)) {
+  .track {
+    --k: round(down, var(--u), 1);
+    --q: calc(var(--k) + clamp(0, (var(--u) - var(--k) - 0.55) / 0.45, 1));
+  }
+}
+
+/* lit line: from the first dot to the centre of the screen */
+.fill {
+  position: absolute;
+  left: calc(var(--tl-lead) + var(--dot));
+  top: -1px;
+  width: calc(var(--q) * var(--w));
+  height: 2px;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--accent) 50%, transparent), var(--accent) 85%, var(--fg));
+  box-shadow: 0 0 12px color-mix(in oklab, var(--accent) 60%, transparent);
+}
+
+.item {
+  --x: calc(var(--q) - var(--i));
+  --d: max(var(--x), calc(var(--x) * -1));
+  --on: clamp(0, 1 - var(--d) * 1.1, 1);
+  --past: clamp(0, (var(--x) + 0.15) * 8, 1);
+  position: relative;
+  flex: none;
+  width: var(--w);
+  height: 0;
+}
+
+.dot {
+  position: absolute;
+  left: var(--dot);
+  top: 0;
+  width: 0.85rem;
+  height: 0.85rem;
+  translate: -50% -50%;
+  border: 1px solid color-mix(in oklab, var(--fg) calc(30% + var(--past) * 70%), transparent);
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--accent) calc(var(--past) * 100%), var(--bg));
+  box-shadow: 0 0 calc(var(--on) * 22px) calc(var(--on) * 5px) color-mix(in oklab, var(--accent) 55%, transparent);
+  transform: scale(calc(1 + var(--on) * 0.45));
+}
+
+/* the year, huge and faint, where each year starts */
+.year {
+  position: absolute;
+  left: calc(var(--dot) - 0.06em);
+  z-index: -1;
+  font-size: calc(var(--w) * 0.36);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in oklab, var(--accent) calc(14% + var(--on) * 26%), transparent);
+  pointer-events: none;
+}
+
+/* on the opposite side of the line from the card */
+.item[data-side="up"] .year {
+  top: 1rem;
+}
+
+.item[data-side="down"] .year {
+  bottom: 1rem;
+}
+
+.card {
+  position: absolute;
+  left: calc(var(--dot) - 0.4rem);
+  width: min(calc(var(--w) * 1.75), 28rem);
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-2) var(--space-3) 0;
+  /* never below 70%: the waiting projects stay readable (4.5:1 and up);
+     the current one is marked by colour, the dot and a small lift */
+  opacity: calc(0.7 + var(--on) * 0.3);
+  transition: color var(--dur-fast) var(--ease-out-ui);
+}
+
+.item[data-side="up"] .card {
+  bottom: 1.75rem;
+  transform: translateY(calc((1 - var(--on)) * 0.75rem));
+}
+
+.item[data-side="down"] .card {
+  top: 1.75rem;
+  transform: translateY(calc((1 - var(--on)) * -0.75rem));
+}
+
+.when {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--accent) calc(var(--on) * 100%), var(--muted));
+}
+
+.name {
+  color: color-mix(in oklab, var(--fg) calc(var(--on) * 100%), var(--muted));
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+}
+
+.line {
+  color: var(--muted);
+  max-width: 34ch;
+  line-height: 1.4;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.tags span {
+  padding: 0.15rem 0.5rem;
+  border: 1px solid color-mix(in oklab, var(--fg) 14%, transparent);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.card:hover .name,
+.card:focus-visible .name {
+  color: var(--accent);
+}
+
+@media (max-width: 47.99rem) {
+  .timeline {
+    --w: 58vw;
+    --tl-lead: var(--gutter);
+    --dot: 0.6rem;
+  }
+
+  .card {
+    width: calc(100vw - var(--gutter) * 2 - 0.2rem);
+  }
+
+  .year {
+    font-size: calc(var(--w) * 0.3);
+  }
+
+  .line {
+    font-size: var(--fs-small);
+  }
+}
+
+/* ---- reduced motion: a plain vertical list ---- */
+@media (prefers-reduced-motion: reduce) {
+  .timeline {
+    height: auto;
+  }
+
+  .stage {
+    position: static;
+    height: auto;
+    grid-template-rows: auto auto;
+    gap: var(--space-6);
+    padding-block: var(--space-9) var(--space-8);
+    overflow: visible;
+  }
+
+  .rail,
+  .fill,
+  .year {
+    display: none;
+  }
+
+  .track {
+    grid-area: auto;
+    display: grid;
+    gap: var(--space-5);
+    width: auto;
+    height: auto;
+    padding-inline: var(--gutter, 1.25rem);
+    transform: none;
+  }
+
+  .item {
+    --on: 1;
+    --past: 1;
+    width: auto;
+    height: auto;
+    padding-left: var(--space-6);
+  }
+
+  .dot {
+    left: 0.45rem;
+    top: 1.3rem;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .card,
+  .item[data-side] .card {
+    position: static;
+    width: auto;
+    opacity: 1;
+    transform: none;
+  }
+}
