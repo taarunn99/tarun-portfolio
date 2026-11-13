@@ -9,6 +9,7 @@ import type { ServiceSlug } from "@/content/types";
 import { Page } from "@/components/sections/Page";
 import { FeaturedWork } from "@/components/sections/FeaturedWork";
 import { ContactCta } from "@/components/sections/ContactCta";
+import { RebuildStory } from "@/components/sections/RebuildStory";
 import type { CSSProperties } from "react";
 import { Heading } from "@/components/ui/Heading";
 import { Reveal } from "@/components/motion/Reveal";
@@ -80,6 +81,8 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           </p>
         </div>
       </section>
+
+      {s.slug === "nextjs-development-dubai" ? <RebuildStory /> : null}
 
       {/* ---- what you get: numbered cards that stack as you scroll ---- */}
       <section className={`container ${styles.get}`} aria-labelledby="get-title">

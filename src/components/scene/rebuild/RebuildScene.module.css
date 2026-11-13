@@ -1,0 +1,19 @@
+.scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+  z-index: 1;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s var(--ease-out-quint);
+}
+
+.visible {
+  opacity: 1;
+}

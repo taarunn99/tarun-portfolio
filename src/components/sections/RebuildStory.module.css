@@ -1,0 +1,274 @@
+/*
+ * The rebuild story. `--p` (0 to 1, motion/StoryScroll) drives everything in
+ * HTML here; the same progress drives the tiles in scene/rebuild/shaders.ts,
+ * so the timings below match it:
+ *   0.10 to 0.20   the frame fades back as the page blows apart
+ *   0.62           the page counter flips from 1,200 to 62
+ *   0.70 to 0.78   the frame comes back around the new page
+ *   0.80 to 0.92   the score climbs from 66 to 99
+ */
+@property --rebuild-score {
+  syntax: "<integer>";
+  inherits: true;
+  initial-value: 66;
+}
+
+.story {
+  --p: 0;
+  position: relative;
+  height: 420vh;
+  height: 420svh;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  height: 100svh;
+  padding-block: 5.5rem var(--space-6);
+  overflow: hidden;
+}
+
+.head {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.title {
+  font-size: var(--fs-h2);
+  letter-spacing: -0.02em;
+}
+
+/* ---- the browser frame ---- */
+.frame {
+  --gone: calc(clamp(0, (var(--p) - 0.1) / 0.1, 1) * clamp(0, (0.78 - var(--p)) / 0.08, 1));
+  align-self: center;
+  justify-self: center;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: min(58vw, calc((100svh - 17rem) * 1.6));
+  aspect-ratio: 16 / 10;
+  border: 1px solid color-mix(in oklab, var(--fg) 14%, transparent);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklab, var(--bg-nickel) 85%, transparent);
+  box-shadow: 0 30px 80px -30px color-mix(in oklab, var(--bg) 90%, transparent);
+  opacity: calc(1 - 0.9 * var(--gone));
+  transform: scale(calc(1 - 0.06 * var(--gone)));
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--fg) 9%, transparent);
+}
+
+.bar i {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--fg) 22%, transparent);
+}
+
+.bar span {
+  margin-inline: auto;
+  padding: 0.15rem 1.2rem;
+  border-radius: var(--radius-pill);
+  background: color-mix(in oklab, var(--fg) 6%, transparent);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--muted);
+}
+
+/* the page box the tiles fit into; until they arrive, a faint mosaic */
+.page {
+  margin: 4%;
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--bg-nickel) 100%, transparent) 1px, transparent 1px) 0 0 / 2.5% 100%,
+    linear-gradient(color-mix(in oklab, var(--bg-nickel) 100%, transparent) 1px, transparent 1px) 0 0 / 100% 4%,
+    color-mix(in oklab, var(--fg) 5%, transparent);
+  transition: opacity var(--dur-slow) var(--ease-out-quint);
+}
+
+.story[data-tiles] .page {
+  opacity: 0;
+}
+
+/* ---- captions and meters ---- */
+.foot {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: var(--space-4) var(--space-6);
+}
+
+.captions {
+  display: grid;
+  flex: 1 1 22rem;
+  list-style: none;
+}
+
+.caption {
+  grid-area: 1 / 1;
+  align-self: end;
+  max-width: 34ch;
+  font-size: var(--fs-lead);
+  line-height: 1.35;
+  text-wrap: balance;
+  opacity: clamp(0, min(calc((var(--p) - var(--a)) / 0.04), calc((var(--b) - var(--p)) / 0.04)), 1);
+  transform: translateY(calc((1 - clamp(0, (var(--p) - var(--a)) / 0.04, 1)) * 0.75rem));
+}
+
+.meters {
+  display: flex;
+  align-items: end;
+  gap: var(--space-6);
+}
+
+.meter {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.count {
+  display: grid;
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 1.4rem + 2vw, 3.25rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.before,
+.after {
+  grid-area: 1 / 1;
+  justify-self: end;
+}
+
+.before {
+  color: var(--danger);
+  opacity: clamp(0, (0.62 - var(--p)) / 0.03, 1);
+}
+
+.after {
+  color: var(--accent);
+  opacity: clamp(0, (var(--p) - 0.62) / 0.03, 1);
+}
+
+/* the Lighthouse dial: 66 in red until the new page lands, then up to 99 */
+.dial {
+  --k: clamp(0, (var(--p) - 0.8) / 0.12, 1);
+  --rebuild-score: calc(66 + 33 * var(--k));
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+}
+
+.ring {
+  width: clamp(3.75rem, 3rem + 2vw, 5rem);
+  height: auto;
+  rotate: -90deg;
+}
+
+.track,
+.arc {
+  fill: none;
+  stroke-width: 4;
+}
+
+.track {
+  stroke: color-mix(in oklab, var(--fg) 10%, transparent);
+}
+
+.arc {
+  stroke: color-mix(in oklab, var(--accent) calc(var(--k) * 100%), var(--danger));
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc(100 - (66 + 33 * var(--k)));
+}
+
+.score {
+  position: absolute;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: clamp(3.75rem, 3rem + 2vw, 5rem);
+  aspect-ratio: 1;
+  font-family: var(--font-mono);
+  font-size: var(--fs-lead);
+  counter-reset: score var(--rebuild-score);
+}
+
+.score::after {
+  content: counter(score);
+}
+
+/* ---- phones: a tall page in the frame, captions underneath ---- */
+@media (max-width: 47.99rem) {
+  .story {
+    height: 380vh;
+    height: 380svh;
+  }
+
+  .stage {
+    padding-block: 5rem var(--space-5);
+  }
+
+  .frame {
+    width: min(80vw, calc((100svh - 19rem) * 0.72));
+    aspect-ratio: 10 / 14;
+  }
+
+  .caption {
+    font-size: var(--fs-body);
+  }
+
+  .meters {
+    gap: var(--space-4);
+  }
+}
+
+/* ---- reduced motion: no pinning; every caption shows, the dial rests at 99 ---- */
+@media (prefers-reduced-motion: reduce) {
+  .story {
+    height: auto;
+    --p: 1 !important;
+  }
+
+  .stage {
+    position: static;
+    height: auto;
+    gap: var(--space-6);
+  }
+
+  .frame {
+    display: none;
+  }
+
+  .captions {
+    gap: var(--space-3);
+  }
+
+  .caption {
+    grid-area: auto;
+    opacity: 1;
+    transform: none;
+  }
+}
