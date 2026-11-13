@@ -8,6 +8,7 @@ export const services: Service[] = [
     description:
       "Next.js and TypeScript websites for UAE businesses: migrations off WordPress, catalogue sites with hundreds of pages, Lighthouse 95 to 100, and the SEO foundation built in. Six production sites shipped.",
     eyebrow: "Web",
+    accent: "rank",
     intro:
       "Most business sites in the UAE are slow WordPress themes with a thousand pages nobody asked for. I rebuild them in Next.js and TypeScript, keep the rankings, and hand over something a team can maintain.",
     deliverables: [
@@ -47,6 +48,7 @@ export const services: Service[] = [
     description:
       "Zoho Books, Inventory and CRM automation for UAE trading and contracting companies: stock reconciliation, invoice-to-shipment automation, Deluge functions, Chrome add-ons with live margins, daily reports, e-invoicing readiness.",
     eyebrow: "ERP",
+    accent: "match",
     intro:
       "I took a three-branch distributor's Zoho estate in-house from an agency, switched off the rules that were failing, and automated the gap between what was invoiced and what actually left the warehouse.",
     deliverables: [
@@ -82,6 +84,7 @@ export const services: Service[] = [
     description:
       "Claude API, MCP and n8n automations for UAE SMEs: quoting assistants with tool calls, lead staging into CRM, delivery-note OCR, photo-to-purchase-order, executive assistants in Zoho Cliq.",
     eyebrow: "AI",
+    accent: "assist",
     intro:
       "The useful automations are the boring ones: the quote assistant that explains a price, the OCR that attaches a signed delivery note to the right invoice, the lead that lands in CRM already assigned. I build those.",
     deliverables: [

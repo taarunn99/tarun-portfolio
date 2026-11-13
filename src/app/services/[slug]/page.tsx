@@ -7,10 +7,11 @@ import { caseStudies } from "@/content/case-studies";
 import { site } from "@/content/site";
 import type { ServiceSlug } from "@/content/types";
 import { Page } from "@/components/sections/Page";
-import { WorkCard } from "@/components/sections/WorkCard";
+import { FeaturedWork } from "@/components/sections/FeaturedWork";
+import { ContactCta } from "@/components/sections/ContactCta";
+import type { CSSProperties } from "react";
 import { Heading } from "@/components/ui/Heading";
 import { Reveal } from "@/components/motion/Reveal";
-import { Magnetic } from "@/components/motion/Magnetic";
 import { JsonLd } from "@/lib/seo/JsonLdScript";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/seo/jsonld";
 import styles from "./page.module.css";
@@ -57,80 +58,108 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           ]),
         ]}
       />
-      <section className={`container ${styles.head}`}>
-        <nav className={styles.switcher} aria-label="Services">
-          {services.map((o) => (
-            <Link key={o.slug} href={`/services/${o.slug}`} className={styles.switch} aria-current={o.slug === s.slug ? "page" : undefined}>
-              {o.eyebrow}
-            </Link>
-          ))}
-        </nav>
-        <Heading as="h1" className={styles.title} text={s.title} />
-        <p className={styles.lead}>{s.intro}</p>
+      {/* ---- opening: the headline drifts back as you scroll, a huge faint
+          service word slides slower behind it ---- */}
+      <section className={styles.hero}>
+        <p className={styles.ghost} aria-hidden="true">
+          {s.eyebrow}
+        </p>
+        <div className={`container ${styles.head}`}>
+          <nav className={styles.switcher} aria-label="Services">
+            {services.map((o) => (
+              <Link key={o.slug} href={`/services/${o.slug}`} className={styles.switch} aria-current={o.slug === s.slug ? "page" : undefined}>
+                {o.eyebrow}
+              </Link>
+            ))}
+          </nav>
+          <Heading as="h1" className={styles.title} text={s.title} accent={s.accent} />
+          <p className={styles.lead}>{s.intro}</p>
+          <p className={styles.cue} aria-hidden="true">
+            <span />
+            Scroll
+          </p>
+        </div>
       </section>
 
-      <Reveal as="section" className={`container ${styles.twoCol}`}>
-        <div>
-          <h2 className={styles.h2}>What you get</h2>
-          <ul className={styles.list}>
-            {s.deliverables.map((d) => (
-              <li key={d}>{d}</li>
-            ))}
-          </ul>
+      {/* ---- what you get: numbered cards that stack as you scroll ---- */}
+      <section className={`container ${styles.get}`} aria-labelledby="get-title">
+        <div className={styles.getHead}>
+          <p className="eyebrow">What you get</p>
+          <h2 id="get-title" className={styles.h2}>
+            {s.deliverables.length} parts, one handover
+          </h2>
         </div>
-        <div>
-          <h2 className={styles.h2}>What it did last time</h2>
-          <ul className={styles.list}>
-            {s.outcomes.map((o) => (
-              <li key={o}>{o}</li>
-            ))}
-          </ul>
-        </div>
-      </Reveal>
+        <ol className={styles.deck}>
+          {s.deliverables.map((d, i) => (
+            <li key={d} className={styles.slot} style={{ "--i": i } as CSSProperties}>
+              <div className={styles.card}>
+                <span className={styles.num}>{String(i + 1).padStart(2, "0")}</span>
+                <p className={styles.cardText}>{d}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* ---- what it did: one big line per result, lighting up as it rises ---- */}
+      <section className={`container ${styles.did}`} aria-labelledby="did-title">
+        <p className="eyebrow">What it did last time</p>
+        <h2 id="did-title" className="sr-only">
+          What it did last time
+        </h2>
+        <ol className={styles.results}>
+          {s.outcomes.map((o, i) => (
+            <li key={o} className={styles.result}>
+              <span className={styles.resultNum} aria-hidden="true">
+                {String(i + 1).padStart(2, "0")} / {String(s.outcomes.length).padStart(2, "0")}
+              </span>
+              <p className={styles.resultText}>
+                <span className={styles.fill}>{o}</span>
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
 
       {proof.length > 0 ? (
-        <section className={`container ${styles.proof}`} aria-labelledby="proof-title">
-          <p className="eyebrow">Proof</p>
-          <h2 id="proof-title" className={styles.h2}>Case studies</h2>
-          <Reveal as="div" className={styles.grid} stagger>
-            {proof.map((cs) => (
-              <WorkCard key={cs.slug} cs={cs} index={caseStudies.findIndex((c) => c.slug === cs.slug)} />
-            ))}
-          </Reveal>
-        </section>
+        <FeaturedWork
+          items={proof}
+          eyebrow="Proof"
+          title="The case studies behind it."
+          accent="behind"
+          allHref={null}
+          id="proof-title"
+        />
       ) : null}
 
+      {/* ---- questions: tap to open ---- */}
       <Reveal as="section" className={`container ${styles.faq}`}>
+        <p className="eyebrow">Questions</p>
         <h2 className={styles.h2}>Questions I get asked</h2>
-        <dl className={styles.faqList}>
-          {s.faq.map((f) => (
-            <div key={f.q}>
-              <dt>{f.q}</dt>
-              <dd>{f.a}</dd>
-            </div>
+        <div className={styles.faqList}>
+          {s.faq.map((f, i) => (
+            <details key={f.q} className={styles.qa} open={i === 0}>
+              <summary className={styles.q}>
+                <span>{f.q}</span>
+                <span className={styles.plus} aria-hidden="true" />
+              </summary>
+              <p className={styles.a}>{f.a}</p>
+            </details>
           ))}
-        </dl>
+        </div>
       </Reveal>
 
-      <section className={`container ${styles.cta}`}>
-        <p className={styles.ctaText}>
-          Tell me about the business and the problem; I&apos;ll say whether I&apos;m the right person and what it would take.
-        </p>
-        <Magnetic>
-          <Link href="/contact" className="btn btn-primary">
-            Start a conversation
-          </Link>
-        </Magnetic>
-        <p className={styles.others}>
-          Also:{" "}
-          {others.map((o, i) => (
-            <span key={o.slug}>
-              <Link href={`/services/${o.slug as ServiceSlug}`}>{o.eyebrow}</Link>
-              {i < others.length - 1 ? " · " : ""}
-            </span>
-          ))}
-        </p>
-      </section>
+      <ContactCta />
+
+      <nav className={`container ${styles.others}`} aria-label="Other services">
+        Also:{" "}
+        {others.map((o, i) => (
+          <span key={o.slug}>
+            <Link href={`/services/${o.slug as ServiceSlug}`}>{o.eyebrow}</Link>
+            {i < others.length - 1 ? " · " : ""}
+          </span>
+        ))}
+      </nav>
     </Page>
   );
 }

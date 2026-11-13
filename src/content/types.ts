@@ -89,6 +89,8 @@ export type Service = {
   seoTitle: string;
   description: string;
   eyebrow: string;
+  /** The one italic accent word in the title */
+  accent?: string;
   intro: string;
   deliverables: string[];
   outcomes: string[];
