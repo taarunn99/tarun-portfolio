@@ -12,9 +12,10 @@
   font-size: var(--fs-h1);
 }
 
-.grid {
+/* ---- strengths and expertise ---- */
+.top {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   border: 1px solid color-mix(in oklab, var(--fg) 8%, transparent);
   border-radius: var(--radius-md);
   background: var(--bg-nickel);
@@ -38,7 +39,8 @@
 
 .rows,
 .list,
-.tools {
+.tools,
+.certList {
   list-style: none;
 }
 
@@ -66,14 +68,13 @@
 
 .list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: var(--space-5);
 }
 
 .list li {
   padding-block: var(--space-3);
   border-top: 1px solid color-mix(in oklab, var(--fg) 7%, transparent);
-  color: var(--fg);
 }
 
 .list li:nth-child(-n + 2) {
@@ -81,13 +82,57 @@
   border-top: 0;
 }
 
-/* the logo grid: grey at rest, brand colour on hover */
+/* ---- every tool, full width, a row per category ---- */
+.panel {
+  margin-top: var(--space-5);
+  padding: clamp(1.5rem, 2.6vw, 2.5rem);
+  border: 1px solid color-mix(in oklab, var(--fg) 8%, transparent);
+  border-radius: var(--radius-md);
+  background: var(--bg-nickel);
+}
+
+.panelHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.total,
+.groupTitle span {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  color: var(--muted);
+}
+
+.group {
+  display: grid;
+  grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+  padding-block: var(--space-5);
+  border-top: 1px solid color-mix(in oklab, var(--fg) 7%, transparent);
+}
+
+.groupTitle {
+  display: grid;
+  gap: var(--space-1);
+  padding-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+/* logo tiles: grey at rest, brand colour on hover */
+/* dividers live on the tiles, so the space after a short row stays dark */
 .tools {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  background: color-mix(in oklab, var(--fg) 7%, transparent);
-  border: 1px solid color-mix(in oklab, var(--fg) 7%, transparent);
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  border-top: 1px solid color-mix(in oklab, var(--fg) 7%, transparent);
+  border-left: 1px solid color-mix(in oklab, var(--fg) 7%, transparent);
 }
 
 .tools li {
@@ -97,11 +142,17 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-3);
-  aspect-ratio: 1 / 0.82;
-  padding: var(--space-2);
+  min-height: 7rem;
+  padding: var(--space-3) var(--space-2);
+  border-right: 1px solid color-mix(in oklab, var(--fg) 7%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--fg) 7%, transparent);
   background: var(--bg-nickel);
   text-align: center;
   transition: background-color var(--dur-base) var(--ease-out-ui);
+}
+
+.tools li[data-glyph] {
+  --c: var(--accent);
 }
 
 .tools svg {
@@ -117,8 +168,8 @@
 .tools span {
   font-size: var(--fs-caption);
   line-height: 1.25;
-  overflow-wrap: anywhere;
   color: var(--muted);
+  overflow-wrap: anywhere;
   transition: color var(--dur-base) var(--ease-out-ui);
 }
 
@@ -143,8 +194,56 @@
   }
 }
 
+/* ---- certificates ---- */
+.certs {
+  margin-top: var(--space-5);
+}
+
+.certList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 1px;
+  background: color-mix(in oklab, var(--fg) 8%, transparent);
+  border: 1px solid color-mix(in oklab, var(--fg) 8%, transparent);
+  border-radius: var(--radius-md);
+  overflow: clip;
+}
+
+.cert {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+  background: var(--bg-nickel);
+  transition: background-color var(--dur-base) var(--ease-out-ui);
+}
+
+.cert:hover {
+  background: var(--bg-elevated);
+}
+
+.issuer {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.cert b {
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.certNote {
+  font-size: var(--fs-small);
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ---- narrow screens ---- */
 @media (max-width: 56rem) {
-  .grid {
+  .top {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -156,6 +255,17 @@
   .cell:last-child {
     border-bottom: 0;
   }
+
+  .group {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
+  .groupTitle {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0;
+  }
 }
 
 @media (max-width: 30rem) {
@@ -166,5 +276,13 @@
   .list li:nth-child(2) {
     padding-top: var(--space-3);
     border-top: 1px solid color-mix(in oklab, var(--fg) 7%, transparent);
+  }
+
+  .tools {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .tools li {
+    min-height: 6rem;
   }
 }
