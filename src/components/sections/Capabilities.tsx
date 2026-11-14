@@ -9,12 +9,12 @@ import styles from "./Capabilities.module.css";
  * (left column, then right column, top to bottom).
  */
 const SPOTS: Array<[number, number]> = [
-  [31, 16],
+  [31, 6],
   [31, 50],
-  [31, 84],
-  [69, 16],
+  [31, 94],
+  [69, 6],
   [69, 50],
-  [69, 84],
+  [69, 94],
 ];
 
 /**
@@ -70,6 +70,7 @@ export function Capabilities() {
                   key={c.id}
                   className={styles.card}
                   data-side={x < 50 ? "left" : "right"}
+                  data-row={i % 3 === 0 ? "top" : i % 3 === 1 ? "mid" : "bottom"}
                   style={{ "--k": i, "--x": `${x}%`, "--y": `${y}%` } as CSSProperties}
                 >
                   {c.stat ? (
