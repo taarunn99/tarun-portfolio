@@ -155,12 +155,14 @@
   --c: var(--accent);
 }
 
+/* logos lit in their own colour; hover makes them glow and grow a little */
 .tools svg {
   width: 1.75rem;
   height: 1.75rem;
-  fill: color-mix(in oklab, var(--fg) 32%, transparent);
+  fill: var(--c);
+  opacity: 0.9;
   transition:
-    fill var(--dur-base) var(--ease-out-ui),
+    opacity var(--dur-base) var(--ease-out-ui),
     transform var(--dur-slow) var(--ease-out-quint),
     filter var(--dur-base) var(--ease-out-ui);
 }
@@ -178,19 +180,19 @@
 }
 
 .tools li:hover svg {
-  fill: var(--c);
-  transform: translateY(-2px);
-  filter: drop-shadow(0 0 10px color-mix(in oklab, var(--c) 40%, transparent));
+  opacity: 1;
+  transform: scale(1.22);
+  filter: drop-shadow(0 0 6px color-mix(in oklab, var(--c) 70%, transparent))
+    drop-shadow(0 0 16px color-mix(in oklab, var(--c) 45%, transparent));
 }
 
 .tools li:hover span {
   color: var(--fg);
 }
 
-@media (hover: none) {
-  .tools svg {
-    fill: var(--c);
-    opacity: 0.85;
+@media (prefers-reduced-motion: reduce) {
+  .tools li:hover svg {
+    transform: none;
   }
 }
 
