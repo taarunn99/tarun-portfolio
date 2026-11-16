@@ -2,16 +2,17 @@ import type { CaseStudy } from "../types";
 
 export const googleAdsAttribution: CaseStudy = {
   slug: "google-ads-attribution",
-  title: "Google Ads that returned AED 242K on AED 26K",
+  title: "Google Ads that harvested a AED 2.27M lead pipeline",
   short: "Google Ads & attribution",
   client: "Lapiz Blue General Trading LLC",
   year: "2026",
   period: "Feb to Jul 2026 (channel live since Nov 2025)",
   role: "Head of Technology: campaigns, tracking, attribution",
   summary:
-    "Built the group's paid-search channel from zero, fixed conversion tracking, and matched leads to invoices in Zoho Books to prove 9.2× return on ad spend.",
-  headlineMetric: { label: "return on ad spend", value: "9.2×", source: "halfyearly-report", note: "AED 242,642 invoiced from AED 26,358 spend" },
+    "Built the group's paid-search channel from zero, fixed conversion tracking, harvested a AED 2.27M lead pipeline for the sales team, and matched leads to invoices in Zoho Books: AED 242K in first purchases alone on AED 26K of spend, a 9.2× return.",
+  headlineMetric: { label: "return on ad spend, first purchases alone", value: "9.2×", source: "halfyearly-report", note: "AED 242,642 invoiced from AED 26,358 spend; repeat orders come on top" },
   metrics: [
+    { label: "lead pipeline harvested", value: "AED 2.27M", source: "halfyearly-report", note: "209 qualified leads, 264 companies, trader price" },
     { label: "cost per conversion", value: "AED 66 → 35", source: "resume", note: "−47%" },
     { label: "conversions", value: "448", source: "resume", note: "Feb to Jul 2026" },
     { label: "impressions", value: "72.5K", source: "resume", note: "Feb to Jul 2026" },

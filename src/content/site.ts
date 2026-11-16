@@ -48,9 +48,9 @@ export const site = {
 
 /** The proof strip on the home page — sourced numbers only */
 export const proof: Metric[] = [
+  { label: "lead pipeline harvested", value: "AED 2.27M", source: "halfyearly-report", note: "209 qualified leads from 264 companies, Feb to Jul 2026, at trader price" },
+  { label: "return on Google Ads spend, first purchases alone", value: "9.2×", source: "halfyearly-report", note: "AED 242,642 from AED 26,358; repeat orders come on top" },
   { label: "products shipped in 8 months", value: "7", source: "resume" },
-  { label: "return on Google Ads spend", value: "9.2×", source: "halfyearly-report", note: "AED 242,642 from AED 26,358" },
-  { label: "quantified lead pipeline", value: "AED 2.27M", source: "resume", note: "Feb to Jul 2026" },
   { label: "stock units corrected", value: "776,478", source: "resume" },
   { label: "in outside ERP quotes avoided", value: "AED 90K to 160K", source: "deliverables-xlsx", note: "Odoo fix and migration AED 160,000; fix-only quote AED 90,000" },
   { label: "Lighthouse on every site", value: "95 to 100", source: "lighthouse" },

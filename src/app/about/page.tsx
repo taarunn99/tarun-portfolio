@@ -35,7 +35,7 @@ export default function AboutPage() {
               I run technology, growth and operations for Lapiz Group, three building-materials companies in Dubai, Sharjah and Abu Dhabi, as a team of one with two mentored interns.
             </p>
             <p>
-              Since May 2025 that has meant six production websites in Next.js and TypeScript, a Google Ads channel that returned 9.2× its spend in invoiced revenue, SEO that put the group&apos;s brands at position one and into Google&apos;s AI answers, and a Zoho ERP taken in-house and automated until the warehouse and the accounts agreed.
+              Since May 2025 that has meant six production websites in Next.js and TypeScript, a Google Ads channel that harvested a AED 2.27M lead pipeline and returned 9.2× its spend in first purchases alone, SEO that put the group&apos;s brands at position one and into Google&apos;s AI answers, and a Zoho ERP taken in-house and automated until the warehouse and the accounts agreed.
             </p>
             <p>
               Before that: a Computer Science degree at VIT Bhopal, certificates from NUS School of Computing in applied machine learning and deep learning, an AWS Solutions Architect certification and a full-stack internship. I build with AI tooling every day: the model proposes, the code decides.
