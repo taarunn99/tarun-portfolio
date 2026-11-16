@@ -62,7 +62,7 @@ export const services: Service[] = [
     outcomes: [
       "7,321 stuck sales orders closed with 8,346 auto-generated packages and shipments, zero errors",
       "776,478 units corrected across 1,475 items; stock gap down 96.5%",
-      "AED 160,000 of agency migration fees avoided by fixing Zoho in-house",
+      "AED 90,000 to 160,000 in outside quotes avoided by fixing Zoho in-house",
     ],
     proof: ["zoho-stock-sync", "zoho-helper-ops-console", "estimating-workbench"],
     faq: [

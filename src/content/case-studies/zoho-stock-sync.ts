@@ -16,13 +16,13 @@ export const zohoStockSync: CaseStudy = {
     { label: "stock gap", value: "782,525 → 27,607 units", source: "resume", note: "−96.5%" },
     { label: "mismatched items", value: "1,631 → 425", source: "resume", note: "−74%" },
     { label: "dead orders closed", value: "951", source: "resume", note: "128,207 units freed" },
-    { label: "agency fees avoided", value: "AED 160,000", source: "deliverables-xlsx" },
+    { label: "outside quotes avoided", value: "AED 90K to 160K", source: "deliverables-xlsx", note: "Odoo: stock fix and migration AED 160,000; another vendor: fix only AED 90,000" },
   ],
   sections: {
     context:
       "Three branches, two Zoho organisations, and an ERP configured by an external agency. Accounting stock and physical stock disagreed by over 780,000 units because invoiced orders were never packed or shipped in the system.",
     constraint:
-      "Management had an AED 160,000 quote on the table to migrate to Odoo. Whatever I did had to run on live data in a trading company that invoices all day, with no second chance on a bad write.",
+      "Management had two quotes on the table: AED 160,000 from Odoo to fix the stock with automations and custom functions and migrate us, and AED 90,000 from another company just to fix Zoho. Whatever I did had to run on live data in a trading company that invoices all day, with no second chance on a bad write.",
     approach:
       "After comparing Zoho, Odoo and Dynamics and leading the Odoo discovery, I recommended staying on Zoho and fixing it. I audited the agency's automations, switched off the failing rules and removed an exposed API key. Then I built the invoice-to-shipment automation in Deluge (every invoiced sales order packs and ships itself, voided invoices return goods to stock) and a Python backfill with idempotent, marker-tagged, retried writes to process the history. Alongside: a \"to be received\" column kept correct by an hourly check, purchase history on PO lines, item-page buttons, and four scheduled daily reports.",
     result:

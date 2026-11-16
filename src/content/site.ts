@@ -52,7 +52,7 @@ export const proof: Metric[] = [
   { label: "return on Google Ads spend", value: "9.2×", source: "halfyearly-report", note: "AED 242,642 from AED 26,358" },
   { label: "quantified lead pipeline", value: "AED 2.27M", source: "resume", note: "Feb to Jul 2026" },
   { label: "stock units corrected", value: "776,478", source: "resume" },
-  { label: "agency fees avoided", value: "AED 160K", source: "deliverables-xlsx" },
+  { label: "in outside ERP quotes avoided", value: "AED 90K to 160K", source: "deliverables-xlsx", note: "Odoo fix and migration AED 160,000; fix-only quote AED 90,000" },
   { label: "Lighthouse on every site", value: "95 to 100", source: "lighthouse" },
 ];
 
