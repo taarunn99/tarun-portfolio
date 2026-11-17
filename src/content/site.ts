@@ -4,9 +4,10 @@ import type { Metric } from "./types";
 const CANONICAL_URL = "https://tarunshukla.com";
 
 function resolveSiteUrl(): string {
-  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
   // Production always uses the real domain, so canonical links, the sitemap and share images never point at vercel.app.
+  // This comes first on purpose: the old NEXT_PUBLIC_SITE_URL value in Vercel still holds the vercel.app address.
   if (process.env.VERCEL_ENV === "production") return CANONICAL_URL;
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
   if (process.env.VERCEL_PROJECT_PRODUCTION_URL)
     return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
