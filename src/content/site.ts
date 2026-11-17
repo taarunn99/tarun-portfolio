@@ -1,7 +1,12 @@
 import type { Metric } from "./types";
 
+/** The site's own address (Namecheap domain, connected to this Vercel project on 17 Nov 2026). */
+const CANONICAL_URL = "https://tarunshukla.com";
+
 function resolveSiteUrl(): string {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  // Production always uses the real domain, so canonical links, the sitemap and share images never point at vercel.app.
+  if (process.env.VERCEL_ENV === "production") return CANONICAL_URL;
   if (process.env.VERCEL_PROJECT_PRODUCTION_URL)
     return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;

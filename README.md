@@ -1,6 +1,6 @@
 # Tarun Shukla — Portfolio
 
-**Live:** https://tarun-portfolio-pearl.vercel.app
+**Live:** https://tarunshukla.com
 
 Personal portfolio built for speed and for getting hired: **Lighthouse 100 / 100 / 100 / 100** on every route, mobile and desktop, enforced locally and in CI.
 

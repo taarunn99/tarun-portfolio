@@ -9,7 +9,7 @@
  *
  * Env:
  *   PSI_API_KEY  required — https://developers.google.com/speed/docs/insights/v5/get-started
- *   LH_URL       site origin (default https://tarun-portfolio-pearl.vercel.app)
+ *   LH_URL       site origin (default https://tarunshukla.com)
  *   LH_PATHS     comma-separated paths (default "/")
  *   LH_MIN       minimum score per category (default 100)
  *   PSI_RETRIES  extra attempts for a run that lands below LH_MIN (default 1):
@@ -20,7 +20,7 @@ if (!KEY) {
   console.error("PSI_API_KEY is not set.");
   process.exit(2);
 }
-const ORIGIN = (process.env.LH_URL ?? "https://tarun-portfolio-pearl.vercel.app").replace(/\/$/, "");
+const ORIGIN = (process.env.LH_URL ?? "https://tarunshukla.com").replace(/\/$/, "");
 const PATHS = (process.env.LH_PATHS ?? "/").split(",").map((p) => p.trim()).filter(Boolean);
 const MIN = Number(process.env.LH_MIN ?? 100);
 const RETRIES = Math.max(0, Number(process.env.PSI_RETRIES ?? 1));

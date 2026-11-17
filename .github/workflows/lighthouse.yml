@@ -23,7 +23,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  SITE_URL: https://tarun-portfolio-pearl.vercel.app
+  SITE_URL: https://tarunshukla.com
   SITE_PATHS: /,/work,/work/lapizblue-relaunch,/services/nextjs-development-dubai,/about,/resume,/contact
   HAS_PSI_KEY: ${{ secrets.PSI_API_KEY != '' }}
 
