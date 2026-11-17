@@ -41,4 +41,4 @@ npm run images       # sharp + thumbhash pipeline → public/images + src/lib/im
 
 ## Deploy
 
-Pushes to `main` deploy to Vercel (project `tarun-portfolio`, framework preset Next.js). The production address is `https://tarunshukla.com`, set in `src/content/site.ts` (domain at Namecheap: A `@` 216.150.1.1, CNAME `www` to Vercel; `www` redirects to the apex). Production env: `CONTACT_TO` (`NEXT_PUBLIC_SITE_URL` is only read outside production); add `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY` to enable the form.
+Pushes to `main` deploy to Vercel (project `tarun-portfolio`, framework preset Next.js). The production address is `https://tarunshukla.com`, set in `src/content/site.ts` (registered at Namecheap, DNS on Vercel; `www` redirects to the apex). Production env: `CONTACT_TO` (`NEXT_PUBLIC_SITE_URL` is only read outside production); add `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY` to enable the form.

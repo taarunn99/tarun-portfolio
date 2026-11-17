@@ -60,7 +60,7 @@ Stack: Next.js 16.4 (App Router, Cache Components), React 19.3, TypeScript stric
 - Vercel Hobby: 5K image transformations/month; static imports are keyed by content hash so redeploys don't re-transform.
 - Higgsfield outputs are deleted after 7 days — download into `assets/src/` immediately.
 - `gh` and Vercel: repo `taarunn99/tarun-portfolio`, Vercel project `tarun-portfolio` in team `tarun-shuklas-projects`.
-- Domain: `https://tarunshukla.com` (Namecheap, DNS there: A `@` 216.150.1.1, CNAME `www` to Vercel; `www` 308s to the apex). `src/content/site.ts` returns it whenever `VERCEL_ENV` is production. The `NEXT_PUBLIC_SITE_URL` value stored in Vercel still holds the old vercel.app address and is ignored in production; editing it needs Tarun's passkey.
+- Domain: `https://tarunshukla.com` (Namecheap is the registrar only; DNS is on Vercel, nameservers ns1 and ns2.vercel-dns.com, records managed by Vercel; `www` 308s to the apex). `src/content/site.ts` returns it whenever `VERCEL_ENV` is production. The `NEXT_PUBLIC_SITE_URL` value stored in Vercel still holds the old vercel.app address and is ignored in production; editing it needs Tarun's passkey.
 
 ## Skills
 
