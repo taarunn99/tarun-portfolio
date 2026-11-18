@@ -5,17 +5,25 @@ import Script from "next/script";
 import { sendEnquiry, type EnquiryState } from "@/app/contact/actions";
 import styles from "./ContactForm.module.css";
 
+type Track = "role" | "consulting";
+
 type Props = {
+  /** Projects and consulting */
   email: string;
+  /** Roles */
+  hiringEmail: string;
   turnstileSiteKey?: string;
 };
 
 const initial: EnquiryState = { status: "idle" };
 
-export function ContactForm({ email, turnstileSiteKey }: Props) {
+export function ContactForm({ email, hiringEmail, turnstileSiteKey }: Props) {
   const [state, action, pending] = useActionState(sendEnquiry, initial);
   const [startedAt, setStartedAt] = useState("");
   const [loadTurnstile, setLoadTurnstile] = useState(false);
+  // The "email directly" link follows the chosen track, so a role note and a project note reach different inboxes.
+  const [track, setTrack] = useState<Track>("role");
+  const directEmail = track === "role" ? hiringEmail : email;
 
   // First interaction marks the start time (used server-side as a minimum fill-time check)
   // and triggers the lazy Turnstile script. Event handlers, not effects: no hydration mismatch.
@@ -47,11 +55,11 @@ export function ContactForm({ email, turnstileSiteKey }: Props) {
       <fieldset className={styles.track}>
         <legend className={styles.legend}>This is about</legend>
         <label className={styles.radio}>
-          <input type="radio" name="track" value="role" defaultChecked required />
+          <input type="radio" name="track" value="role" defaultChecked required onChange={() => setTrack("role")} />
           <span>A role</span>
         </label>
         <label className={styles.radio}>
-          <input type="radio" name="track" value="consulting" />
+          <input type="radio" name="track" value="consulting" onChange={() => setTrack("consulting")} />
           <span>A project or consulting</span>
         </label>
       </fieldset>
@@ -96,7 +104,7 @@ export function ContactForm({ email, turnstileSiteKey }: Props) {
         <button type="submit" className="btn btn-primary" disabled={pending} aria-busy={pending}>
           {pending ? "Sending…" : "Send message"}
         </button>
-        <a href={`mailto:${email}`} className={styles.alt}>
+        <a href={`mailto:${directEmail}`} className={styles.alt}>
           or email directly
         </a>
       </div>

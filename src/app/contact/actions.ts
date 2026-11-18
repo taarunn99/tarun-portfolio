@@ -76,7 +76,7 @@ export async function sendEnquiry(_prev: EnquiryState, formData: FormData): Prom
 
     const { error } = await resend.emails.send({
       from: env.resendFrom,
-      to: env.contactTo,
+      to: data.track === "role" ? env.contactToRole : env.contactToProject,
       replyTo: data.email,
       subject,
       text,

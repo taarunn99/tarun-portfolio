@@ -32,7 +32,7 @@ export default function ContactPage() {
           </dl>
         </div>
         <div className={styles.formWrap}>
-          <ContactForm email={site.email} turnstileSiteKey={publicEnv.turnstileSiteKey} />
+          <ContactForm email={site.email} hiringEmail={site.hiringEmail} turnstileSiteKey={publicEnv.turnstileSiteKey} />
         </div>
       </section>
     </Page>

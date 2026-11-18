@@ -78,7 +78,7 @@ See plan §4 / [ARCHITECTURE.md](./ARCHITECTURE.md). Home → (work, services, a
 ## 8. Assumptions and open questions
 
 - `[NEEDS CLARIFICATION]` lapizblue.com page consolidation: résumé says 1,200 → 62 pages; Halfyearly-Report says 95 indexed. Use the résumé figure with a "core pages" qualifier until confirmed.
-- `[NEEDS CLARIFICATION]` Public email for the site (currently `agmnwosgr@gmail.com` as the delivery address; display a `hello@` alias once a domain exists).
+- Public email for the site (decided 18 Nov 2026): `labs@tarunshukla.com` is displayed and receives project and consulting messages; `connect@tarunshukla.com` receives role messages. Both are one Google Workspace mailbox.
 - Assumption: real screenshots of the four public sites may be used; private apps get abstract covers until the user supplies screenshots.
 - Assumption: freelance availability copy stays soft ("open to conversations") until permit/NOC.
 

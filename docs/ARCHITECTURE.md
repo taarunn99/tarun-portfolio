@@ -65,7 +65,7 @@ Case-study type (see `CASE_STUDY_TEMPLATE.md`): `{ slug, title, client, year, ro
 
 ## 7. Contact
 
-`contact/actions.ts` (Server Action): zod-validate → honeypot empty → `fillTime ≥ 3000 ms` → Turnstile `siteverify` → Resend `emails.send({ to: env.CONTACT_TO, replyTo: email })`. If `RESEND_API_KEY` is absent, the UI shows a `mailto:` fallback. Edge rate limit via Vercel WAF (dashboard).
+`contact/actions.ts` (Server Action): zod-validate → honeypot empty → `fillTime ≥ 3000 ms` → Turnstile `siteverify` → Resend `emails.send({ to, replyTo: email })` where `to` is `connect@tarunshukla.com` for the role track and `labs@tarunshukla.com` for the consulting track. If `RESEND_API_KEY` is absent, the UI shows a `mailto:` fallback. Edge rate limit via Vercel WAF (dashboard).
 
 ## 8. Security headers
 
@@ -77,4 +77,4 @@ Case-study type (see `CASE_STUDY_TEMPLATE.md`): `{ slug, title, client, year, ro
 
 ## 10. Environment variables
 
-`NEXT_PUBLIC_SITE_URL` · `CONTACT_TO` · `RESEND_API_KEY` · `RESEND_FROM` (default `onboarding@resend.dev`) · `TURNSTILE_SECRET_KEY` · `NEXT_PUBLIC_TURNSTILE_SITE_KEY`. All read through `src/lib/env.ts`; public ones must be prefixed.
+`NEXT_PUBLIC_SITE_URL` · `CONTACT_TO_ROLE` · `CONTACT_TO_PROJECT` (both optional, defaults in `src/content/site.ts`) · `RESEND_API_KEY` · `RESEND_FROM` (default `onboarding@resend.dev`) · `TURNSTILE_SECRET_KEY` · `NEXT_PUBLIC_TURNSTILE_SITE_KEY`. All read through `src/lib/env.ts`; public ones must be prefixed.

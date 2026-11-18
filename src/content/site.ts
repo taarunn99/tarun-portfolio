@@ -29,8 +29,10 @@ export const site = {
   url: resolveSiteUrl(),
   locale: "en_AE",
   location: { city: "Dubai", country: "United Arab Emirates", countryCode: "AE" },
-  /** Public display email — a mailto fallback when the form is unconfigured. TODO: switch to a domain alias once a domain exists */
-  email: "agmnwosgr@gmail.com",
+  /** Public display email: projects, consulting and general hellos. Also the mailto fallback when the form is unconfigured. */
+  email: "labs@tarunshukla.com",
+  /** Where anything about a role goes: the contact form's "A role" track and its mailto fallback. */
+  hiringEmail: "connect@tarunshukla.com",
   socials: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/tarun-shukla-941054329", rel: "me" },
     { label: "GitHub", href: "https://github.com/taarunn99", rel: "me" },

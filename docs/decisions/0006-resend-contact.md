@@ -8,7 +8,7 @@ Enquiries must reach a Gmail inbox without exposing the address, at zero cost, w
 
 ## Decision
 
-Next.js Server Action → zod validation → honeypot → minimum fill time → Cloudflare Turnstile `siteverify` → Resend (`to` from `CONTACT_TO`, `replyTo` = visitor). Free tier: 3,000/month, 100/day; from `onboarding@resend.dev` until a domain is verified. Vercel WAF rate-limit rule on the contact path. If `RESEND_API_KEY` is missing the UI degrades to a `mailto:` link.
+Next.js Server Action → zod validation → honeypot → minimum fill time → Cloudflare Turnstile `siteverify` → Resend (`to` by track: role to `connect@tarunshukla.com`, consulting to `labs@tarunshukla.com`; `replyTo` = visitor). Free tier: 3,000/month, 100/day; from `onboarding@resend.dev` until a domain is verified. Vercel WAF rate-limit rule on the contact path. If `RESEND_API_KEY` is missing the UI degrades to a `mailto:` link.
 
 ## Consequences
 
